@@ -39,17 +39,6 @@ firebase.auth().onAuthStateChanged(user => {
   }
 });
 
-// Function to sign in with Google
-function signInWithGoogle() {
-  const provider = new firebase.auth.GoogleAuthProvider();
-  firebase.auth().signInWithPopup(provider)
-    .then(result => {
-      console.log('User signed in with Google successfully!');
-    })
-    .catch(error => {
-      console.error('Error during Google sign-in:', error.message);
-    });
-}
 
 // Function to sign in with Email and Password
 function signInWithEmail() {
@@ -163,11 +152,6 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   // Event listeners for buttons
-  const signInButtonModal = document.getElementById('signInButtonModal');
-  if (signInButtonModal) {
-      signInButtonModal.addEventListener('click', signInWithGoogle);
-  }
-
   const signInWithEmailButtonModal = document.getElementById('signInWithEmailButtonModal');
   if (signInWithEmailButtonModal) {
       signInWithEmailButtonModal.addEventListener('click', signInWithEmail);
