@@ -6,7 +6,7 @@
 
     <!-- Meta tags for SEO -->
     <meta name="description" content="NE&S Dashboard for managing the tools.">
-    <meta name="keywords" content="NE&S, Dashboard, Excel, ArcGIS, PDF">
+    <meta name="keywords" content="NE&S, Dashboard, Excel, ArcGIS, hosted">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NE&S Tools</title>
@@ -20,6 +20,8 @@
     <!-- FontAwesome (For icons like external-link-alt and google) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+
     <!-- Custom Styles -->
     <link rel="stylesheet" href="./styles.css">
 
@@ -57,20 +59,44 @@
         <nav aria-label="Dashboard Navigation">
             <ul class="nav nav-tabs" id="dashboardTabs" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" id="excel-tab" data-toggle="tab" href="#excel" role="tab" aria-controls="excel" aria-selected="true">Excel</a>
+                    <a class="nav-link active" id="arcgis-tab" data-toggle="tab" href="#arcgis" role="tab" aria-controls="arcgis" aria-selected="false">GIS</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="arcgis-tab" data-toggle="tab" href="#arcgis" role="tab" aria-controls="arcgis" aria-selected="false">GIS</a>
+                    <a class="nav-link" id="hosted-tab" data-toggle="tab" href="#hosted" role="tab" aria-controls="hosted" aria-selected="false">hosted</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="pdf-tab" data-toggle="tab" href="#pdf" role="tab" aria-controls="pdf" aria-selected="false">PDF</a>
+                    <a class="nav-link" id="excel-tab" data-toggle="tab" href="#excel" role="tab" aria-controls="excel" aria-selected="true">Excel</a>
                 </li>
             </ul>
         </nav>
 
         <!-- Tab content -->
-        <div class="tab-content" id="dashboardTabsContent">
-            <div class="tab-pane fade show active" id="excel" role="tabpanel" aria-labelledby="excel-tab">
+        <div class="tab-content" id="dashboardTabsContent">      
+            <div class="tab-pane fade show active" id="arcgis" role="tabpanel" aria-labelledby="arcgis-tab">
+                <!-- List of ArcGIS Dashboards -->
+                <div class="row">
+                    <div class="col-md-4 mb-4">
+                        <a href="#" class="arcgis-card card">
+                            <img src="./assets/towers.png" alt="Towers GIS Thumbnail">
+                            <div class="card-body">
+                                <h5 class="arcgis-card-title">Towers GIS</h5>
+                                <p class="card-text">Canadian cellular towers GIS experience offering intuitive filters, detailed tables, and instant downloads.</p>
+                            </div>
+                        </a>
+                    </div>
+                    <!-- Add more dashboard links as card columns -->
+                </div>
+            </div>                
+            
+            <div class="tab-pane fade" id="hosted" role="tabpanel" aria-labelledby="hosted-tab">
+                <!-- Embed your hosted tool here -->
+                <p>Choose a tool:</p>
+                <ul class="list-unstyled">
+                    <li><a href="https://s15.nesglobe.io/web" target="_blank" class="hosted-link">3800 MHz Clock Auction Simulation Tool</a></li>
+                    <li><a href="https://nesglobe.io/canada-3800MHz-auction-tracking-tool/" target="_blank" class="hosted-link">Tracking Tool</a></li>
+                </ul>
+            </div>
+            <div class="tab-pane fade" id="excel" role="tabpanel" aria-labelledby="excel-tab">
                 <!-- Embed your Excel tool here -->
                 <p>Excel based tools: </p>
                 
@@ -87,22 +113,7 @@
                         <i class="fas fa-external-link-alt"></i> Go to Spectrum Ownership
                     </a>
                 </div>
-            </div>
-                                 
-      
-            <div class="tab-pane fade" id="arcgis" role="tabpanel" aria-labelledby="arcgis-tab">
-                <!-- List of ArcGIS Dashboards -->
-                <ul class="list-group mb-3">
-                    <a href="#" class="list-group-item list-group-item-action" data-url="https://experience.arcgis.com/experience/8a503790f4a547449485b5b67279e008/">Towers GIS</a>
-                    <!-- Add more dashboard links as list items -->
-                </ul>
-        
-            </div>                    
-            
-            <div class="tab-pane fade" id="pdf" role="tabpanel" aria-labelledby="pdf-tab">
-                <!-- Embed your PDF tool here -->
-                <p>PDF content goes here.</p>
-            </div>
+            </div>               
         </div>
     </main>  
     
