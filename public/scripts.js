@@ -189,8 +189,5 @@ function setupDashboardLinks() {
 }
 
 function loadDashboard(url) {
-  const winWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-  const winHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-
-  window.open(url, 'ArcGIS Dashboard', `width=${winWidth},height=${winHeight}`);
+  window.open(url, '_blank');
 }
