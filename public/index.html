@@ -71,115 +71,46 @@
                     <a class="nav-link" id="excel-tab" data-toggle="tab" href="#excel" role="tab" aria-controls="excel" aria-selected="true">Excel</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="URLS-tab" data-toggle="tab" href="#URLS" role="tab" aria-controls="URLS" aria-selected="true">Links and URLS</a>
+                    <a class="nav-link" id="rfp-tab" data-toggle="tab" href="#rfp" role="tab" aria-controls="rfp" aria-selected="true">RFP Sources</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="urls-tab" data-toggle="tab" href="#urls" role="tab" aria-controls="urls" aria-selected="true">Websites</a>
                 </li>
             </ul>
         </nav>
 
         <!-- Tab content -->
         <div class="tab-content" id="dashboardTabsContent">      
-            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                <!-- Home page -->
-                <div class="dashboard-welcome">
-                    <h2>Tools Dashboard</h2>
-                    <p>Your centralized hub for tools, files, and links.</p>
-                    
-                    <div class="features">
-                        <div class="feature-item">
-                            <span class="feature-icon">&#128295;</span> <!-- Wrench emoji for tools -->
-                            <p>Access tools with ease.</p>
-                        </div>
-                        
-                        <div class="feature-item">
-                            <span class="feature-icon">&#128196;</span> <!-- File emoji for files -->
-                            <p>Locate files swiftly.</p>
-                        </div>
-                        
-                        <div class="feature-item">
-                            <span class="feature-icon">&#128279;</span> <!-- Link emoji for links -->
-                            <p>Organized links to essential resources.</p>
-                        </div>
-                        
-                        <div class="feature-item">
-                            <span class="feature-icon">&#128274;</span> <!-- Lock emoji for security -->
-                            <p>Top-tier security protocols in place.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>            
-            <div class="tab-pane fade" id="arcgis" role="tabpanel" aria-labelledby="arcgis-tab">
-                <!-- List of ArcGIS Dashboards -->
-                <div class="row">
-                    <div class="col-md-4 mb-4">
-                        <a href="https://experience.arcgis.com/experience/8a503790f4a547449485b5b67279e008/" target="_blank" rel="noopener noreferrer" class="arcgis-card card">
-                            <img src="./assets/towers.png" alt="Towers GIS Thumbnail">
-                            <div class="card-body">
-                                <h5 class="arcgis-card-title">Towers GIS</h5>
-                                <p class="card-text">Canadian cellular towers GIS experience offering intuitive filters, detailed tables, and instant downloads.</p>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- Add more dashboard links as card columns -->
-                </div>
-            </div>                
             
+            <!-- Home Tab -->
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <!-- Content for the Home tab will be loaded dynamically -->
+            </div>      
+            
+            <!-- ArcGIS Tab -->
+            <div class="tab-pane fade" id="arcgis" role="tabpanel" aria-labelledby="arcgis-tab">
+                <!-- Content for the ArcGIS tab will be loaded dynamically -->
+            </div>    
+            
+            <!-- Webapp Tab -->
             <div class="tab-pane fade" id="webapp" role="tabpanel" aria-labelledby="webapp-tab">
-                <!-- Embed your webapp tool here -->
-                <p>Choose a tool:</p>
-                <ul class="list-unstyled">
-                    <li><a href="https://s15.nesglobe.io/web" target="_blank" class="webapp-link">3800 MHz Clock Auction Simulation Tool</a></li>
-                    <li><a href="https://nesglobe.io/canada-3800MHz-auction-tracking-tool/" target="_blank" class="webapp-link">Tracking Tool</a></li>
-                </ul>
+                <!-- Content for the Webapp tab will be loaded dynamically -->
             </div>
+
+            <!-- Excel Tab -->
             <div class="tab-pane fade" id="excel" role="tabpanel" aria-labelledby="excel-tab">
-                <!-- Embed your Excel tool here -->
-                <p>Excel based tools: </p>
-                
-                <!-- Global link for the directory of all Excel tools -->
-                <div class="directory-link" style="margin-bottom: 15px;">
-                    <a href="https://nesglobe-my.sharepoint.com/:f:/p/ibenalaya/EpWC1ztqhqlBixGKkzAGHrgBjK0uajQUBan5gPdQbokWRQ?e=ws1x4o" target="_blank" rel="noopener noreferrer" style="font-weight: bold; font-size: 20px; text-decoration: underline;">
-                        <i class="fas fa-external-link-alt"></i> Go to All Excel Tools
-                    </a>
-                </div>
-                
-                <!-- Add an interactive SharePoint location link for the specific tool -->
-                <div class="sharepoint-link">
-                    <a href="https://nesglobe-my.sharepoint.com/:x:/p/ibenalaya/EYcOOZIt3MBBtjT7Yg0RwBABf0ZJjBHL3uBudZAi6fpiXg?e=ic57Mo" target="_blank" rel="noopener noreferrer">
-                        <i class="fas fa-external-link-alt"></i> Go to Spectrum Ownership
-                    </a>
-                </div>
+                <!-- Content for the Excel tab will be loaded dynamically -->
             </div>
-            <div class="tab-pane fade" id="URLS" role="tabpanel" aria-labelledby="URLS-tab">
-                <!-- Embed your URLS tool here -->
-                <p>URLS: </p>
-                
-                <!-- Global link for the directory of all URLS tools -->
-                <div class="directory-link" style="margin-bottom: 15px;">
-                    <a href="https://ised-isde.canada.ca/site/spectrum-management-telecommunications/en/spectrum-allocation/spectrum-licensing/decisions-licence-transfers-commercial-mobile-spectrum" target="_blank" rel="noopener noreferrer" style="font-weight: bold; font-size: 20px; text-decoration: underline;">
-                        <i class="fas fa-external-link-alt"></i> Go to Decisions on Licence Transfers of Commercial Mobile Spectrum
-                    </a>
-                </div>
-                <div class="directory-link" style="margin-bottom: 15px;">
-                    <a href="https://ised-isde.canada.ca/site/spectrum-management-system/en/spectrum-management-system-data" target="_blank" rel="noopener noreferrer" style="font-weight: bold; font-size: 20px; text-decoration: underline;">
-                        <i class="fas fa-external-link-alt"></i> Go to Decisions on Spectrum Licence Browser
-                    </a>
-                </div>
-                <div class="directory-link" style="margin-bottom: 15px;">
-                    <a href="https://ised-isde.canada.ca/site/spectrum-management-telecommunications/en/spectrum-allocation/spectrum-licensing/decisions-licence-transfers-commercial-mobile-spectrum" target="_blank" rel="noopener noreferrer" style="font-weight: bold; font-size: 20px; text-decoration: underline;">
-                        <i class="fas fa-external-link-alt"></i> Go to Decisions on Spectrum Management System Data
-                    </a>
-                </div>
-                <div class="directory-link" style="margin-bottom: 15px;">
-                    <a href="https://www.ertyu.org/steven_nikkel/cancellsites.html?lat=52.000000&lng=-97.000000&zoom=4&type=Roadmap&layers=a&pid=0&ds=0" target="_blank" rel="noopener noreferrer" style="font-weight: bold; font-size: 20px; text-decoration: underline;">
-                        <i class="fas fa-external-link-alt"></i> Go to Steven Nikkel Canadian Cellular Towers Map
-                    </a>
-                </div>
-                <div class="directory-link" style="margin-bottom: 15px;">
-                    <a href="https://www.gsma.com/membership/membership-types/operator-membership/" target="_blank" rel="noopener noreferrer" style="font-weight: bold; font-size: 20px; text-decoration: underline;">
-                        <i class="fas fa-external-link-alt"></i> Go to Operator Membership
-                    </a>
-                </div>                
-            </div>                           
+
+            <!-- rfp Tab -->
+            <div class="tab-pane fade" id="rfp" role="tabpanel" aria-labelledby="rfp-tab">
+                <!-- Content for the rfp tab will be loaded dynamically -->
+            </div>
+
+            <!-- urls Tab -->
+            <div class="tab-pane fade" id="urls" role="tabpanel" aria-labelledby="urls-tab">
+                <!-- Content for the urls tab will be loaded dynamically -->
+            </div>
         </div>
     </main>  
     

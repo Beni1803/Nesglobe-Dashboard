@@ -228,3 +228,17 @@ function setupDashboardLinks() {
 function loadDashboard(url) {
   window.open(url, '_blank');
 }
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  const tabs = ['home', 'arcgis', 'webapp', 'excel', 'rfp', 'urls'];
+
+  tabs.forEach(tab => {
+      fetch(`${tab}_tab_content.html`)
+      .then(response => response.text())
+      .then(data => {
+          const tabContainer = document.querySelector(`#${tab}`);
+          tabContainer.innerHTML = data;
+      });
+  });
+});
