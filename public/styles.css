@@ -32,7 +32,7 @@ body {
 #userInfoModal {
     display: none;
     font-weight: 600;
-    color: #5a5a5a;  /* Slight gray for distinction */
+    color: #000000;  /* Slight gray for distinction */
     font-size: 0.9rem; /* Slightly smaller font size for a refined look */
 }
 
@@ -141,7 +141,7 @@ a, .list-group-item-action {
 
 /* Header Styles */
 header.header {
-    background-color: #a8dbf1 !important;  /* Deep blue-gray for the header */
+    background-color: #576d76 !important;  /* Deep blue-gray for the header */
 }
 
 
