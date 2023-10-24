@@ -59,7 +59,10 @@
         <nav aria-label="Dashboard Navigation">
             <ul class="nav nav-tabs" id="dashboardTabs" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" id="arcgis-tab" data-toggle="tab" href="#arcgis" role="tab" aria-controls="arcgis" aria-selected="false">GIS</a>
+                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="arcgis" aria-selected="false">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="arcgis-tab" data-toggle="tab" href="#arcgis" role="tab" aria-controls="arcgis" aria-selected="false">GIS</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="webapp-tab" data-toggle="tab" href="#webapp" role="tab" aria-controls="webapp" aria-selected="false">Web Apps</a>
@@ -75,7 +78,36 @@
 
         <!-- Tab content -->
         <div class="tab-content" id="dashboardTabsContent">      
-            <div class="tab-pane fade show active" id="arcgis" role="tabpanel" aria-labelledby="arcgis-tab">
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <!-- Home page -->
+                <div class="dashboard-welcome">
+                    <h2>Tools Dashboard</h2>
+                    <p>Your centralized hub for tools, files, and links.</p>
+                    
+                    <div class="features">
+                        <div class="feature-item">
+                            <span class="feature-icon">&#128295;</span> <!-- Wrench emoji for tools -->
+                            <p>Access tools with ease.</p>
+                        </div>
+                        
+                        <div class="feature-item">
+                            <span class="feature-icon">&#128196;</span> <!-- File emoji for files -->
+                            <p>Locate files swiftly.</p>
+                        </div>
+                        
+                        <div class="feature-item">
+                            <span class="feature-icon">&#128279;</span> <!-- Link emoji for links -->
+                            <p>Organized links to essential resources.</p>
+                        </div>
+                        
+                        <div class="feature-item">
+                            <span class="feature-icon">&#128274;</span> <!-- Lock emoji for security -->
+                            <p>Top-tier security protocols in place.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>            
+            <div class="tab-pane fade" id="arcgis" role="tabpanel" aria-labelledby="arcgis-tab">
                 <!-- List of ArcGIS Dashboards -->
                 <div class="row">
                     <div class="col-md-4 mb-4">

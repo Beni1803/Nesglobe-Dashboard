@@ -208,3 +208,46 @@ ul.list-unstyled li {
 .arcgis-card:hover .arcgis-card-title {
     color: #0984E3;
 }
+.tab-pane {
+    padding: 30px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f9f9f9;
+}
+
+.dashboard-welcome {
+    text-align: center;
+    width: 100%; /* Makes it span the full width of the tab */
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 5px;
+}
+
+.dashboard-welcome h2 {
+    color: #000000;
+    font-size: 60px; /* Significantly increased title size */
+    margin-bottom: 20px;
+}
+
+.dashboard-welcome p {
+    color: #7f8c8d;
+    margin-bottom: 25px;
+}
+
+.features {
+    display: flex;
+    justify-content: space-around; /* Adjusted to evenly distribute the items */
+    flex-wrap: wrap;
+}
+
+.feature-item {
+    flex: 1;
+    min-width: 180px;
+    padding: 15px;
+}
+
+.feature-icon {
+    font-size: 40px; /* Increased icon size for better visibility */
+    color: #3498db;
+    display: block; /* To ensure it takes up its own line above the text */
+    margin-bottom: 15px; /* Space between the icon and text */
+}
