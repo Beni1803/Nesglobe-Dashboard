@@ -1,89 +1,143 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Welcome to Firebase Hosting</title>
+<html lang="en">
 
-    <!-- update the version number as needed -->
-    <script defer src="/__/firebase/10.5.0/firebase-app-compat.js"></script>
-    <!-- include only the Firebase features as you need -->
-    <script defer src="/__/firebase/10.5.0/firebase-auth-compat.js"></script>
-    <script defer src="/__/firebase/10.5.0/firebase-database-compat.js"></script>
-    <script defer src="/__/firebase/10.5.0/firebase-firestore-compat.js"></script>
-    <script defer src="/__/firebase/10.5.0/firebase-functions-compat.js"></script>
-    <script defer src="/__/firebase/10.5.0/firebase-messaging-compat.js"></script>
-    <script defer src="/__/firebase/10.5.0/firebase-storage-compat.js"></script>
-    <script defer src="/__/firebase/10.5.0/firebase-analytics-compat.js"></script>
-    <script defer src="/__/firebase/10.5.0/firebase-remote-config-compat.js"></script>
-    <script defer src="/__/firebase/10.5.0/firebase-performance-compat.js"></script>
-    <!-- 
-      initialize the SDK after all desired features are loaded, set useEmulator to false
-      to avoid connecting the SDK to running emulators.
-    -->
-    <script defer src="/__/firebase/init.js?useEmulator=true"></script>
+<head>
+    <meta charset="UTF-8">
 
-    <style media="screen">
-      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
-      #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
-      #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
-      #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
-      #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
-      #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
-      #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
-      #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
-      @media (max-width: 600px) {
-        body, #message { margin-top: 0; background: white; box-shadow: none; }
-        body { border-top: 16px solid #ffa100; }
-      }
-    </style>
-  </head>
-  <body>
-    <div id="message">
-      <h2>Welcome</h2>
-      <h1>Firebase Hosting Setup Complete</h1>
-      <p>You're seeing this because you've successfully setup Firebase Hosting. Now it's time to go build something extraordinary!</p>
-      <a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a>
+    <!-- Meta tags for SEO -->
+    <meta name="description" content="NE&S Dashboard for managing the tools.">
+    <meta name="keywords" content="NE&S, Dashboard, Excel, ArcGIS, PDF">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NE&S Tools Dashboard</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- FontAwesome (For icons like external-link-alt and google) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="public\styles.css">
+
+    <!-- Firebase -->
+    <script defer src="https://www.gstatic.com/firebasejs/9.1.1/firebase-app-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/9.1.1/firebase-auth-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/9.1.1/firebase-analytics-compat.js"></script>
+
+    <!-- Your JavaScript -->
+    <script defer src="public\firebaseConfig.js"></script>
+    <script type="module" defer src="public\scripts.js"></script>
+
+</head>
+
+<body>
+
+    <header class="bg-dark">
+        <div class="container d-flex justify-content-between align-items-center">
+            <img src="public\assets\logo.png" alt="Logo" class="logo-img" aria-hidden="true">
+            <div class="d-flex align-items-center">
+                <span id="userInfoModal" class="mr-3"></span>
+                <button id="signOutButtonModal" class="btn btn-danger">Sign Out</button>
+            </div>
+        </div>
+    </header>
+    
+
+    <!-- Main Content -->
+    <main id="dashboardContent" class="container mt-5">
+
+        <!-- Tab navigation -->
+        <nav aria-label="Dashboard Navigation">
+            <ul class="nav nav-tabs" id="dashboardTabs" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="excel-tab" data-toggle="tab" href="#excel" role="tab" aria-controls="excel" aria-selected="true">Excel</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="arcgis-tab" data-toggle="tab" href="#arcgis" role="tab" aria-controls="arcgis" aria-selected="false">GIS</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="pdf-tab" data-toggle="tab" href="#pdf" role="tab" aria-controls="pdf" aria-selected="false">PDF</a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Tab content -->
+        <div class="tab-content" id="dashboardTabsContent">
+            <div class="tab-pane fade show active" id="excel" role="tabpanel" aria-labelledby="excel-tab">
+                <!-- Embed your Excel tool here -->
+                <p>Excel based tools: </p>
+                
+                <!-- Global link for the directory of all Excel tools -->
+                <div class="directory-link" style="margin-bottom: 15px;">
+                    <a href="https://nesglobe-my.sharepoint.com/:f:/p/ibenalaya/EpWC1ztqhqlBixGKkzAGHrgBjK0uajQUBan5gPdQbokWRQ?e=ws1x4o" style="font-weight: bold; font-size: 20px; text-decoration: underline;">
+                        <i class="fas fa-external-link-alt"></i> Go to All Excel Tools
+                    </a>
+                </div>
+                
+                <!-- Add an interactive SharePoint location link for the specific tool -->
+                <div class="sharepoint-link">
+                    <a href="https://nesglobe-my.sharepoint.com/:x:/p/ibenalaya/EYcOOZIt3MBBtjT7Yg0RwBABf0ZJjBHL3uBudZAi6fpiXg?e=ic57Mo">
+                        <i class="fas fa-external-link-alt"></i> Go to Spectrum Ownership
+                    </a>
+                </div>
+            </div>
+                                 
+      
+            <div class="tab-pane fade" id="arcgis" role="tabpanel" aria-labelledby="arcgis-tab">
+                <!-- List of ArcGIS Dashboards -->
+                <ul class="list-group mb-3">
+                    <a href="#" class="list-group-item list-group-item-action" data-url="https://experience.arcgis.com/experience/8a503790f4a547449485b5b67279e008/">Towers GIS</a>
+                    <!-- Add more dashboard links as list items -->
+                </ul>
+        
+            </div>                    
+            
+            <div class="tab-pane fade" id="pdf" role="tabpanel" aria-labelledby="pdf-tab">
+                <!-- Embed your PDF tool here -->
+                <p>PDF content goes here.</p>
+            </div>
+        </div>
+    </main>  
+    
+    <!-- Feedback Area (inside the modal form) -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="loginModalLabel">Login to Dashboard</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Feedback Area -->
+                    <div id="feedbackArea" class="alert alert-info mt-3" style="display: none;"></div>
+
+                    <button id="signInButtonModal" class="btn btn-outline-success btn-block mb-3">
+                        <i class="fab fa-google"></i> Sign In with Google
+                    </button>
+    
+                    <!-- Email/Password Sign-In -->
+                    <div id="emailPasswordFormModal">
+                        <input type="email" id="emailFieldModal" placeholder="Email" class="form-control mb-2">
+                        <input type="password" id="passwordFieldModal" placeholder="Password" class="form-control mb-2">
+                        <button id="signInWithEmailButtonModal" class="btn btn-primary btn-block">Sign In with Email</button>
+
+                        <!-- Reset Password Link -->
+                        <div class="mt-3">
+                            <p>Forgot/Reset your password? <a id="forgotPasswordLink" href="#">Reset it here.</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <p id="load">Firebase SDK Loading&hellip;</p>
 
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const loadEl = document.querySelector('#load');
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-        // // The Firebase SDK is initialized and available here!
-        //
-        // firebase.auth().onAuthStateChanged(user => { });
-        // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
-        // firebase.firestore().doc('/foo/bar').get().then(() => { });
-        // firebase.functions().httpsCallable('yourFunction')().then(() => { });
-        // firebase.messaging().requestPermission().then(() => { });
-        // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
-        // firebase.analytics(); // call to activate
-        // firebase.analytics().logEvent('tutorial_completed');
-        // firebase.performance(); // call to activate
-        //
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+    <!-- Bootstrap JS (for the modal) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
 
-        try {
-          let app = firebase.app();
-          let features = [
-            'auth', 
-            'database', 
-            'firestore',
-            'functions',
-            'messaging', 
-            'storage', 
-            'analytics', 
-            'remoteConfig',
-            'performance',
-          ].filter(feature => typeof app[feature] === 'function');
-          loadEl.textContent = `Firebase SDK loaded with ${features.join(', ')}`;
-        } catch (e) {
-          console.error(e);
-          loadEl.textContent = 'Error loading the Firebase SDK, check the console.';
-        }
-      });
-    </script>
-  </body>
 </html>
