@@ -140,7 +140,7 @@ a, .list-group-item-action {
 }
 
 /* Header Styles */
-header.bg-dark {
+header.header {
     background-color: #a8dbf1 !important;  /* Deep blue-gray for the header */
 }
 
