@@ -6,7 +6,7 @@
 
     <!-- Meta tags for SEO -->
     <meta name="description" content="NE&S Dashboard for managing the tools.">
-    <meta name="keywords" content="NE&S, Dashboard, Excel, ArcGIS, hosted">
+    <meta name="keywords" content="NE&S, Dashboard, Excel, ArcGIS, webapp">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NE&S Tools</title>
@@ -62,10 +62,13 @@
                     <a class="nav-link active" id="arcgis-tab" data-toggle="tab" href="#arcgis" role="tab" aria-controls="arcgis" aria-selected="false">GIS</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="hosted-tab" data-toggle="tab" href="#hosted" role="tab" aria-controls="hosted" aria-selected="false">hosted</a>
+                    <a class="nav-link" id="webapp-tab" data-toggle="tab" href="#webapp" role="tab" aria-controls="webapp" aria-selected="false">Web Apps</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="excel-tab" data-toggle="tab" href="#excel" role="tab" aria-controls="excel" aria-selected="true">Excel</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="URLS-tab" data-toggle="tab" href="#URLS" role="tab" aria-controls="URLS" aria-selected="true">Links and URLS</a>
                 </li>
             </ul>
         </nav>
@@ -88,12 +91,12 @@
                 </div>
             </div>                
             
-            <div class="tab-pane fade" id="hosted" role="tabpanel" aria-labelledby="hosted-tab">
-                <!-- Embed your hosted tool here -->
+            <div class="tab-pane fade" id="webapp" role="tabpanel" aria-labelledby="webapp-tab">
+                <!-- Embed your webapp tool here -->
                 <p>Choose a tool:</p>
                 <ul class="list-unstyled">
-                    <li><a href="https://s15.nesglobe.io/web" target="_blank" class="hosted-link">3800 MHz Clock Auction Simulation Tool</a></li>
-                    <li><a href="https://nesglobe.io/canada-3800MHz-auction-tracking-tool/" target="_blank" class="hosted-link">Tracking Tool</a></li>
+                    <li><a href="https://s15.nesglobe.io/web" target="_blank" class="webapp-link">3800 MHz Clock Auction Simulation Tool</a></li>
+                    <li><a href="https://nesglobe.io/canada-3800MHz-auction-tracking-tool/" target="_blank" class="webapp-link">Tracking Tool</a></li>
                 </ul>
             </div>
             <div class="tab-pane fade" id="excel" role="tabpanel" aria-labelledby="excel-tab">
@@ -113,7 +116,18 @@
                         <i class="fas fa-external-link-alt"></i> Go to Spectrum Ownership
                     </a>
                 </div>
-            </div>                         
+            </div>
+            <div class="tab-pane fade" id="URLS" role="tabpanel" aria-labelledby="URLS-tab">
+                <!-- Embed your URLS tool here -->
+                <p>URLS: </p>
+                
+                <!-- Global link for the directory of all URLS tools -->
+                <div class="directory-link" style="margin-bottom: 15px;">
+                    <a href="https://ised-isde.canada.ca/site/spectrum-management-telecommunications/en/spectrum-allocation/spectrum-licensing/decisions-licence-transfers-commercial-mobile-spectrum" target="_blank" rel="noopener noreferrer" style="font-weight: bold; font-size: 20px; text-decoration: underline;">
+                        <i class="fas fa-external-link-alt"></i> Go to Decisions on Licence Transfers of Commercial Mobile Spectrum
+                    </a>
+                </div>
+            </div>                           
         </div>
     </main>  
     

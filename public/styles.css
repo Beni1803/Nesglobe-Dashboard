@@ -148,7 +148,7 @@ header.header {
 header .container {
     padding: 0 15px;  /* Padding to the container for better spacing */
 }
-.hosted-link {
+.webapp-link {
     text-decoration: none;
     font-weight: 500;
     color: #333;
@@ -157,12 +157,12 @@ header .container {
     transition: all 0.3s;
 }
 
-.hosted-link:hover {
+.webapp-link:hover {
     color: #0984E3;
     text-decoration: none;
 }
 
-.hosted-link:before {
+.webapp-link:before {
     content: '\f061'; /* FontAwesome arrow-right icon */
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
@@ -171,7 +171,7 @@ header .container {
     transition: all 0.3s;
 }
 
-.hosted-link:hover:before {
+.webapp-link:hover:before {
     transform: translateX(-5px);
     opacity: 0.7;
 }
