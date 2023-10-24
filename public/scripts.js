@@ -1,8 +1,43 @@
 // Assuming firebaseConfig.js initializes Firebase already.
 
-// Toggle logic (if you want to expand on toggling different login methods)
+// Constants for timeouts
+const MAX_IDLE_TIME = 15 * 60 * 1000; // 15 minutes in milliseconds
+const SESSION_DURATION = 2 * 60 * 60 * 1000; // 2 hours in milliseconds
+
+let idleTimeout;
+let sessionTimeout;
+
+// Reset the timer whenever there's user activity
+function resetIdleTimeout() {
+  if (idleTimeout) clearTimeout(idleTimeout);
+  idleTimeout = setTimeout(() => {
+    showTimeoutMessage();
+    signOut();
+  }, MAX_IDLE_TIME);
+}
+
+// Set up the listeners to reset the timeout
+document.addEventListener('mousemove', resetIdleTimeout);
+document.addEventListener('keydown', resetIdleTimeout);
+
+function startSession() {
+  if (sessionTimeout) clearTimeout(sessionTimeout);
+  sessionTimeout = setTimeout(() => {
+    showTimeoutMessage();
+    signOut();
+  }, SESSION_DURATION);
+}
+
+// Show a modal or message informing the user why they were logged out
+function showTimeoutMessage() {
+  displayFeedbackMessage('You have been logged out due to inactivity.', 'alert-warning');
+  // Assuming you have a modal set up for this purpose. If not, you can remove the next line.
+  $('#timeoutModal').modal('show');
+}
+
+// Toggle logic
 document.querySelectorAll('input[name="signInMethod"]').forEach(input => {
-  input.addEventListener('change', function () {
+  input.addEventListener('change', function() {
     if (this.value === 'emailPassword') {
       document.getElementById('emailPasswordFormModal').style.display = 'block';
     } else {
@@ -11,7 +46,6 @@ document.querySelectorAll('input[name="signInMethod"]').forEach(input => {
   });
 });
 
-// Function to automatically check authentication and decide to show the modal
 function checkAuthentication() {
   const user = firebase.auth().currentUser;
   if (!user) {
@@ -19,7 +53,6 @@ function checkAuthentication() {
   }
 }
 
-// Event listener for authentication state change
 firebase.auth().onAuthStateChanged(user => {
   const userInfoModal = document.getElementById('userInfoModal');
 
@@ -30,6 +63,9 @@ firebase.auth().onAuthStateChanged(user => {
     document.getElementById('signOutButtonModal').style.display = 'block';
     document.getElementById('dashboardContent').style.display = 'block';
     $('#loginModal').modal('hide');
+
+    // Start or renew the session timer
+    startSession();
   } else {
     // User is signed out
     userInfoModal.style.display = 'none';
@@ -39,8 +75,6 @@ firebase.auth().onAuthStateChanged(user => {
   }
 });
 
-
-// Function to sign in with Email and Password
 function signInWithEmail() {
   const email = document.getElementById('emailFieldModal').value;
   const password = document.getElementById('passwordFieldModal').value;
@@ -73,6 +107,9 @@ function signInWithEmail() {
 
 // Function to sign out
 function signOut() {
+  if (sessionTimeout) clearTimeout(sessionTimeout);
+  if (idleTimeout) clearTimeout(idleTimeout);
+  
   firebase.auth().signOut()
     .then(() => {
       console.log('User signed out successfully!');
