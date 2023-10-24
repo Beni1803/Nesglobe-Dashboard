@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <!-- Meta tags for SEO -->
+    <meta name="description" content="NE&S Dashboard for managing the tools.">
+    <meta name="keywords" content="NE&S, Dashboard, Excel, ArcGIS, PDF">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NE&S Tools Dashboard</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- FontAwesome (For icons like external-link-alt and google) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Firebase -->
+    <script defer src="https://www.gstatic.com/firebasejs/9.1.1/firebase-app-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/9.1.1/firebase-auth-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/9.1.1/firebase-analytics-compat.js"></script>
+
+    <!-- Your JavaScript -->
+    <script defer src="firebaseConfig.js"></script>
+    <script type="module" defer src="scripts.js"></script>
+
+</head>
+
+<body>
+
+    <header class="bg-dark">
+        <div class="container d-flex justify-content-between align-items-center">
+            <img src="assets/logo.png" alt="Logo" class="logo-img" aria-hidden="true">
+            <div class="d-flex align-items-center">
+                <span id="userInfoModal" class="mr-3"></span>
+                <button id="signOutButtonModal" class="btn btn-danger">Sign Out</button>
+            </div>
+        </div>
+    </header>
+    
+
+    <!-- Main Content -->
+    <main id="dashboardContent" class="container mt-5">
+
+        <!-- Tab navigation -->
+        <nav aria-label="Dashboard Navigation">
+            <ul class="nav nav-tabs" id="dashboardTabs" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="excel-tab" data-toggle="tab" href="#excel" role="tab" aria-controls="excel" aria-selected="true">Excel</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="arcgis-tab" data-toggle="tab" href="#arcgis" role="tab" aria-controls="arcgis" aria-selected="false">GIS</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="pdf-tab" data-toggle="tab" href="#pdf" role="tab" aria-controls="pdf" aria-selected="false">PDF</a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Tab content -->
+        <div class="tab-content" id="dashboardTabsContent">
+            <div class="tab-pane fade show active" id="excel" role="tabpanel" aria-labelledby="excel-tab">
+                <!-- Embed your Excel tool here -->
+                <p>Excel based tools: </p>
+                
+                <!-- Global link for the directory of all Excel tools -->
+                <div class="directory-link" style="margin-bottom: 15px;">
+                    <a href="https://nesglobe-my.sharepoint.com/:f:/p/ibenalaya/EpWC1ztqhqlBixGKkzAGHrgBjK0uajQUBan5gPdQbokWRQ?e=ws1x4o" style="font-weight: bold; font-size: 20px; text-decoration: underline;">
+                        <i class="fas fa-external-link-alt"></i> Go to All Excel Tools
+                    </a>
+                </div>
+                
+                <!-- Add an interactive SharePoint location link for the specific tool -->
+                <div class="sharepoint-link">
+                    <a href="https://nesglobe-my.sharepoint.com/:x:/p/ibenalaya/EYcOOZIt3MBBtjT7Yg0RwBABf0ZJjBHL3uBudZAi6fpiXg?e=ic57Mo">
+                        <i class="fas fa-external-link-alt"></i> Go to Spectrum Ownership
+                    </a>
+                </div>
+            </div>
+                                 
+      
+            <div class="tab-pane fade" id="arcgis" role="tabpanel" aria-labelledby="arcgis-tab">
+                <!-- List of ArcGIS Dashboards -->
+                <ul class="list-group mb-3">
+                    <a href="#" class="list-group-item list-group-item-action" data-url="https://experience.arcgis.com/experience/8a503790f4a547449485b5b67279e008/">Towers GIS</a>
+                    <!-- Add more dashboard links as list items -->
+                </ul>
+        
+            </div>                    
+            
+            <div class="tab-pane fade" id="pdf" role="tabpanel" aria-labelledby="pdf-tab">
+                <!-- Embed your PDF tool here -->
+                <p>PDF content goes here.</p>
+            </div>
+        </div>
+    </main>  
+    
+    <!-- Feedback Area (inside the modal form) -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="loginModalLabel">Login to Dashboard</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Feedback Area -->
+                    <div id="feedbackArea" class="alert alert-info mt-3" style="display: none;"></div>
+
+                    <button id="signInButtonModal" class="btn btn-outline-success btn-block mb-3">
+                        <i class="fab fa-google"></i> Sign In with Google
+                    </button>
+    
+                    <!-- Email/Password Sign-In -->
+                    <div id="emailPasswordFormModal">
+                        <input type="email" id="emailFieldModal" placeholder="Email" class="form-control mb-2">
+                        <input type="password" id="passwordFieldModal" placeholder="Password" class="form-control mb-2">
+                        <button id="signInWithEmailButtonModal" class="btn btn-primary btn-block">Sign In with Email</button>
+
+                        <!-- Reset Password Link -->
+                        <div class="mt-3">
+                            <p>Forgot/Reset your password? <a id="forgotPasswordLink" href="#">Reset it here.</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS (for the modal) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

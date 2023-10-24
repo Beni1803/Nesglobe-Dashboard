@@ -1,0 +1,150 @@
+/* Base Styles */
+body {
+    background-color: #f7f8fc;
+    font-family: 'Roboto', Arial, sans-serif;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Logo Styles */
+.logo-img {
+    max-height: 50px;
+    transition: transform 0.3s ease-in-out;  /* Enhancement for logo hover effect */
+}
+
+#authContainer {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.logo-img:hover {
+    transform: translateY(-3px); /* Move logo slightly up on hover for a dynamic effect */
+}
+
+/* Auth Container Styles */
+#authContainer {
+    gap: 15px;
+    text-align: center;
+    margin-top: 30px;
+}
+
+/* User Info & Sign Out Styles */
+#userInfoModal {
+    display: none;
+    font-weight: 600;
+    color: #5a5a5a;  /* Slight gray for distinction */
+    font-size: 0.9rem; /* Slightly smaller font size for a refined look */
+}
+
+#signOutButtonModal {
+    display: none;
+    font-size: 0.9rem; /* Consistent font size with the user info */
+    transition: background-color 0.3s, color 0.3s;  /* Smooth transition for hover effect */
+}
+
+#signOutButtonModal:hover {
+    background-color: #c9302c;  /* Darken red for hover effect */
+    color: #ffffff;
+}
+
+/* Feedback Area Styles */
+#feedbackArea {
+    margin-top: 15px;
+    text-align: center;
+    padding: 15px;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);  /* Slight shadow for depth */
+}
+
+/* Interactive Elements Enhancement */
+a, .list-group-item-action {
+    transition: background-color 0.3s, transform 0.2s;  /* Smooth transition for hover effect */
+}
+
+.list-group-item-action:hover {
+    background-color: #edf2f9;  /* Lighter blue on hover */
+    transform: scale(1.02);  /* Slightly enlarge item on hover */
+}
+
+/* Button Styles */
+.btn-danger {
+    background-color: #e74c3c;  /* A more vibrant red */
+    border: none;  /* Remove default border */
+}
+
+.btn-danger:hover {
+    background-color: #d62c1a;  /* Darken color on hover */
+}
+
+.btn-outline-success {
+    color: #28a745;  /* Vibrant green */
+    border-color: #28a745;
+}
+
+.btn-outline-success:hover {
+    background-color: #28a745;  /* Background color on hover */
+    color: #ffffff;  /* Text color on hover */
+}
+
+/* Responsive Styles */
+/* Small Mobile Screens (up to 480px) */
+@media (max-width: 480px) {
+    .logo-img {
+        max-height: 30px;
+    }
+
+    #authContainer {
+        margin-top: 10px;  /* Reduce top margin for very small screens */
+    }
+
+    /* Add more styles specific to very small screens */
+}
+
+/* Mobile Screens (481px to 768px) */
+@media (max-width: 768px) {
+    .logo-img {
+        max-height: 40px;
+    }
+
+    #authContainer {
+        margin-top: 20px;  /* Reduce top margin for smaller screens */
+    }
+
+    /* Add more styles specific to mobile screens */
+}
+
+/* Tablet Screens (769px to 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .logo-img {
+        max-height: 50px;
+    }
+
+    #authContainer {
+        margin-top: 30px;
+    }
+
+    /* Add more styles specific to tablet screens */
+}
+
+/* Desktop Screens (1025px and up) */
+@media (min-width: 1025px) {
+    .logo-img {
+        max-height: 60px;  /* Larger logo for desktop screens */
+    }
+
+    #authContainer {
+        margin-top: 40px;  /* Increase top margin for desktop screens */
+    }
+
+    /* Add more styles specific to desktop screens */
+}
+
+/* Header Styles */
+header.bg-dark {
+    background-color: #a8dbf1 !important;  /* Deep blue-gray for the header */
+}
+
+
+header .container {
+    padding: 0 15px;  /* Padding to the container for better spacing */
+}
