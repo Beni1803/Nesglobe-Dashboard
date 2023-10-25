@@ -231,7 +231,7 @@ function loadDashboard(url) {
 
 
 document.addEventListener("DOMContentLoaded", function() {
-  const tabs = ['home', 'arcgis', 'webapp', 'excel', 'rfp', 'urls'];
+  const tabs = ['home', 'arcgis', 'webapp', 'excel', 'rfp', 'urls','data'];
 
   tabs.forEach(tab => {
       fetch(`${tab}_tab_content.html`)
