@@ -1,10 +1,58 @@
-<!-- rfp_tab_content.html -->
+<div class="container mt-5">
+    <div class="row">
+        <!-- Main Content with Accordion -->
+        <div class="col-md-9">
+            <p>RFP Sources: </p>
 
-<p>RFP Sources: </p>
-                
-<!-- Global link for the directory of all URLS tools -->
-<div class="directory-link" style="margin-bottom: 15px;">
-    <a href="https://nesglobe.com/" target="_blank" rel="noopener noreferrer" style="font-weight: bold; font-size: 20px; text-decoration: underline;">
-        <i class="fas fa-external-link-alt"></i> Go to Nesglobe
-    </a>
-</div>     
+            <!-- Button to add new row -->
+            <button class="btn btn-primary mb-3" onclick="addNewRow()">Add New Row</button>
+            
+            <div id="accordion">
+                <!-- Alberta Tenders Accordion Item -->
+                <div class="card filterable-content" data-category="Alberta">
+                    <div class="card-header">
+                        <a class="card-link" data-toggle="collapse" href="#collapseAlberta">
+                            Alberta Tenders
+                        </a>
+                    </div>
+                    <div id="collapseAlberta" class="collapse" data-parent="#accordion">
+                        <div class="card-body">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>PORTAL link</th>
+                                        <th>USERNAME</th>
+                                        <th>PASSWORD</th>
+                                        <th>RESPONSIBLE</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <a href="https://vendor.purchasingconnection.ca/" target="_blank" rel="noopener noreferrer">
+                                                <i class="fas fa-external-link-alt"></i> Alberta Tenders
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <span class="username">YourUsername</span>
+                                            <button class="btn btn-sm btn-outline-secondary" onclick="copyToClipboard('.username')">Copy</button>
+                                        </td>
+                                        <td>
+                                            <span class="password">YourPassword</span>
+                                            <button class="btn btn-sm btn-outline-secondary" onclick="copyToClipboard('.password')">Copy</button>
+                                        </td>
+                                        <td>
+                                            <span class="responsible">YourResponsible</span>
+                                            <button class="btn btn-sm btn-outline-secondary" onclick="copyToClipboard('.responsible')">Copy</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- You can repeat the same structure for other accordion items -->
+            </div>           
+        </div>
+    </div>
+</div>

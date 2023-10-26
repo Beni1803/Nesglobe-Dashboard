@@ -74,6 +74,17 @@ function loadTabContents() {
     });
 }
 
+function copyToClipboard(selector) {
+    const el = document.querySelector(selector);
+    const textArea = document.createElement("textarea");
+    textArea.value = el.textContent;
+    document.body.appendChild(textArea);
+    textArea.select();
+    document.execCommand("Copy");
+    textArea.remove();
+    alert("Copied to clipboard!");
+}
+
 function setupButtonEvents() {
   document.getElementById('signInWithEmailButtonModal').addEventListener('click', function(e) {
       e.preventDefault();
