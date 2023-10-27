@@ -70,9 +70,6 @@ function addPortal(categoryName) {
     tbody.appendChild(row);
 }
 
-// Event listener for adding a new category/card
-document.getElementById("addCategoryButton").addEventListener("click", addCategory);
-
 // Event listener for adding a new portal row
 document.addEventListener("click", function (e) {
     if (e.target && e.target.classList.contains("custom-btn") && e.target.textContent === "Add Portal") {
