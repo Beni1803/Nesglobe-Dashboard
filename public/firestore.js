@@ -1,97 +1,104 @@
 function checkUserAuthentication() {
     auth.onAuthStateChanged(user => {
-        if (user) {
-            console.log('User is signed in:', user.email);
-        } else {
-            console.log('User is signed out.');
-        }
+        console.log(user ? `User is signed in: ${user.email}` : 'User is signed out.');
+    });
+}
+
+function populateRFPDataToTable(categoryName, portals) {
+    const tbody = document.querySelector(`.tab-card[data-category="Tab${categoryName}"] tbody`);
+
+    if (!tbody) {
+        console.error(`Table body element for category ${categoryName} not found.`);
+        return;
+    }
+
+    tbody.innerHTML = ''; // clear existing data
+
+    portals.forEach(portal => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${portal.link}</td>
+            <td>${portal.username}</td>
+            <td>${portal.password}</td>
+            <td>${portal.responsible}</td>
+        `;
+        tbody.appendChild(row);
     });
 }
 
 function loadRFPData() {
-    const rfpSourcesRef = db.collection("RFP_Sources");
-    rfpSourcesRef.get().then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-            const categoryName = doc.id;
-            const categoryData = doc.data();
-            const tbody = document.querySelector(`.filterable-content[data-category="${categoryName}"] tbody`);
-            for (let portal of categoryData.portals) {
-                const row = document.createElement("tr");
-                row.innerHTML = `
-                    <td>${portal.link}</td>
-                    <td>${portal.username}</td>
-                    <td>${portal.password}</td>
-                    <td>${portal.responsible}</td>
-                `;
-                tbody.appendChild(row);
-            }
+    db.collection("RFP_Sources").get().then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+            populateRFPDataToTable(doc.id, doc.data().portals);
         });
-    }).catch((error) => {
+    }).catch(error => {
         console.error("Error getting RFP data from Firestore:", error);
     });
 }
 
-function attachSubmitButtonListener() {
-    $('#addPortalModal').on('shown.bs.modal', function() {
-        const submitBtn = document.getElementById("submitPortal");
-        submitBtn.addEventListener("click", submitPortalData);
-    });
-}
-
 function submitPortalData() {
-    const portalLink = document.getElementById("portalLink").value;
-    const username = document.getElementById("username").value;
-    const password = document.getElementById("password").value; // Remember about password security.
-    const responsible = document.getElementById("responsible").value;
+    const portalLinkInput = document.getElementById("portalLink");
+    const usernameInput = document.getElementById("username");
+    const passwordInput = document.getElementById("password");
+    const responsibleInput = document.getElementById("responsible");
 
-    const newPortal = {
-        link: portalLink,
-        username: username,
-        password: password,
-        responsible: responsible
+    const portalData = {
+        link: portalLinkInput.value,
+        username: usernameInput.value,
+        password: passwordInput.value,
+        responsible: responsibleInput.value
     };
 
-    const currentCategory = this.getAttribute("data-category");
+    const submitPortalButton = document.getElementById("submitPortal");
+    const currentCategory = submitPortalButton.getAttribute("data-category");
     const rfpSourcesRef = db.collection("RFP_Sources").doc(currentCategory);
-    
+
     rfpSourcesRef.update({
-        portals: firebase.firestore.FieldValue.arrayUnion(newPortal)
+        portals: firebase.firestore.FieldValue.arrayUnion(portalData)
     }).then(() => {
         console.log("Document successfully updated!");
         loadRFPData();
-    }).catch((error) => {
-        console.error("Error updating document: ", error);
+    }).catch(error => {
+        console.error("Error updating document:", error);
     });
 
     $("#addPortalModal").modal('hide');
 }
 
-function addPortal(categoryName) {
-    const submitBtn = document.getElementById("submitPortal");
-    submitBtn.setAttribute("data-category", categoryName);
-    document.getElementById("portalLink").value = "";
-    document.getElementById("username").value = "";
-    document.getElementById("password").value = "";
-    document.getElementById("responsible").value = "";
+function showAddPortalModal(event) {
+    const category = event.target.closest(".tab-card").getAttribute("data-category");
 
-    $("#addPortalModal").modal('show');
+    // Clear input values
+    const portalLinkInput = document.getElementById("tabPortalLink");
+    const usernameInput = document.getElementById("tabUsername");
+    const passwordInput = document.getElementById("tabPassword");
+    const responsibleInput = document.getElementById("tabResponsible");
+
+    portalLinkInput.value = "";
+    usernameInput.value = "";
+    passwordInput.value = "";
+    responsibleInput.value = "";
+
+    const submitPortalButton = document.getElementById("submitPortal");
+    submitPortalButton.setAttribute("data-category", category);
+
+    $("#addTabPortalModal").modal('show');
 }
 
-function setupAddPortalEventListener() {
-    const addButtons = document.querySelectorAll(".custom-btn");
-    addButtons.forEach(button => {
-        if (button.textContent === "Add Portal") {
-            button.addEventListener("click", function() {
-                const categoryName = button.closest(".card").getAttribute("data-category");
-                addPortal(categoryName);
-            });
-        }
-    });
-}
 
 document.addEventListener("DOMContentLoaded", function() {
     loadRFPData();
-    attachSubmitButtonListener();
-    setupAddPortalEventListener();
     checkUserAuthentication();
+
+    const submitPortalButton = document.getElementById("submitPortal");
+    if (submitPortalButton) {
+        submitPortalButton.addEventListener("click", submitPortalData);
+    }
+
+    // Event delegation for add buttons
+    document.addEventListener("click", event => {
+        if (event.target.classList.contains("tab-btn")) {
+            showAddPortalModal(event);
+        }
+    });
 });
