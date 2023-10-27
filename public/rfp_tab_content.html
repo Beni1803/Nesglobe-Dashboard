@@ -1,22 +1,89 @@
+<style>
+    /* Custom Styles */
+    .custom-btn {
+        background: linear-gradient(45deg, #007BFF, #0056b3);
+        border: none;
+        border-radius: 25px;
+        color: #ffffff;
+        padding: 12px 40px;
+        font-weight: 600;
+        letter-spacing: 1px;
+        transition: transform 0.2s, box-shadow 0.2s;
+        box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+    }
+
+    .custom-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+
+    .card {
+        border: none;
+        border-radius: 10px;
+        transition: transform 0.2s, box-shadow 0.2s;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 30px rgba(0,0,0,0.2);
+    }
+
+    .card-header {
+        background-color: #ffffff;
+        border: none;
+        border-radius: 10px 10px 0 0;
+        cursor: pointer;
+        padding: 15px 20px;
+    }
+
+    .card-link {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: #333;
+        transition: color 0.2s;
+    }
+
+    .card-link i {
+        transition: transform 0.3s;
+    }
+
+    .card-link.collapsed i {
+        transform: rotate(-90deg);
+    }
+
+    .card-link:hover {
+        text-decoration: none;
+        color: #007BFF;
+    }
+
+    .card-body {
+        padding: 20px;
+        border-top: 1px solid #f5f5f5;
+    }
+</style>
 <div class="container mt-5">
     <div class="row">
         <!-- Main Content with Accordion -->
         <div class="col-md-9">
-            <p>RFP Sources: </p>
+            <p class="mb-4">RFP Sources: </p>
 
             <!-- Button to add new row -->
-            <button class="btn btn-primary mb-3" onclick="addNewRow()">Add New Row</button>
+            <button id="addRowButton" class="custom-btn mb-4">Add Category</button>
             
             <div id="accordion">
-                <!-- Alberta Tenders Accordion Item -->
-                <div class="card filterable-content" data-category="Alberta">
+                <!-- CanadianRegional Accordion Item -->
+                <div class="card filterable-content" data-category="CanadianRegional">
                     <div class="card-header">
-                        <a class="card-link" data-toggle="collapse" href="#collapseAlberta">
-                            Alberta Tenders
+                        <a class="card-link collapsed" data-toggle="collapse" href="#collapseCanadianRegional">
+                            CANADIAN REGIONAL
+                            <i class="fas fa-angle-right"></i>
                         </a>
                     </div>
-                    <div id="collapseAlberta" class="collapse" data-parent="#accordion">
+                    <div id="collapseCanadianRegional" class="collapse" data-parent="#accordion">
                         <div class="card-body">
+                            <button id="addRowButton" class="custom-btn mb-3">Add Portal</button>
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
@@ -26,32 +93,40 @@
                                         <th>RESPONSIBLE</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <a href="https://vendor.purchasingconnection.ca/" target="_blank" rel="noopener noreferrer">
-                                                <i class="fas fa-external-link-alt"></i> Alberta Tenders
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <span class="username">YourUsername</span>
-                                            <button class="btn btn-sm btn-outline-secondary" onclick="copyToClipboard('.username')">Copy</button>
-                                        </td>
-                                        <td>
-                                            <span class="password">YourPassword</span>
-                                            <button class="btn btn-sm btn-outline-secondary" onclick="copyToClipboard('.password')">Copy</button>
-                                        </td>
-                                        <td>
-                                            <span class="responsible">YourResponsible</span>
-                                            <button class="btn btn-sm btn-outline-secondary" onclick="copyToClipboard('.responsible')">Copy</button>
-                                        </td>
-                                    </tr>
+                                <tbody id="rfpPortalData">
+                                    <!-- The data will be dynamically populated from Firestore -->
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
-                <!-- You can repeat the same structure for other accordion items -->
+                <!-- CanadianNational Accordion Item -->
+                <div class="card filterable-content" data-category="CanadianNational">
+                    <div class="card-header">
+                        <a class="card-link collapsed" data-toggle="collapse" href="#collapseCanadianNational">
+                            CANADIAN NATIONAL
+                            <i class="fas fa-angle-right"></i>
+                        </a>
+                    </div>
+                    <div id="collapseCanadianNational" class="collapse" data-parent="#accordion">
+                        <div class="card-body">
+                            <button id="addRowButton" class="custom-btn mb-3">Add Portal</button>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>PORTAL link</th>
+                                        <th>USERNAME</th>
+                                        <th>PASSWORD</th>
+                                        <th>RESPONSIBLE</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="rfpPortalData">
+                                    <!-- The data will be dynamically populated from Firestore -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>           
         </div>
     </div>
