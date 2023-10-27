@@ -1,43 +1,20 @@
-// Firestore Configuration
 function checkUserAuthentication() {
-    // Listen to authentication state changes.
     auth.onAuthStateChanged(user => {
         if (user) {
-            // User is signed in
             console.log('User is signed in:', user.email);
-            // Here you can take further actions if the user is logged in.
-            // Like, showing user-specific content, navigating to a dashboard, etc.
         } else {
-            // User is signed out
             console.log('User is signed out.');
-            // Here you can navigate to the login page, or show a message to the user
         }
     });
 }
 
-// Initialization
-checkUserAuthentication();
-// Connect to Firestore
-
-// Load RFP data when the page loads
-document.addEventListener("DOMContentLoaded", function() {
-    loadRFPData();
-});
-
 function loadRFPData() {
-    // Get reference to the RFP_Sources collection
     const rfpSourcesRef = db.collection("RFP_Sources");
-
-    // Fetch data from Firestore
     rfpSourcesRef.get().then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-            const categoryName = doc.id; // e.g., CanadianRegional
+            const categoryName = doc.id;
             const categoryData = doc.data();
-
-            // Find the correct table body for this category
             const tbody = document.querySelector(`.filterable-content[data-category="${categoryName}"] tbody`);
-
-            // Populate table with data
             for (let portal of categoryData.portals) {
                 const row = document.createElement("tr");
                 row.innerHTML = `
@@ -53,27 +30,68 @@ function loadRFPData() {
         console.error("Error getting RFP data from Firestore:", error);
     });
 }
-// Function to create a new portal row
-function addPortal(categoryName) {
-    const tbody = document.querySelector(`.filterable-content[data-category="${categoryName}"] tbody`);
 
-    // Create a new row element
-    const row = document.createElement("tr");
-    row.innerHTML = `
-        <td>PORTAL_LINK</td>
-        <td>USERNAME</td>
-        <td>PASSWORD</td>
-        <td>RESPONSIBLE</td>
-    `;
-
-    // Append the row to the portal table
-    tbody.appendChild(row);
+function attachSubmitButtonListener() {
+    $('#addPortalModal').on('shown.bs.modal', function() {
+        const submitBtn = document.getElementById("submitPortal");
+        submitBtn.addEventListener("click", submitPortalData);
+    });
 }
 
-// Event listener for adding a new portal row
-document.addEventListener("click", function (e) {
-    if (e.target && e.target.classList.contains("custom-btn") && e.target.textContent === "Add Portal") {
-        const categoryName = e.target.closest(".card").getAttribute("data-category");
-        addPortal(categoryName);
-    }
+function submitPortalData() {
+    const portalLink = document.getElementById("portalLink").value;
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value; // Remember about password security.
+    const responsible = document.getElementById("responsible").value;
+
+    const newPortal = {
+        link: portalLink,
+        username: username,
+        password: password,
+        responsible: responsible
+    };
+
+    const currentCategory = this.getAttribute("data-category");
+    const rfpSourcesRef = db.collection("RFP_Sources").doc(currentCategory);
+    
+    rfpSourcesRef.update({
+        portals: firebase.firestore.FieldValue.arrayUnion(newPortal)
+    }).then(() => {
+        console.log("Document successfully updated!");
+        loadRFPData();
+    }).catch((error) => {
+        console.error("Error updating document: ", error);
+    });
+
+    $("#addPortalModal").modal('hide');
+}
+
+function addPortal(categoryName) {
+    const submitBtn = document.getElementById("submitPortal");
+    submitBtn.setAttribute("data-category", categoryName);
+    document.getElementById("portalLink").value = "";
+    document.getElementById("username").value = "";
+    document.getElementById("password").value = "";
+    document.getElementById("responsible").value = "";
+
+    $("#addPortalModal").modal('show');
+}
+
+function setupAddPortalEventListener() {
+    const addButtons = document.querySelectorAll(".custom-btn");
+    addButtons.forEach(button => {
+        if (button.textContent === "Add Portal") {
+            button.addEventListener("click", function() {
+                const categoryName = button.closest(".card").getAttribute("data-category");
+                addPortal(categoryName);
+            });
+        }
+    });
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    loadRFPData();
+    attachSubmitButtonListener();
+    setupAddPortalEventListener();
+    checkUserAuthentication();
 });

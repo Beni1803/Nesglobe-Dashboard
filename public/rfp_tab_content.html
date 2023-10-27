@@ -78,17 +78,17 @@
                     </div>
                     <div id="collapseCanadianRegional" class="collapse" data-parent="#accordion">
                         <div class="card-body">
-                            <button id="addRowButton" class="custom-btn mb-3">Add Portal</button>
+                            <button id="addRowButtonCanadianRegional" class="custom-btn mb-3">Add Portal</button>
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th>PORTAL_</th>
+                                        <th>PORTAL LINK</th>
                                         <th>USERNAME</th>
                                         <th>PASSWORD</th>
                                         <th>RESPONSIBLE</th>
                                     </tr>
                                 </thead>
-                                <tbody id="rfpPortalData">
+                                <tbody id="rfpPortalDataCanadianRegional">
                                     <!-- The data will be dynamically populated from Firestore -->
                                 </tbody>
                             </table>
@@ -105,17 +105,17 @@
                     </div>
                     <div id="collapseCanadianNational" class="collapse" data-parent="#accordion">
                         <div class="card-body">
-                            <button id="addRowButton" class="custom-btn mb-3">Add Portal</button>
+                            <button id="addRowButtonCanadianNational" class="custom-btn mb-3">Add Portal</button>
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th>PORTAL link</th>
+                                        <th>PORTAL LINK</th>
                                         <th>USERNAME</th>
                                         <th>PASSWORD</th>
                                         <th>RESPONSIBLE</th>
                                     </tr>
                                 </thead>
-                                <tbody id="rfpPortalData">
+                                <tbody id="rfpPortalDataCanadianNational">
                                     <!-- The data will be dynamically populated from Firestore -->
                                 </tbody>
                             </table>
@@ -126,3 +126,41 @@
         </div>
     </div>
 </div>
+
+<!-- Modal structure for adding a new portal -->
+<div class="modal fade" id="addPortalModal" tabindex="-1" role="dialog" aria-labelledby="addPortalModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addPortalModalLabel">Add Portal</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="portalLink">Portal Link:</label>
+              <input type="text" class="form-control" id="portalLink">
+            </div>
+            <div class="form-group">
+              <label for="username">Username:</label>
+              <input type="text" class="form-control" id="username">
+            </div>
+            <div class="form-group">
+              <label for="password">Password:</label>
+              <input type="password" class="form-control" id="password">
+            </div>
+            <div class="form-group">
+              <label for="responsible">Responsible:</label>
+              <input type="text" class="form-control" id="responsible">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" id="submitPortal">Add</button>
+        </div>
+      </div>
+    </div>
+  </div>
