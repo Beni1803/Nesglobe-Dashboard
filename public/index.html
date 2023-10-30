@@ -40,7 +40,7 @@
         <div class="container d-flex justify-content-between align-items-center">
             <img src="./assets/logo.png" alt="Logo" class="logo-img" aria-hidden="true">
             <!-- Title in the Center -->
-            <h1 class="m-0 text-white">NE&S Tools</h1>
+            <h1 class="m-0 text-black">NE&S Tools</h1>
             <div class="d-flex align-items-center">
                 <span id="userInfoModal" class="mr-3"></span>
                 <button id="signOutButtonModal" class="btn btn-danger">Sign Out</button>
@@ -59,22 +59,19 @@
                     <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="arcgis" aria-selected="false">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="arcgis-tab" data-toggle="tab" href="#arcgis" role="tab" aria-controls="arcgis" aria-selected="false">GIS</a>
+                    <a class="nav-link" id="rfp-tab" data-toggle="tab" href="#rfp" role="tab" aria-controls="rfp" aria-selected="true">RFP Sources</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="networksdata-tab" data-toggle="tab" href="#networksdata" role="tab" aria-controls="networksdata" aria-selected="true">Network Resources</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="economicsdata-tab" data-toggle="tab" href="#economicsdata" role="tab" aria-controls="economicsdata" aria-selected="true">Economic Resources</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="webapp-tab" data-toggle="tab" href="#webapp" role="tab" aria-controls="webapp" aria-selected="false">Web Apps</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="excel-tab" data-toggle="tab" href="#excel" role="tab" aria-controls="excel" aria-selected="true">Excel</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="rfp-tab" data-toggle="tab" href="#rfp" role="tab" aria-controls="rfp" aria-selected="true">RFP Sources</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="urls-tab" data-toggle="tab" href="#urls" role="tab" aria-controls="urls" aria-selected="true">Websites</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="data-tab" data-toggle="tab" href="#data" role="tab" aria-controls="data" aria-selected="true">Database</a>
+                    <a class="nav-link" id="arcgis-tab" data-toggle="tab" href="#arcgis" role="tab" aria-controls="arcgis" aria-selected="false">GIS</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="templates-tab" data-toggle="tab" href="#templates" role="tab" aria-controls="templates" aria-selected="true">Templates</a>
@@ -88,21 +85,6 @@
             <!-- Home Tab -->
             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                 <!-- Content for the Home tab will be loaded dynamically -->
-            </div>      
-            
-            <!-- ArcGIS Tab -->
-            <div class="tab-pane fade" id="arcgis" role="tabpanel" aria-labelledby="arcgis-tab">
-                <!-- Content for the ArcGIS tab will be loaded dynamically -->
-            </div>    
-            
-            <!-- Webapp Tab -->
-            <div class="tab-pane fade" id="webapp" role="tabpanel" aria-labelledby="webapp-tab">
-                <!-- Content for the Webapp tab will be loaded dynamically -->
-            </div>
-
-            <!-- Excel Tab -->
-            <div class="tab-pane fade" id="excel" role="tabpanel" aria-labelledby="excel-tab">
-                <!-- Content for the Excel tab will be loaded dynamically -->
             </div>
 
             <!-- rfp Tab -->
@@ -110,14 +92,31 @@
                 <!-- Content for the rfp tab will be loaded dynamically -->
             </div>
 
+            <!-- networksdata Tab -->
+            <div class="tab-pane fade" id="networksdata" role="tabpanel" aria-labelledby="networksdata-tab">
+                <!-- Content for the Excel tab will be loaded dynamically -->
+            </div>
+
+            <div class="tab-pane fade" id="economicsdata" role="tabpanel" aria-labelledby="economicsdata-tab">
+                <!-- Content for the urls tab will be loaded dynamically -->
+            </div>
+
+            <!-- Webapp Tab -->
+            <div class="tab-pane fade" id="webapp" role="tabpanel" aria-labelledby="webapp-tab">
+                <!-- Content for the Webapp tab will be loaded dynamically -->
+            </div>
+            
+            <!-- ArcGIS Tab -->
+            <div class="tab-pane fade" id="arcgis" role="tabpanel" aria-labelledby="arcgis-tab">
+                <!-- Content for the ArcGIS tab will be loaded dynamically -->
+            </div>    
+            
             <!-- urls Tab -->
             <div class="tab-pane fade" id="urls" role="tabpanel" aria-labelledby="urls-tab">
                 <!-- Content for the urls tab will be loaded dynamically -->
             </div>
-            <!-- Data Tab -->
-            <div class="tab-pane fade" id="data" role="tabpanel" aria-labelledby="data-tab">
-                <!-- Content for the urls tab will be loaded dynamically -->
-            </div>
+            <!-- economicsdata Tab -->
+
             <div class="tab-pane fade" id="templates" role="tabpanel" aria-labelledby="templates-tab">
                 <!-- Content for the urls tab will be loaded dynamically -->
             </div>
@@ -130,9 +129,6 @@
             <div class="modal-content">
                 <div class="modal-header bg-primary text-white">
                     <h5 class="modal-title" id="loginModalLabel">Login to Dashboard</h5>
-                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
                 </div>
                 <div class="modal-body">
                     <!-- Feedback Area -->
