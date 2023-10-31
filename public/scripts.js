@@ -120,3 +120,11 @@ document.addEventListener("DOMContentLoaded", function() {
     document.addEventListener('mousemove', resetIdleTimeout);
     document.addEventListener('keydown', resetIdleTimeout);
 });
+
+
+// FIRESTORE
+
+document.addEventListener("DOMContentLoaded", function() {
+    loadData("CanadianRegional");
+    loadData("CanadianNational");
+});

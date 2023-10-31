@@ -2,18 +2,18 @@
     <div class="row">
         <!-- Main Content with Tab Accordion -->
         <div class="col-md-9">        
-            <div id="rfptabaccordion">
-                <!-- TabCanadianRegional Accordion Item -->
-                <div class="card" data-category="TabCanadianRegional">
+            <div id="accordion">
+                <!-- CanadianRegional Accordion Item -->
+                <div class="card" data-category="CanadianRegional">
                     <div class="card-header">
-                        <a class="card-link collapsed" data-toggle="collapse" href="#tabCollapseCanadianRegional">
+                        <a class="card-link collapsed" data-toggle="collapse" href="#collapseCanadianRegional">
                             Canadian Regional
                             <i class="fas fa-angle-right"></i>
                         </a>
                     </div>
-                    <div id="tabCollapseCanadianRegional" class="collapse" data-parent="#rfptabaccordion">
+                    <div id="collapseCanadianRegional" class="collapse" data-parent="#accordion">
                         <div class="card-body">
-                            <button id="addRowTabButtonCanadianRegional" class="tab-btn mb-3">Add Portal</button>
+                            <button id="addButtonCanadianRegional" class="tab-btn mb-3">Add Portal</button>
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
@@ -23,24 +23,24 @@
                                         <th>RESPONSIBLE</th>
                                     </tr>
                                 </thead>
-                                <tbody id="rfpTabPortalDataCanadianRegional">
+                                <tbody id="portalDataCanadianRegional">
                                     <!-- The data will be dynamically populated from Firestore -->
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
-                <!-- TabCanadianNational Accordion Item -->
-                <div class="card" data-category="TabCanadianNational">
+                <!-- CanadianNational Accordion Item -->
+                <div class="card" data-category="CanadianNational">
                     <div class="card-header">
-                        <a class="card-link collapsed" data-toggle="collapse" href="#tabCollapseCanadianNational">
+                        <a class="card-link collapsed" data-toggle="collapse" href="#collapseCanadianNational">
                             Canadian National
                             <i class="fas fa-angle-right"></i>
                         </a>
                     </div>
-                    <div id="tabCollapseCanadianNational" class="collapse" data-parent="#rfptabaccordion">
+                    <div id="collapseCanadianNational" class="collapse" data-parent="#accordion">
                         <div class="card-body">
-                            <button id="addRowTabButtonCanadianNational" class="tab-btn mb-3">Add Portal</button>
+                            <button id="addButtonCanadianNational" class="tab-btn mb-3">Add Portal</button>
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
@@ -50,7 +50,7 @@
                                         <th>RESPONSIBLE</th>
                                     </tr>
                                 </thead>
-                                <tbody id="rfpTabPortalDataCanadianNational">
+                                <tbody id="portalDataCanadianNational">
                                     <!-- The data will be dynamically populated from Firestore -->
                                 </tbody>
                             </table>
@@ -59,43 +59,5 @@
                 </div>
             </div>           
         </div>
-    </div>
-</div>
-
-<!-- Modal structure for adding a new portal in Tabs -->
-<div class="modal fade" id="addTabPortalModal" tabindex="-1" role="dialog" aria-labelledby="addTabPortalModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="addTabPortalModalLabel">Add Portal</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form>
-            <div class="form-group">
-              <label for="tabPortalLink">Portal Link:</label>
-              <input type="text" class="form-control" id="tabPortalLink">
-            </div>
-            <div class="form-group">
-              <label for="tabUsername">Username:</label>
-              <input type="text" class="form-control" id="tabUsername">
-            </div>
-            <div class="form-group">
-              <label for="tabPassword">Password:</label>
-              <input type="password" class="form-control" id="tabPassword">
-            </div>
-            <div class="form-group">
-              <label for="tabResponsible">Responsible:</label>
-              <input type="text" class="form-control" id="tabResponsible">
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" id="submitPortal">Add</button>
-        </div>
-      </div>
     </div>
 </div>
