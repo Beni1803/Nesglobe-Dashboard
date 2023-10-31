@@ -1,84 +1,18 @@
-<style>
-    /* Custom Styles for Tabs */
-    .tab-btn {
-        background: linear-gradient(45deg, #007BFF, #0056b3);
-        border: none;
-        border-radius: 25px;
-        color: #ffffff;
-        padding: 12px 40px;
-        font-weight: 600;
-        letter-spacing: 1px;
-        transition: transform 0.2s, box-shadow 0.2s;
-        box-shadow: 0 2px 15px rgba(0,0,0,0.1);
-    }
-
-    .tab-btn:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-    }
-
-    .tab-card {
-        border: none;
-        border-radius: 10px;
-        transition: transform 0.2s, box-shadow 0.2s;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    }
-
-    .tab-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 6px 30px rgba(0,0,0,0.2);
-    }
-
-    .tab-card-header {
-        background-color: #ffffff;
-        border: none;
-        border-radius: 10px 10px 0 0;
-        cursor: pointer;
-        padding: 15px 20px;
-    }
-
-    .tab-card-link {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        color: #333;
-        transition: color 0.2s;
-    }
-
-    .tab-card-link i {
-        transition: transform 0.3s;
-    }
-
-    .tab-card-link.collapsed i {
-        transform: rotate(-90deg);
-    }
-
-    .tab-card-link:hover {
-        text-decoration: none;
-        color: #007BFF;
-    }
-
-    .tab-card-body {
-        padding: 20px;
-        border-top: 1px solid #f5f5f5;
-    }
-</style>
-
 <div class="container mt-5">
     <div class="row">
         <!-- Main Content with Tab Accordion -->
         <div class="col-md-9">        
-            <div id="tabAccordion">
+            <div id="rfptabaccordion">
                 <!-- TabCanadianRegional Accordion Item -->
-                <div class="tab-card" data-category="TabCanadianRegional">
-                    <div class="tab-card-header">
-                        <a class="tab-card-link collapsed" data-toggle="collapse" href="#tabCollapseCanadianRegional">
-                            CANADIAN REGIONAL
+                <div class="card" data-category="TabCanadianRegional">
+                    <div class="card-header">
+                        <a class="card-link collapsed" data-toggle="collapse" href="#tabCollapseCanadianRegional">
+                            Canadian Regional
                             <i class="fas fa-angle-right"></i>
                         </a>
                     </div>
-                    <div id="tabCollapseCanadianRegional" class="collapse" data-parent="#tabAccordion">
-                        <div class="tab-card-body">
+                    <div id="tabCollapseCanadianRegional" class="collapse" data-parent="#rfptabaccordion">
+                        <div class="card-body">
                             <button id="addRowTabButtonCanadianRegional" class="tab-btn mb-3">Add Portal</button>
                             <table class="table table-striped">
                                 <thead>
@@ -97,15 +31,15 @@
                     </div>
                 </div>
                 <!-- TabCanadianNational Accordion Item -->
-                <div class="tab-card" data-category="TabCanadianNational">
-                    <div class="tab-card-header">
-                        <a class="tab-card-link collapsed" data-toggle="collapse" href="#tabCollapseCanadianNational">
-                            CANADIAN NATIONAL
+                <div class="card" data-category="TabCanadianNational">
+                    <div class="card-header">
+                        <a class="card-link collapsed" data-toggle="collapse" href="#tabCollapseCanadianNational">
+                            Canadian National
                             <i class="fas fa-angle-right"></i>
                         </a>
                     </div>
-                    <div id="tabCollapseCanadianNational" class="collapse" data-parent="#tabAccordion">
-                        <div class="tab-card-body">
+                    <div id="tabCollapseCanadianNational" class="collapse" data-parent="#rfptabaccordion">
+                        <div class="card-body">
                             <button id="addRowTabButtonCanadianNational" class="tab-btn mb-3">Add Portal</button>
                             <table class="table table-striped">
                                 <thead>

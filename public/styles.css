@@ -1,5 +1,9 @@
 /* Base Styles */
 body {
+    width: 100%;
+    height: 100vh;
+    margin: 0; /* Remove default margin */
+    overflow: hidden; /* Hide horizontal scrollbar */
     background-color: #f7f8fc;
     font-family: 'Roboto', Arial, sans-serif;
     color: #333;
@@ -9,16 +13,11 @@ body {
 /* Logo Styles */
 .logo-img {
     max-height: 50px;
-    transition: transform 0.3s ease-in-out;  /* Enhancement for logo hover effect */
-}
-
-#authContainer {
-    text-align: center;
-    margin-top: 30px;
+    transition: transform 0.3s ease-in-out;
 }
 
 .logo-img:hover {
-    transform: translateY(-3px); /* Move logo slightly up on hover for a dynamic effect */
+    transform: translateY(-3px);
 }
 
 /* Auth Container Styles */
@@ -29,21 +28,18 @@ body {
 }
 
 /* User Info & Sign Out Styles */
-#userInfoModal {
+#userInfoModal, #signOutButtonModal {
     display: none;
     font-weight: 600;
-    color: #000000;  /* Slight gray for distinction */
-    font-size: 0.9rem; /* Slightly smaller font size for a refined look */
+    font-size: 0.9rem;
 }
 
 #signOutButtonModal {
-    display: none;
-    font-size: 0.9rem; /* Consistent font size with the user info */
-    transition: background-color 0.3s, color 0.3s;  /* Smooth transition for hover effect */
+    transition: background-color 0.3s, color 0.3s;
 }
 
 #signOutButtonModal:hover {
-    background-color: #c9302c;  /* Darken red for hover effect */
+    background-color: #c9302c;
     color: #ffffff;
 }
 
@@ -53,101 +49,85 @@ body {
     text-align: center;
     padding: 15px;
     border-radius: 6px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);  /* Slight shadow for depth */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 /* Interactive Elements Enhancement */
 a, .list-group-item-action {
-    transition: background-color 0.3s, transform 0.2s;  /* Smooth transition for hover effect */
+    transition: background-color 0.3s, transform 0.2s;
 }
 
 .list-group-item-action:hover {
-    background-color: #edf2f9;  /* Lighter blue on hover */
-    transform: scale(1.02);  /* Slightly enlarge item on hover */
+    background-color: #edf2f9;
+    transform: scale(1.02);
 }
 
 /* Button Styles */
 .btn-danger {
-    background-color: #e74c3c;  /* A more vibrant red */
-    border: none;  /* Remove default border */
+    background-color: #e74c3c;
+    border: none;
 }
 
 .btn-danger:hover {
-    background-color: #d62c1a;  /* Darken color on hover */
+    background-color: #d62c1a;
 }
 
 .btn-outline-success {
-    color: #28a745;  /* Vibrant green */
+    color: #28a745;
     border-color: #28a745;
 }
 
 .btn-outline-success:hover {
-    background-color: #28a745;  /* Background color on hover */
-    color: #ffffff;  /* Text color on hover */
+    background-color: #28a745;
+    color: #ffffff;
 }
 
 /* Responsive Styles */
-/* Small Mobile Screens (up to 480px) */
 @media (max-width: 480px) {
     .logo-img {
         max-height: 30px;
     }
-
     #authContainer {
-        margin-top: 10px;  /* Reduce top margin for very small screens */
+        margin-top: 10px;
     }
-
-    /* Add more styles specific to very small screens */
 }
 
-/* Mobile Screens (481px to 768px) */
 @media (max-width: 768px) {
     .logo-img {
         max-height: 40px;
     }
-
     #authContainer {
-        margin-top: 20px;  /* Reduce top margin for smaller screens */
+        margin-top: 20px;
     }
-
-    /* Add more styles specific to mobile screens */
 }
 
-/* Tablet Screens (769px to 1024px) */
 @media (min-width: 769px) and (max-width: 1024px) {
     .logo-img {
         max-height: 50px;
     }
-
     #authContainer {
         margin-top: 30px;
     }
-
-    /* Add more styles specific to tablet screens */
 }
 
-/* Desktop Screens (1025px and up) */
 @media (min-width: 1025px) {
     .logo-img {
-        max-height: 60px;  /* Larger logo for desktop screens */
+        max-height: 60px;
     }
-
     #authContainer {
-        margin-top: 40px;  /* Increase top margin for desktop screens */
+        margin-top: 40px;
     }
-
-    /* Add more styles specific to desktop screens */
 }
 
 /* Header Styles */
 header.header {
-    background-color: #dedfdf !important;  /* Deep blue-gray for the header */
+    background-color: #cfd8fd !important;
 }
-
 
 header .container {
-    padding: 0 15px;  /* Padding to the container for better spacing */
+    padding: 0 15px;
 }
+
 .webapp-link {
     text-decoration: none;
     font-weight: 500;
@@ -163,7 +143,7 @@ header .container {
 }
 
 .webapp-link:before {
-    content: '\f061'; /* FontAwesome arrow-right icon */
+    content: '\f061';
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
     position: absolute;
@@ -180,7 +160,6 @@ ul.list-unstyled li {
     margin-bottom: 10px;
 }
 
-
 .arcgis-card {
     transition: transform 0.2s, box-shadow 0.2s;
     border: none;
@@ -194,9 +173,9 @@ ul.list-unstyled li {
 
 .arcgis-card img {
     width: 100%;
-    height: 200px; /* Or adjust to your desired height */
-    object-fit: contain; /* Ensures the entire image is visible */
-    object-position: center; /* Centers the image */
+    height: 200px;
+    object-fit: contain;
+    object-position: center;
     border-top-left-radius: .25rem;
     border-top-right-radius: .25rem;
 }
@@ -208,23 +187,61 @@ ul.list-unstyled li {
 .arcgis-card:hover .arcgis-card-title {
     color: #0984E3;
 }
-.tab-pane {
-    padding: 30px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f9f9f9;
+
+/* Base styling for the entire nav */
+nav[aria-label="Dashboard Navigation"] {
+    background: linear-gradient(90deg, #e0eafc, #cfd8fd);
+    border-radius: 10px;
+    padding: 10px 20px;
 }
 
+/* Center the nav items and give them space */
+.nav-tabs {
+    justify-content: center;
+    border: none;
+}
+
+/* Basic nav-item styling */
+.nav-item {
+    margin: 0 5px;
+}
+
+/* Nav link styling */
+.nav-link {
+    border-radius: 8px;
+    background: linear-gradient(90deg, #cfd8fd, #e0eafc);
+    color: #5a5a5a;
+    border: none;
+    transition: background 0.3s;
+}
+
+/* Nav link hover effect */
+.nav-link:hover {
+    background: linear-gradient(90deg, #e0eafc, #cfd8fd);
+    text-decoration: none;
+}
+
+/* Nav link active state styling */
+.nav-link.active {
+    background: linear-gradient(90deg, #a8b5f6, #8795e8);
+}
+
+/* Styles for the Home Tab Content */
 .dashboard-welcome {
     text-align: center;
-    width: 100%; /* Makes it span the full width of the tab */
-    padding: 30px;
+    width: 100%;
+    height: 100vh; /* Make the content full-screen vertically */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     background-color: #fff;
     border-radius: 5px;
 }
 
 .dashboard-welcome h2 {
     color: #000000;
-    font-size: 60px; /* Significantly increased title size */
+    font-size: 60px;
     margin-bottom: 20px;
 }
 
@@ -235,7 +252,7 @@ ul.list-unstyled li {
 
 .features {
     display: flex;
-    justify-content: space-around; /* Adjusted to evenly distribute the items */
+    justify-content: space-around;
     flex-wrap: wrap;
 }
 
@@ -246,8 +263,132 @@ ul.list-unstyled li {
 }
 
 .feature-icon {
-    font-size: 40px; /* Increased icon size for better visibility */
+    font-size: 40px;
     color: #3498db;
-    display: block; /* To ensure it takes up its own line above the text */
-    margin-bottom: 15px; /* Space between the icon and text */
+    display: block;
+    margin-bottom: 15px;
+}
+
+
+
+/* Accordion Styles */
+/* Global Styling */
+body {
+    font-family: 'Arial', sans-serif;
+}
+
+.card {
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    margin-bottom: 20px;
+    overflow: hidden;
+    transition: box-shadow 0.3s, transform 0.2s;
+}
+
+.card:hover {
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.12);
+    transform: translateY(-5px);  /* Subtle lift on hover */
+}
+
+.card-header {
+    background-color: #f8f9fa;
+    border-bottom: none;
+    padding: 18px 25px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.card-header:hover {
+    background-color: #f0f1f2;
+}
+
+.card-link {
+    color: #333;
+    font-size: 16px;
+    line-height: 1.5;  /* Enhanced readability */
+    font-weight: 500;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.card-link:hover {
+    color: #007bff;
+}
+
+.card-link .fas {
+    transition: transform 0.5s, color 0.3s;
+    font-size: 22px;
+}
+
+.card-link.collapsed .fas {
+    transform: rotate(90deg);
+}
+
+.card.show .card-header, .card-link:not(.collapsed) {
+    background-color: #e0e1e2;
+}
+
+.card-body {
+    padding: 18px 25px;
+    transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out;
+}
+
+.tab-btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 18px;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);  /* Button shadow */
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.tab-btn:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.table {
+    border: none;
+    border-collapse: collapse;
+}
+
+.table th, .table td {
+    border: 1px solid #dee2e6;
+    padding: 14px 18px;
+}
+
+.table thead th {
+    background-color: #e9ecef;
+    font-weight: 600;  /* Slight bump in boldness */
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.04);
+}
+
+.sharepoint-link, .directory-link {
+    margin-bottom: 20px;
+}
+
+.sharepoint-link a, .directory-link a {
+    text-decoration: none;
+    color: #007bff;
+    font-size: 15px;  /* Slightly bigger links */
+    transition: color 0.3s, text-decoration 0.3s;
+}
+
+.sharepoint-link a:hover, .directory-link a:hover {
+    color: #0056b3;
+    text-decoration: underline;  /* Underline on hover for better UX */
+}
+
+.sharepoint-link i, .directory-link i {
+    margin-right: 7px;
 }
