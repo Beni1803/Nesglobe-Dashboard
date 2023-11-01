@@ -2,15 +2,20 @@ function loadData(category) {
     db.collection("Portals").doc(category).get().then((doc) => {
         let content = '';
         if (doc.exists) {
-            const data = doc.data();
-            content += `
-                <tr>
-                    <td>${data.portalLink}</td>
-                    <td>${data.username}</td>
-                    <td>${data.password}</td>
-                    <td>${data.responsible}</td>
-                </tr>
-            `;
+            // Adjusted to retrieve the 'rows' array
+            const dataArray = doc.data().rows;
+            if (dataArray && Array.isArray(dataArray)) {
+                dataArray.forEach(data => {
+                    content += `
+                        <tr>
+                            <td>${data.portalLink}</td>
+                            <td>${data.username}</td>
+                            <td>${data.password}</td>
+                            <td>${data.responsible}</td>
+                        </tr>
+                    `;
+                });
+            }
         } else {
             console.log("No such document:", category);
         }
