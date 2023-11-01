@@ -3,33 +3,26 @@
         <!-- Main Content with Tab Accordion -->
         <div class="col-md-9">        
             <div id="accordion">
-                <!-- CanadianRegional Accordion Item -->
-                <div class="card" data-category="CanadianRegional">
-                    <div class="card-header">
-                        <a class="card-link collapsed" data-toggle="collapse" href="#collapseCanadianRegional">
-                            Canadian Regional
-                            <i class="fas fa-angle-right"></i>
-                        </a>
+                <!-- Common Add Portal Form (Initially hidden) -->
+                <form id="addPortalForm" class="mb-4" style="display: none;">
+                    <div class="form-group">
+                        <label for="portalLink">Portal Link:</label>
+                        <input type="url" class="form-control" id="portalLink" required>
                     </div>
-                    <div id="collapseCanadianRegional" class="collapse" data-parent="#accordion">
-                        <div class="card-body">
-                            <button id="addButtonCanadianRegional" class="tab-btn mb-3">Add Portal</button>
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>PORTAL LINK</th>
-                                        <th>USERNAME</th>
-                                        <th>PASSWORD</th>
-                                        <th>RESPONSIBLE</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="portalDataCanadianRegional">
-                                    <!-- The data will be dynamically populated from Firestore -->
-                                </tbody>
-                            </table>
-                        </div>
+                    <div class="form-group">
+                        <label for="username">Username:</label>
+                        <input type="text" class="form-control" id="username" required>
                     </div>
-                </div>
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" class="form-control" id="password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="responsible">Responsible:</label>
+                        <input type="text" class="form-control" id="responsible" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Row</button>
+                </form>
                 <!-- CanadianNational Accordion Item -->
                 <div class="card" data-category="CanadianNational">
                     <div class="card-header">
@@ -40,7 +33,7 @@
                     </div>
                     <div id="collapseCanadianNational" class="collapse" data-parent="#accordion">
                         <div class="card-body">
-                            <button id="addButtonCanadianNational" class="tab-btn mb-3">Add Portal</button>
+                            <button id="addButtonCanadianNational" class="tab-btn addButton mb-3">Add Portal</button>
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
@@ -51,6 +44,33 @@
                                     </tr>
                                 </thead>
                                 <tbody id="portalDataCanadianNational">
+                                    <!-- The data will be dynamically populated from Firestore -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- CanadianRegional Accordion Item -->
+                <div class="card" data-category="CanadianRegional">
+                    <div class="card-header">
+                        <a class="card-link collapsed" data-toggle="collapse" href="#collapseCanadianRegional">
+                            Canadian Regional
+                            <i class="fas fa-angle-right"></i>
+                        </a>
+                    </div>
+                    <div id="collapseCanadianRegional" class="collapse" data-parent="#accordion">
+                        <div class="card-body">
+                            <button id="addButtonCanadianRegional" class="tab-btn addButton mb-3">Add Portal</button>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>PORTAL LINK</th>
+                                        <th>USERNAME</th>
+                                        <th>PASSWORD</th>
+                                        <th>RESPONSIBLE</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="portalDataCanadianRegional">
                                     <!-- The data will be dynamically populated from Firestore -->
                                 </tbody>
                             </table>

@@ -112,8 +112,49 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 // FIRESTORE
+document.addEventListener('DOMContentLoaded', (event) => {
+    setTimeout(() => {
+        // Use the attribute starts with selector to select elements by ID prefix
+        const addPortalButtons = document.querySelectorAll("[id^='addButton']");
+        console.log('Number of buttons found:', addPortalButtons.length);
 
-document.addEventListener("DOMContentLoaded", function() {
-    loadData("CanadianNational");
-    loadData("CanadianRegional");
+        addPortalButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Get the closest parent with the class 'card'
+                const closestCard = this.closest('.card');
+                const category = closestCard.dataset.category;
+                document.getElementById('addPortalForm').dataset.activeCategory = category;
+                document.getElementById('addPortalForm').style.display = 'block';
+            });
+        });
+
+        const addPortalForm = document.getElementById('addPortalForm');
+
+        if(addPortalForm) {  // Check if the element is not null
+            addPortalForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                const category = this.dataset.activeCategory;
+
+                const newRow = {
+                    portalLink: document.getElementById('portalLink').value,
+                    username: document.getElementById('username').value,
+                    password: document.getElementById('password').value,
+                    responsible: document.getElementById('responsible').value
+                };
+
+                // Call the function from firestore.js to handle Firestore logic
+                submitPortalData(category, newRow);
+
+                // Reset form and hide it after submission
+                addPortalForm.reset();
+                addPortalForm.style.display = 'none';
+            });
+        }
+
+        // Load initial data
+        loadData("CanadianRegional");
+        loadData("CanadianNational");
+
+    }, 2000);  // 2 seconds delay
 });
