@@ -111,7 +111,6 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
-// FIRESTORE
 document.addEventListener('DOMContentLoaded', (event) => {
     setTimeout(() => {
         // Use the attribute starts with selector to select elements by ID prefix
@@ -148,6 +147,15 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
                 // Reset form and hide it after submission
                 addPortalForm.reset();
+                addPortalForm.style.display = 'none';
+            });
+        }
+
+        // Handle Close Button Click
+        const closeButton = document.querySelector('.close-button');
+        if(closeButton) {
+            closeButton.addEventListener('click', function() {
+                // Hide the form when the close button is clicked
                 addPortalForm.style.display = 'none';
             });
         }

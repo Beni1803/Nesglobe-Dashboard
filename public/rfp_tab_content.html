@@ -4,7 +4,10 @@
         <div class="col-md-9">        
             <div id="accordion">
                 <!-- Common Add Portal Form (Initially hidden) -->
-                <form id="addPortalForm" class="mb-4" style="display: none;">
+                <form id="addPortalForm" class="mb-4" style="display: none; position: relative;">
+                    <!-- Close Button -->
+                    <button type="button" class="close-button">&times;</button>
+                    
                     <div class="form-group">
                         <label for="portalLink">Portal Link:</label>
                         <input type="url" class="form-control" id="portalLink" required>
