@@ -249,7 +249,7 @@ nav[aria-label="Dashboard Navigation"] {
     border-radius: 8px;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
     margin-bottom: 20px;
-    overflow: hidden;
+    overflow: hidden; /* Make sure this is set to hide the overflow */
     transition: box-shadow 0.3s, transform 0.2s;
 }
 
@@ -422,6 +422,8 @@ nav[aria-label="Dashboard Navigation"] {
 
 /* Table styling */
 .table {
+    width: 100%; /* Ensure table width is 100% */
+    min-width: 600px; /* Set a minimum width for the table */
     margin-bottom: 0;
 }
 
@@ -440,7 +442,24 @@ nav[aria-label="Dashboard Navigation"] {
     padding: 12px 15px;
     text-align: center;
 }
+/* Responsive Enhancements for Accordion and Table */
+@media (max-width: 992px) {
+    .card-body {
+        padding: 10px; /* Reduce padding on smaller screens */
+    }
 
+    .table th, .table td {
+        padding: 8px; /* Reduce cell padding on smaller screens */
+        font-size: 14px; /* Reduce font size on smaller screens */
+    }
+}
+
+@media (max-width: 768px) {
+    .table th, .table td {
+        padding: 5px; /* Further reduce cell padding on even smaller screens */
+        font-size: 12px; /* Further reduce font size on even smaller screens */
+    }
+}
 /* Button styling */
 .tab-btn.addButton {
     background-color: #007BFF;
@@ -454,4 +473,23 @@ nav[aria-label="Dashboard Navigation"] {
 
 .tab-btn.addButton:hover {
     background-color: #0056b3;
+}
+
+/* copy icon styling */
+
+.copy-icon {
+    cursor: pointer;
+    margin-left: 5px;
+    color: #007bff; /* Bootstrap primary color */
+}
+.copy-icon:hover {
+    color: #0056b3; /* Darker shade for hover effect */
+}
+/* delete icon styling */
+.delete-icon {
+    cursor: pointer;
+    color: #dc3545; /* Bootstrap danger color */
+}
+.delete-icon:hover {
+    color: #bd2130; /* Darker shade for hover effect */
 }

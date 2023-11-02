@@ -5,16 +5,17 @@ function loadData(category) {
         if (doc.exists) {
             const dataArray = doc.data().rows;
             if (dataArray && Array.isArray(dataArray)) {
-                dataArray.forEach(data => {
+                dataArray.forEach((data, index) => {
                     content += `
                         <tr>
-                            <td>${data.portalLink}</td>
-                            <td>${data.username}</td>
-                            <td>${data.password}</td>
+                            <td><a href="${data.portalLink}" target="_blank">${data.portalLink}</a></td>
+                            <td>${data.username} <i class="fas fa-copy copy-icon" onclick="copyToClipboard('${data.username}')"></i></td>
+                            <td>${data.password} <i class="fas fa-copy copy-icon" onclick="copyToClipboard('${data.password}')"></i></td>
                             <td>${data.responsible}</td>
+                            <td><i class="fas fa-trash-alt delete-icon" onclick="deleteRow('${category}', ${index})"></i></td>
                         </tr>
                     `;
-                });
+                });                
             }
         } else {
             console.log("No such document:", category);

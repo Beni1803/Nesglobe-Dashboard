@@ -166,3 +166,46 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     }, 2000);  // 2 seconds delay
 });
+
+
+// Copy to clipboard function
+
+function copyToClipboard(textToCopy) {
+    // Create a temporary input element
+    const tempInput = document.createElement('input');
+    tempInput.value = textToCopy;
+    document.body.appendChild(tempInput);
+
+    // Select the text and copy it to clipboard
+    tempInput.select();
+    tempInput.setSelectionRange(0, 99999); // For mobile devices
+    document.execCommand('copy');
+
+    // Remove the temporary input element
+    document.body.removeChild(tempInput);
+
+    // Provide feedback to user (optional)
+    alert('Copied to clipboard: ' + textToCopy);
+}
+
+// delete row function
+
+function deleteRow(category, rowIndex) {
+    db.collection("Portals").doc(category).get().then((doc) => {
+        if (doc.exists) {
+            let rows = doc.data().rows;
+            rows.splice(rowIndex, 1); // Remove the row from the array
+            
+            // Update the Firestore document
+            db.collection("Portals").doc(category).update({
+                rows: rows
+            }).then(() => {
+                loadData(category); // Reload the table data
+            }).catch((error) => {
+                console.error("Error updating document:", error);
+            });
+        }
+    }).catch((error) => {
+        console.log("Error getting document:", error);
+    });
+}
