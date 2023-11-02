@@ -12,7 +12,7 @@ function loadData(category) {
                             <td>${data.username} <i class="fas fa-copy copy-icon" onclick="copyToClipboard('${data.username}')"></i></td>
                             <td>${data.password} <i class="fas fa-copy copy-icon" onclick="copyToClipboard('${data.password}')"></i></td>
                             <td>${data.responsible}</td>
-                            <td><i class="fas fa-trash-alt delete-icon" onclick="deleteRow('${category}', ${index})"></i></td>
+                            <td><i class="fas fa-trash-alt delete-icon" onclick="openDeleteModal('${category}', ${index})"></i></td>
                         </tr>
                     `;
                 });                
@@ -34,5 +34,29 @@ function submitPortalData(category, newRow) {
         loadData(category);
     }).catch((error) => {
         console.error("Error updating document:", error);
+    });
+}
+
+function openDeleteModal(category, rowIndex) {
+    $('#deleteConfirmModal').modal('show');
+
+    // Set click event on the confirm delete button
+    $('#confirmDelete').off('click').on('click', function() {
+        deleteRow(category, rowIndex);
+        $('#deleteConfirmModal').modal('hide');
+    });
+}
+
+function deleteRow(category, rowIndex) {
+    db.collection("Portals").doc(category).get().then((doc) => {
+        if (doc.exists) {
+            const dataArray = doc.data().rows;
+            dataArray.splice(rowIndex, 1); // Removes the row from the array
+            return db.collection("Portals").doc(category).update({rows: dataArray});
+        }
+    }).then(() => {
+        loadData(category);
+    }).catch((error) => {
+        console.error("Error deleting row:", error);
     });
 }

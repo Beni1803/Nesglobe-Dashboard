@@ -245,7 +245,7 @@ nav[aria-label="Dashboard Navigation"] {
 /* Accordion Styles */
 /* Global Styling */
 .card {
-    border: none;
+    border: 1px solid #ccc;
     border-radius: 8px;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
     margin-bottom: 20px;
@@ -261,7 +261,6 @@ nav[aria-label="Dashboard Navigation"] {
 .card-header {
     background-color: #f8f9fa;
     border-bottom: none;
-    padding: 18px 25px;
     cursor: pointer;
     transition: background-color 0.3s;
 }
@@ -271,7 +270,8 @@ nav[aria-label="Dashboard Navigation"] {
 }
 
 .card-link {
-    color: #333;
+    color: #000000;
+    padding: 12px 16px;  /* Add or adjust padding as needed */
     font-size: 16px;
     line-height: 1.5;
     font-weight: 500;
@@ -284,6 +284,7 @@ nav[aria-label="Dashboard Navigation"] {
 
 .card-link:hover {
     color: #007bff;
+    text-decoration: none; /* Added to ensure no underline appears on hover */
 }
 
 .card-link .fas {
@@ -297,7 +298,7 @@ nav[aria-label="Dashboard Navigation"] {
 
 .card.show .card-header,
 .card-link:not(.collapsed) {
-    background-color: #e0e1e2;
+    background-color: #ffffff00;
 }
 
 .card-body {
@@ -460,19 +461,32 @@ nav[aria-label="Dashboard Navigation"] {
         font-size: 12px; /* Further reduce font size on even smaller screens */
     }
 }
-/* Button styling */
+/* add portal Button styling */
 .tab-btn.addButton {
-    background-color: #007BFF;
-    color: white;
-    padding: 10px 15px;
+    background-color: transparent;
     border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    color: #ffffff; /* Bootstrap primary color */
+    padding: 8px 12px;
+    font-size: 16px;
+    transition: color 0.3s;
+    display: flex;
+    align-items: center;
+    border-radius: 70; /* Remove any border rounding */
 }
 
 .tab-btn.addButton:hover {
-    background-color: #0056b3;
+    color: #7effbe; /* A darker shade for hover effect */
+    text-decoration: none;
+}
+
+.tab-btn.addButton:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.tab-btn.addButton .fas {
+    margin-right: 5px;
+    background: none; /* Ensure no background */
 }
 
 /* copy icon styling */
@@ -485,11 +499,28 @@ nav[aria-label="Dashboard Navigation"] {
 .copy-icon:hover {
     color: #0056b3; /* Darker shade for hover effect */
 }
+
 /* delete icon styling */
 .delete-icon {
     cursor: pointer;
     color: #dc3545; /* Bootstrap danger color */
+    background: none; /* Removes any background */
+    border: none; /* Removes any border */
+    transition: color 0.3s, transform 0.2s; /* Smooth transition for color and transform properties */
 }
+
+/* Adds subtle shake animation on hover */
 .delete-icon:hover {
     color: #bd2130; /* Darker shade for hover effect */
+    animation: shake 0.15s; /* Apply shake animation */
+    animation-iteration-count: 2; /* Shake it 2 times */
+}
+
+/* Subtle shake animation keyframes */
+@keyframes shake {
+    0% { transform: translate(1px, 0px); }
+    25% { transform: translate(-1px, 0px); }
+    50% { transform: translate(1px, 0px); }
+    75% { transform: translate(-1px, 0px); }
+    100% { transform: translate(1px, 0px); }
 }
