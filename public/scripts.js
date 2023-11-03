@@ -163,6 +163,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
         // Load initial data
         loadData("CanadianRegional");
         loadData("CanadianNational");
+        loadData("global_international");
+        loadData("foreign_national");
+        loadData("others_unclassified");
+        loadData("regularly_checked");
 
     }, 2000);  // 2 seconds delay
 });
