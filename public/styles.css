@@ -448,30 +448,13 @@ nav[aria-label="Dashboard Navigation"] {
     overflow: visible;
     text-overflow: ellipsis;
 }
-.table th:nth-child(1), 
-.table td:nth-child(1) { 
-    width: 30%; /* e.g., for the first column */
-}
+/* Custom widths for each column */
+.table th:nth-of-type(1), .table td:nth-of-type(1) { width: 30%; } /* Adjust width as needed for the first column */
+.table th:nth-of-type(2), .table td:nth-of-type(2) { width: 25%; } /* Adjust width as needed for the second column */
+.table th:nth-of-type(3), .table td:nth-of-type(3) { width: 25%; } /* Adjust width as needed for the third column */
+.table th:nth-of-type(4), .table td:nth-of-type(4) { width: 15%; } /* Adjust width as needed for the fourth column */
+.table th:nth-of-type(5), .table td:nth-of-type(5) { width: 5%; } /* Adjust width as needed for the fifth column */
 
-.table th:nth-child(2), 
-.table td:nth-child(2) { 
-    width: 25%; /* e.g., for the second column */
-}
-
-.table th:nth-child(3), 
-.table td:nth-child(3) { 
-    width: 25%; /* e.g., for the third column */
-}
-
-.table th:nth-child(4), 
-.table td:nth-child(4) { 
-    width: 15%; /* e.g., for the fourth column */
-}
-
-.table th:nth-child(5), 
-.table td:nth-child(5) { 
-    width: 5%; /* e.g., for the fifth column */
-}
 /* Responsive Enhancements for Accordion and Table */
 @media (max-width: 992px) {
     .card-body {
