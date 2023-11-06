@@ -424,6 +424,7 @@ nav[aria-label="Dashboard Navigation"] {
 /* Table styling */
 .table {
     width: 100%; /* Ensure table width is 100% */
+    table-layout: fixed; /* Add this line to control column widths */
     min-width: 600px; /* Set a minimum width for the table */
     margin-bottom: 0;
 }
@@ -442,6 +443,34 @@ nav[aria-label="Dashboard Navigation"] {
     border: 1px solid #ddd;
     padding: 12px 15px;
     text-align: center;
+    white-space: normal;
+    max-width: 150px; /* Set a reasonable max-width for each cell */
+    overflow: visible;
+    text-overflow: ellipsis;
+}
+.table th:nth-child(1), 
+.table td:nth-child(1) { 
+    width: 30%; /* e.g., for the first column */
+}
+
+.table th:nth-child(2), 
+.table td:nth-child(2) { 
+    width: 25%; /* e.g., for the second column */
+}
+
+.table th:nth-child(3), 
+.table td:nth-child(3) { 
+    width: 25%; /* e.g., for the third column */
+}
+
+.table th:nth-child(4), 
+.table td:nth-child(4) { 
+    width: 15%; /* e.g., for the fourth column */
+}
+
+.table th:nth-child(5), 
+.table td:nth-child(5) { 
+    width: 5%; /* e.g., for the fifth column */
 }
 /* Responsive Enhancements for Accordion and Table */
 @media (max-width: 992px) {
@@ -452,6 +481,12 @@ nav[aria-label="Dashboard Navigation"] {
     .table th, .table td {
         padding: 8px; /* Reduce cell padding on smaller screens */
         font-size: 14px; /* Reduce font size on smaller screens */
+    }
+    .delete-icon {
+        position: absolute; /* Position icon absolutely within the cell */
+        right: 10px; /* Position icon 10px from the right */
+        top: 50%; /* Position icon at the vertical center */
+        transform: translateY(-50%); /* Align icon to the center */
     }
 }
 

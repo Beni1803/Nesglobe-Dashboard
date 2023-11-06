@@ -1,4 +1,11 @@
 // Function to load data from Firestore
+function simplifyURL(url) {
+    const urlObject = new URL(url);
+    // Get hostname and remove 'www.' if present
+    const simplifiedName = urlObject.hostname.replace(/^www\./, '');
+    return simplifiedName;
+}
+
 function loadData(category) {
     db.collection("Portals").doc(category).get().then((doc) => {
         let content = '';
@@ -6,9 +13,10 @@ function loadData(category) {
             const dataArray = doc.data().rows;
             if (dataArray && Array.isArray(dataArray)) {
                 dataArray.forEach((data, index) => {
+                    const simplifiedName = simplifyURL(data.portalLink);
                     content += `
                         <tr>
-                            <td><a href="${data.portalLink}" target="_blank">${data.portalLink}</a></td>
+                            <td><a href="${data.portalLink}" target="_blank">${simplifiedName}</a></td>
                             <td>${data.username} <i class="fas fa-copy copy-icon" onclick="copyToClipboard('${data.username}')"></i></td>
                             <td>${data.password} <i class="fas fa-copy copy-icon" onclick="copyToClipboard('${data.password}')"></i></td>
                             <td>${data.responsible}</td>
