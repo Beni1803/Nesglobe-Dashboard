@@ -4,7 +4,37 @@
         <!-- Main Content with Accordion -->
         <div class="col-md-12">        
             <div id="nettabaccordion">
-                <!-- Database1 Accordion Item -->
+            <!-- Modal Structure -->
+            <div class="modal fade" id="resourceModal" tabindex="-1" role="dialog" aria-labelledby="resourceModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="resourceModalLabel">Resource Details</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <form id="resourceForm">
+                        <div class="form-group">
+                          <label for="resourceLabel">Label</label>
+                          <input type="text" class="form-control" id="resourceLabel" required>
+                        </div>
+                        <div class="form-group">
+                          <label for="resourceLink">Link</label>
+                          <input type="url" class="form-control" id="resourceLink" required>
+                        </div>
+                        <input type="hidden" id="resourceId">
+                      </form>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary" onclick="saveResource()">Save changes</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+                <!-- Networks Excel Resources Accordion Item -->
                 <div class="card filterable-content" data-category="Database1">
                     <div class="card-header">
                         <a class="card-link collapsed" data-toggle="collapse" href="#netcollapseDatabase1">
@@ -13,21 +43,17 @@
                         </a>
                     </div>
                     <div id="netcollapseDatabase1" class="collapse" data-parent="#nettabaccordion">
-                        <div class="card-body">
-                            <!-- Database1 Content -->
-                            <div class="sharepoint-link">
-                                <a href="https://nesglobe.sharepoint.com/:f:/s/NES/Emn12r02rJhEp5eUBdp1jNcBWCvlFr441VoTJfp7bKV6_Q?e=oCaKpK" target="_blank" rel="noopener noreferrer">
-                                    <i class="fas fa-external-link-alt"></i> All Excel Ressources
-                                </a>
-                            </div>
-                            <div class="sharepoint-link">
-                                <a href="https://nesglobe.sharepoint.com/:x:/s/NES/Eb7JoWgnTTVDjtC2ddamyroBpqrzqwD22nq3_VrxmuiZaQ?e=JCY7K9" target="_blank" rel="noopener noreferrer">
-                                    <i class="fas fa-external-link-alt"></i> Spectrum Ownership NE&S
-                                </a>
-                            </div>
+                        <div class="card-body" id="networksResourcesContainer">
+                            <!-- Dynamic content will be loaded here by JavaScript -->
+                        </div>
+                        <!-- Buttons for Add/Modify/Delete -->
+                        <div class="card-footer">
+                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#resourceModal" onclick="openResourceModal('add')">Add Resource</button>
+                            <!-- The Modify and Delete buttons will be dynamically created next to each resource -->
                         </div>                                              
                     </div>
                 </div>
+            </div>
                 <!-- Database2 Accordion Item -->
                 <div class="card filterable-content" data-category="Database2">
                     <div class="card-header">
