@@ -4,36 +4,38 @@
         <!-- Main Content with Accordion -->
         <div class="col-md-12">        
             <div id="nettabaccordion">
-            <!-- Modal Structure -->
-            <div class="modal fade" id="resourceModal" tabindex="-1" role="dialog" aria-labelledby="resourceModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="resourceModalLabel">Resource Details</h5>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                    <div class="modal-body">
-                      <form id="resourceForm">
-                        <div class="form-group">
-                          <label for="resourceLabel">Label</label>
-                          <input type="text" class="form-control" id="resourceLabel" required>
+                <!-- Modal Structure -->
+                <div class="modal fade" id="resourceModal" tabindex="-1" role="dialog" aria-labelledby="resourceModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="resourceModalLabel">Resource Details</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="resourceForm">
+                                    <div class="form-group">
+                                        <label for="resourceLabel">Label</label>
+                                        <input type="text" class="form-control" id="resourceLabel" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="resourceLink">Link</label>
+                                        <input type="url" class="form-control" id="resourceLink" required>
+                                    </div>
+                                    <input type="hidden" id="resourceId">
+                                    <input type="hidden" id="docType">
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" onclick="saveResource()">Save changes</button>
+                            </div>
                         </div>
-                        <div class="form-group">
-                          <label for="resourceLink">Link</label>
-                          <input type="url" class="form-control" id="resourceLink" required>
-                        </div>
-                        <input type="hidden" id="resourceId">
-                      </form>
                     </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                      <button type="button" class="btn btn-primary" onclick="saveResource()">Save changes</button>
-                    </div>
-                  </div>
                 </div>
-              </div>
+
                 <!-- Networks Excel Resources Accordion Item -->
                 <div class="card filterable-content" data-category="Database1">
                     <div class="card-header">
@@ -43,18 +45,16 @@
                         </a>
                     </div>
                     <div id="netcollapseDatabase1" class="collapse" data-parent="#nettabaccordion">
-                        <div class="card-body" id="networksResourcesContainer">
+                        <div class="card-body" id="networks_excel_resourcesContainer">
                             <!-- Dynamic content will be loaded here by JavaScript -->
                         </div>
-                        <!-- Buttons for Add/Modify/Delete -->
                         <div class="card-footer">
-                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#resourceModal" onclick="openResourceModal('add')">Add Resource</button>
-                            <!-- The Modify and Delete buttons will be dynamically created next to each resource -->
+                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#resourceModal" onclick="openResourceModal('add', null, 'networks_excel_resources')">Add Resource</button>
                         </div>                                              
                     </div>
                 </div>
-            </div>
-                <!-- Database2 Accordion Item -->
+
+                <!-- Networks Online Resources Accordion Item -->
                 <div class="card filterable-content" data-category="Database2">
                     <div class="card-header">
                         <a class="card-link collapsed" data-toggle="collapse" href="#netcollapseDatabase2">
@@ -63,34 +63,11 @@
                         </a>
                     </div>
                     <div id="netcollapseDatabase2" class="collapse" data-parent="#nettabaccordion">
-                        <div class="card-body">
-                            <!-- Database2 Content -->
-                            <div class="directory-link" style="margin-bottom: 15px;">
-                                <a href="https://ised-isde.canada.ca/site/spectrum-management-telecommunications/en/spectrum-allocation/spectrum-licensing/decisions-licence-transfers-commercial-mobile-spectrum" target="_blank" rel="noopener noreferrer">
-                                    <i class="fas fa-external-link-alt"></i> Go to Decisions on Licence Transfers of Commercial Mobile Spectrum
-                                </a>
-                            </div>
-                            <div class="directory-link" style="margin-bottom: 15px;">
-                                <a href="https://ised-isde.canada.ca/site/spectrum-management-system/en/spectrum-management-system-data" target="_blank" rel="noopener noreferrer">
-                                    <i class="fas fa-external-link-alt"></i> Go to Decisions on Spectrum Licence Browser
-                                </a>
-                            </div>
-                            <div class="directory-link" style="margin-bottom: 15px;">
-                                <a href="https://ised-isde.canada.ca/site/spectrum-management-telecommunications/en/spectrum-allocation/spectrum-licensing/decisions-licence-transfers-commercial-mobile-spectrum" target="_blank" rel="noopener noreferrer">
-                                    <i class="fas fa-external-link-alt"></i> Go to Decisions on Spectrum Management System Data
-                                </a>
-                            </div>
-                            <div class="directory-link" style="margin-bottom: 15px;">
-                                <a href="https://www.ertyu.org/steven_nikkel/cancellsites.html?lat=52.000000&lng=-97.000000&zoom=4&type=Roadmap&layers=a&pid=0&ds=0" target="_blank" rel="noopener noreferrer">
-                                    <i class="fas fa-external-link-alt"></i> Go to Steven Nikkel Canadian Cellular Towers Map
-                                </a>
-                            </div>
-                            <div class="directory-link" style="margin-bottom: 15px;">
-                                <a href="https://www.gsma.com/membership/membership-types/operator-membership/" target="_blank" rel="noopener noreferrer">
-                                    <i class="fas fa-external-link-alt"></i> Go to Operator Membership
-                                </a>
-                            </div>    
-                            <br>
+                        <div class="card-body" id="networks_online_resourcesContainer">
+                            <!-- Dynamic content for Online Resources will be loaded here by JavaScript -->
+                        </div>
+                        <div class="card-footer">
+                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#resourceModal" onclick="openResourceModal('add', null, 'networks_online_resources')">Add Resource</button>
                         </div>
                     </div>
                 </div>

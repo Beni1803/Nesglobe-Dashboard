@@ -70,8 +70,8 @@ function deleteRow(category, rowIndex) {
 }
 
 // Function to load network resources from Firestore and display them
-function loadNetworkResources() {
-    db.collection("networksdata").doc("networks_excel_resources").get().then((doc) => {
+function loadNetworkResources(docType) {
+    db.collection("networksdata").doc(docType).get().then((doc) => {
         let content = '';
         if (doc.exists) {
             const resourcesArray = doc.data().resources;
@@ -82,36 +82,37 @@ function loadNetworkResources() {
                             <a href="${resource.link}" target="_blank" rel="noopener noreferrer">
                                 <i class="fas fa-external-link-alt"></i> ${resource.label}
                             </a>
-                            <i class="fas fa-edit" onclick="openResourceModal('edit', ${index})"></i>
-                            <i class="fas fa-trash-alt" onclick="deleteResource(${index})"></i>
+                            <i class="fas fa-edit" onclick="openResourceModal('edit', ${index}, '${docType}')"></i>
+                            <i class="fas fa-trash-alt" onclick="deleteResource(${index}, '${docType}')"></i>
                         </div>
                     `;
                 });
             }
         } else {
-            console.log("No such document: networks_excel_resources");
+            console.log(`No such document: ${docType}`);
         }
-        document.getElementById('networksResourcesContainer').innerHTML = content;
+        document.getElementById(docType + 'Container').innerHTML = content;
     }).catch((error) => {
         console.log("Error getting document:", error);
     });
 }
 
 // Function to open modal for adding or editing a resource
-function openResourceModal(mode, index) {
+function openResourceModal(mode, index, docType) {
     // Reset the form values
     document.getElementById('resourceLabel').value = '';
     document.getElementById('resourceLink').value = '';
     document.getElementById('resourceId').value = '';
+    document.getElementById('docType').value = docType; // Store the document type
 
     if (mode === 'edit') {
         // Load the current data into the modal fields
-        db.collection("networksdata").doc("networks_excel_resources").get().then((doc) => {
+        db.collection("networksdata").doc(docType).get().then((doc) => {
             if (doc.exists) {
                 const resource = doc.data().resources[index];
                 document.getElementById('resourceLabel').value = resource.label;
                 document.getElementById('resourceLink').value = resource.link;
-                document.getElementById('resourceId').value = index; // Using index as ID for simplicity
+                document.getElementById('resourceId').value = index;
             }
         });
     }
@@ -123,51 +124,54 @@ function openResourceModal(mode, index) {
 function saveResource() {
     const label = document.getElementById('resourceLabel').value;
     const link = document.getElementById('resourceLink').value;
-    const index = document.getElementById('resourceId').value; // Empty for new resources
+    const index = document.getElementById('resourceId').value;
+    const docType = document.getElementById('docType').value; // Retrieve the document type
 
     const resource = { label, link };
 
     if (index !== '') {
         // Edit an existing resource
-        db.collection("networksdata").doc("networks_excel_resources").get().then((doc) => {
+        db.collection("networksdata").doc(docType).get().then((doc) => {
             if (doc.exists) {
                 let resourcesArray = doc.data().resources;
-                resourcesArray[index] = resource; // Update the resource at the specific index
-                return db.collection("networksdata").doc("networks_excel_resources").update({resources: resourcesArray});
+                resourcesArray[index] = resource;
+                return db.collection("networksdata").doc(docType).update({resources: resourcesArray});
             }
         }).then(() => {
-            loadNetworkResources();
+            loadNetworkResources(docType);
             $('#resourceModal').modal('hide');
         }).catch((error) => {
             console.error("Error updating resource:", error);
         });
     } else {
         // Add a new resource
-        db.collection("networksdata").doc("networks_excel_resources").update({
+        db.collection("networksdata").doc(docType).update({
             resources: firebase.firestore.FieldValue.arrayUnion(resource)
         }).then(() => {
-            loadNetworkResources();
+            loadNetworkResources(docType);
             $('#resourceModal').modal('hide');
         }).catch((error) => {
             console.error("Error adding resource:", error);
         });
     }
 }
-
 // Function to delete a resource
-function deleteResource(index) {
-    db.collection("networksdata").doc("networks_excel_resources").get().then((doc) => {
+function deleteResource(index, docType) {
+    db.collection("networksdata").doc(docType).get().then((doc) => {
         if (doc.exists) {
             let resourcesArray = doc.data().resources;
-            resourcesArray.splice(index, 1); // Remove the resource at the specified index
-            return db.collection("networksdata").doc("networks_excel_resources").update({resources: resourcesArray});
+            resourcesArray.splice(index, 1);
+            return db.collection("networksdata").doc(docType).update({resources: resourcesArray});
         }
     }).then(() => {
-        loadNetworkResources();
+        loadNetworkResources(docType);
     }).catch((error) => {
         console.error("Error deleting resource:", error);
     });
 }
 
-// Call loadNetworkResources on page load
-document.addEventListener('DOMContentLoaded', loadNetworkResources);
+// Call loadNetworkResources for both types on page load
+document.addEventListener('DOMContentLoaded', () => {
+    loadNetworkResources('networks_excel_resources');
+    loadNetworkResources('networks_online_resources');
+});
