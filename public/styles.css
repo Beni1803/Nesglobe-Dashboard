@@ -6,7 +6,7 @@ body {
     overflow: auto;
     background-color: #f7f8fc;
     font-family: 'Roboto', Arial, sans-serif;
-    color: #333;
+    color: #000000;
     line-height: 1.6;
 }
 
@@ -97,6 +97,14 @@ header.header {
     background-color: #cfd8fd !important;
 }
 
+h1.custom-header-title {
+    font-size: 55px; /* Adjust this value as needed for size */
+    font-weight: bold; /* Makes the text bold */
+    color: #002060; /* Text color */
+    margin: 0; /* Removes default margin */
+    font-family: 'Franklin Gothic Demi', Arial, sans-serif; /* Custom font */
+}
+
 header .container {
     padding: 0 15px;
 }
@@ -183,20 +191,27 @@ nav[aria-label="Dashboard Navigation"] {
 .nav-link {
     border-radius: 8px;
     background: linear-gradient(90deg, #cfd8fd, #e0eafc);
-    color: #5a5a5a;
+    color: #000000;
     border: none;
-    transition: background 0.3s;
+    padding: 10px 15px; /* Added for better spacing */
+    text-align: center; /* Ensures the text is centered */
+    transition: background 0.3s, color 0.3s; /* Smooth transition for color as well */
+    display: inline-block; /* Improves the layout */
+    text-decoration: none; /* Removes underline from links */
 }
 
 /* Nav link hover effect */
 .nav-link:hover {
     background: linear-gradient(90deg, #e0eafc, #cfd8fd);
-    text-decoration: none;
+    color: #0000ff; /* Changes text color on hover */
+    text-decoration: underline; /* Underlines text on hover for clarity */
 }
 
 /* Nav link active state styling */
 .nav-link.active {
     background: linear-gradient(90deg, #a8b5f6, #8795e8);
+    color: #ffffff; /* Changed to white for better visibility */
+    font-weight: bold; /* Makes the active link more prominent */
 }
 
 /* Styles for the Home Tab Content */
