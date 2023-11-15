@@ -155,19 +155,24 @@ function saveResource() {
         });
     }
 }
-// Function to delete a resource
+// Function to delete a resource with verification
 function deleteResource(index, docType) {
-    db.collection("networksdata").doc(docType).get().then((doc) => {
-        if (doc.exists) {
-            let resourcesArray = doc.data().resources;
-            resourcesArray.splice(index, 1);
-            return db.collection("networksdata").doc(docType).update({resources: resourcesArray});
-        }
-    }).then(() => {
-        loadNetworkResources(docType);
-    }).catch((error) => {
-        console.error("Error deleting resource:", error);
-    });
+    // Confirmation dialog
+    if (confirm("Are you sure you want to delete this resource?")) {
+        db.collection("networksdata").doc(docType).get().then((doc) => {
+            if (doc.exists) {
+                let resourcesArray = doc.data().resources;
+                resourcesArray.splice(index, 1);
+                return db.collection("networksdata").doc(docType).update({resources: resourcesArray});
+            }
+        }).then(() => {
+            loadNetworkResources(docType);
+        }).catch((error) => {
+            console.error("Error deleting resource:", error);
+        });
+    } else {
+        console.log("Deletion cancelled.");
+    }
 }
 
 // Call loadNetworkResources for both types on page load
