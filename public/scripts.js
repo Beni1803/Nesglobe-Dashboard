@@ -59,7 +59,7 @@ function loadDashboard(url) {
 }
 
 function loadTabContents() {
-    const tabs = ['home', 'arcgis', 'webapp', 'networksdata', 'rfp', 'economicsdata', 'templates'];
+    const tabs = ['home', 'arcgis', 'strategy', 'networksdata', 'rfp', 'economicsdata', 'templates'];
     tabs.forEach(tab => {
         fetch(`${tab}_tab_content.html`)
             .then(response => {
