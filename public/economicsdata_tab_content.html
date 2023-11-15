@@ -1,88 +1,76 @@
+<!-- economicsdata_tab_content.html -->                
 <div class="container mt-5">
     <div class="row">
-        <!-- Main Content with Tab Accordion -->
+        <!-- Main Content with Accordion -->
         <div class="col-md-12">        
-            <div id="accordion">
-                <!-- Database1 Accordion Item -->
-                <div class="card filterable-content" data-category="Database1">
+            <div id="econTabAccordion">
+                <!-- Modal Structure -->
+                <div class="modal fade" id="economicsModal" tabindex="-1" role="dialog" aria-labelledby="economicsModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="economicsModalLabel">Source Details</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="economicsForm">
+                                    <div class="form-group">
+                                        <label for="economicsLabel">Label</label>
+                                        <input type="text" class="form-control" id="economicsLabel" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="economicsLink">Link</label>
+                                        <input type="url" class="form-control" id="economicsLink" required>
+                                    </div>
+                                    <input type="hidden" id="economicsId">
+                                    <input type="hidden" id="economicsDocType">
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" onclick="saveEconomics()">Save changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Canadian Data Sources Accordion Item -->
+                <div class="card filterable-content" data-category="Economics1">
                     <div class="card-header">
-                        <a class="card-link collapsed" data-toggle="collapse" href="#collapseDatabase1">
+                        <a class="card-link collapsed" data-toggle="collapse" href="#econCollapse1">
                             Canadian Data Sources
                             <i class="fas fa-angle-right"></i>
                         </a>
                     </div>
-                    <div id="collapseDatabase1" class="collapse" data-parent="#accordion">
-                        <div class="card-body">
-                            <!-- Database1 Content -->
-                             <a href="https://ised-isde.canada.ca/app/ixb/cis/search-recherche?lang=eng" target="_blank" rel="noopener noreferrer">
-                                <i class="fas fa-external-link-alt"></i> Canadian industry statistics (CIS)
-                            </a>
-                            <br>
-                            <a href="https://ised-isde.canada.ca/site/digital-technologies-ict/en" target="_blank" rel="noopener noreferrer">
-                                <i class="fas fa-external-link-alt"></i> Canadian ICT sector profile
-                            </a>
-                            <br>
-                            <a href="https://www150.statcan.gc.ca/n1/en/type/data#tables" target="_blank" rel="noopener noreferrer">
-                                <i class="fas fa-external-link-alt"></i> Statistics Canada open data
-                            </a>
-                            <br>
-                            <a href="https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=2210011701" target="_blank" rel="noopener noreferrer">
-                                <i class="fas fa-external-link-alt"></i> ICT used by industry and size of enterprises
-                            </a>
-                            <br>
-                            <a href="https://www.bankofcanada.ca/rates/" target="_blank" rel="noopener noreferrer">
-                                <i class="fas fa-external-link-alt"></i> Bank of Canada statistics
-                            </a>
-                            <br>
-                            <a href="https://www2.gov.bc.ca/gov/content/data/statistics" target="_blank" rel="noopener noreferrer">
-                                <i class="fas fa-external-link-alt"></i> British Columbia provincial statistics
-                            </a>
-                            <br>
-                            <a href="https://statistique.quebec.ca/en/statistiques/par-themes/economic-sectors" target="_blank" rel="noopener noreferrer">
-                                <i class="fas fa-external-link-alt"></i> Quebec provincial statistics
-                            </a>
-                            <br>
+                    <div id="econCollapse1" class="collapse" data-parent="#econTabAccordion">
+                        <div class="card-body" id="economics_canadian_dataContainer">
+                            <!-- Dynamic content will be loaded here by JavaScript -->
+                        </div>
+                        <div class="card-footer">
+                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#economicsModal" onclick="openEconomicsModal('add', null, 'economics_canadian_data')">Add Source</button>
                         </div>
                     </div>
                 </div>
-                <!-- Database2 Accordion Item -->
-                <div class="card filterable-content" data-category="Database2">
+                
+                <!-- International Data Sources Accordion Item -->
+                <div class="card filterable-content" data-category="Economics2">
                     <div class="card-header">
-                        <a class="card-link collapsed" data-toggle="collapse" href="#collapseDatabase2">
+                        <a class="card-link collapsed" data-toggle="collapse" href="#econCollapse2">
                             International Data Sources
                             <i class="fas fa-angle-right"></i>
                         </a>
                     </div>
-                    <div id="collapseDatabase2" class="collapse" data-parent="#accordion">
-                        <div class="card-body">
-                            <!-- Database2 Content -->
-                            <a href="https://databank.worldbank.org/" target="_blank" rel="noopener noreferrer">
-                                <i class="fas fa-external-link-alt"></i> World bank
-                            </a>
-                            <br>
-                            <a href="https://data.oecd.org/" target="_blank" rel="noopener noreferrer">
-                                <i class="fas fa-external-link-alt"></i> OECD
-                            </a>
-                            <br>
-                            <a href="https://stats.oecd.org/Index.aspx?DataSetCode=IOTSI4_2018" target="_blank" rel="noopener noreferrer">
-                                <i class="fas fa-external-link-alt"></i> OECD input-output tables
-                            </a>
-                            <br>
-                            <a href="https://data.census.gov/" target="_blank" rel="noopener noreferrer">
-                                <i class="fas fa-external-link-alt"></i> US Census
-                            </a>
-                            <br>
-                            <a href="https://data.unicef.org/" target="_blank" rel="noopener noreferrer">
-                                <i class="fas fa-external-link-alt"></i> UNICEF
-                            </a>
-                            <br>
-                            <a href="https://www.bea.gov/" target="_blank" rel="noopener noreferrer">
-                                <i class="fas fa-external-link-alt"></i> US bureau of economic analysis
-                            </a>
-                            <br>
+                    <div id="econCollapse2" class="collapse" data-parent="#econTabAccordion">
+                        <div class="card-body" id="economics_international_dataContainer">
+                            <!-- Dynamic content will be loaded here by JavaScript -->
+                        </div>
+                        <div class="card-footer">
+                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#economicsModal" onclick="openEconomicsModal('add', null, 'economics_international_data')">Add Source</button>
                         </div>
                     </div>
-                </div>
+                </div>                
             </div>           
         </div>
     </div>
