@@ -68,6 +68,9 @@ function deleteRow(category, rowIndex) {
         console.error("Error deleting row:", error);
     });
 }
+// --------------------------------------------------------------------
+//         Economics and network ressources database handling
+// --------------------------------------------------------------------
 
 // Function to load network resources from Firestore and display them
 function loadNetworkResources(docType) {
