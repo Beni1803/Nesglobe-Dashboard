@@ -293,6 +293,6 @@ function deleteEconomics(index, docType) {
 
 // Call loadEconomicResources for both types on page load
 document.addEventListener('DOMContentLoaded', () => {
-    loadEconomicResources('Economics_canadian_data');
-    loadEconomicResources('Economics_international_data');
+    loadEconomicResources('economics_canadian_data');
+    loadEconomicResources('economics_international_data');
 });
