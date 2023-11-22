@@ -68,7 +68,9 @@ function deleteRow(category, rowIndex) {
         console.error("Error deleting row:", error);
     });
 }
-
+// --------------------------------------------------------------------
+//         networks resources database handling
+// --------------------------------------------------------------------
 // Function to load network resources from Firestore and display them
 function loadNetworkResources(docType) {
     db.collection("networksdata").doc(docType).get().then((doc) => {
@@ -183,6 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // --------------------------------------------------------------------
 //         Economics resources database handling
+// --------------------------------------------------------------------
 
 // Function to load economic resources from Firestore and display them
 function loadEconomicResources(docType) {
@@ -295,4 +298,129 @@ function deleteEconomics(index, docType) {
 document.addEventListener('DOMContentLoaded', () => {
     loadEconomicResources('economics_canadian_data');
     loadEconomicResources('economics_international_data');
+});
+// --------------------------------------------------------------------
+//         Strategy resources database handling
+// --------------------------------------------------------------------
+
+// Function to load strategy resources from Firestore and display them
+function loadStrategyResources(docType) {
+    console.log("Called loadStrategyResources for: ", docType); // Debug log
+
+    let containerId;
+    if (docType === 'strategy_auctions') {
+        containerId = 'strategy_auctionsContainer';
+    } else if (docType === 'strategy_regulatory') {
+        containerId = 'strategy_regulatoryContainer';
+    }
+
+    console.log("Target container ID: ", containerId); // Debug log
+
+    db.collection("networksdata").doc(docType).get().then((doc) => {
+        let content = '';
+        if (doc.exists) {
+            const resourcesArray = doc.data().resources;
+            resourcesArray.forEach((resource, index) => {
+                content += `
+                    <div class="sharepoint-link">
+                        <a href="${resource.link}" target="_blank" rel="noopener noreferrer">
+                            <i class="fas fa-external-link-alt"></i> ${resource.label}
+                        </a>
+                        <i class="fas fa-edit" onclick="openStrategyModal('edit', ${index}, '${docType}')"></i>
+                        <i class="fas fa-trash-alt" onclick="deleteStrategy(${index}, '${docType}')"></i>
+                    </div>
+                `;
+            });
+            document.getElementById(containerId).innerHTML = content;
+        } else {
+            console.log(`No such document: ${docType}`);
+        }
+    }).catch((error) => {
+        console.log("Error getting document:", error);
+    });    
+}
+
+// Function to open modal for adding or editing a strategy resource
+function openStrategyModal(mode, index, docType) {
+    // Reset the form values
+    document.getElementById('strategyLabel').value = '';
+    document.getElementById('strategyLink').value = '';
+    document.getElementById('strategyId').value = '';
+    document.getElementById('strategyDocType').value = docType; // Store the document type
+
+    if (mode === 'edit') {
+        // Load the current data into the modal fields
+        db.collection("networksdata").doc(docType).get().then((doc) => {
+            if (doc.exists) {
+                const resource = doc.data().resources[index];
+                document.getElementById('strategyLabel').value = resource.label;
+                document.getElementById('strategyLink').value = resource.link;
+                document.getElementById('strategyId').value = index;
+            }
+        });
+    }
+
+    $('#strategyModal').modal('show');
+}
+
+// Function to save a new or edited strategy resource
+function saveStrategy() {
+    const label = document.getElementById('strategyLabel').value;
+    const link = document.getElementById('strategyLink').value;
+    const index = document.getElementById('strategyId').value;
+    const docType = document.getElementById('strategyDocType').value; // Retrieve the document type
+
+    const resource = { label, link };
+
+    if (index !== '') {
+        // Edit an existing resource
+        db.collection("networksdata").doc(docType).get().then((doc) => {
+            if (doc.exists) {
+                let resourcesArray = doc.data().resources;
+                resourcesArray[index] = resource;
+                return db.collection("networksdata").doc(docType).update({resources: resourcesArray});
+            }
+        }).then(() => {
+            loadStrategyResources(docType);
+            $('#strategyModal').modal('hide');
+        }).catch((error) => {
+            console.error("Error updating resource:", error);
+        });
+    } else {
+        // Add a new resource
+        db.collection("networksdata").doc(docType).update({
+            resources: firebase.firestore.FieldValue.arrayUnion(resource)
+        }).then(() => {
+            loadStrategyResources(docType);
+            $('#strategyModal').modal('hide');
+        }).catch((error) => {
+            console.error("Error adding resource:", error);
+        });
+    }
+}
+
+// Function to delete a strategy resource with verification
+function deleteStrategy(index, docType) {
+    // Confirmation dialog
+    if (confirm("Are you sure you want to delete this resource?")) {
+        db.collection("networksdata").doc(docType).get().then((doc) => {
+            if (doc.exists) {
+                let resourcesArray = doc.data().resources;
+                resourcesArray.splice(index, 1);
+                return db.collection("networksdata").doc(docType).update({resources: resourcesArray});
+            }
+        }).then(() => {
+            loadStrategyResources(docType);
+        }).catch((error) => {
+            console.error("Error deleting resource:", error);
+        });
+    } else {
+        console.log("Deletion cancelled.");
+    }
+}
+
+// Call loadStrategyResources for specific types on page load
+document.addEventListener('DOMContentLoaded', () => {
+    loadStrategyResources('strategy_auctions');
+    loadStrategyResources('strategy_regulatory');
 });
