@@ -430,7 +430,6 @@ document.addEventListener('DOMContentLoaded', () => {
 //                        Projects progress
 // --------------------------------------------------------------------
 // Function to calculate progress percentage
-// Function to calculate progress percentage
 function updateOrInsertProgressBar(projectId, projectData) {
     // Check if we have valid project data to work with
     if (!projectData || typeof projectData !== 'object' || !projectData.startdate || !projectData.enddate) {
@@ -463,23 +462,27 @@ function updateOrInsertProgressBar(projectId, projectData) {
     }
 // Set the innerHTML with project details and progress bar
 projectContainer.innerHTML = `
-    <div class="project-header">
-        <span class="project-name">${projectData.projectname}</span>
-        <span class="project-dates">${startDate.toLocaleDateString()} - ${endDate.toLocaleDateString()}</span>
-    </div>
-    <div class="progress" style="height: 20px;">
-        <div id="progress-bar-${projectId}" class="progress-bar ${progressBarColor}" role="progressbar" 
-            style="width: ${progressPercentage}%" aria-valuenow="${progressPercentage}" aria-valuemin="0" aria-valuemax="100">
-            ${progressPercentage.toFixed(2)}%
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title">${projectData.projectname}</h5>
+            <small class="text-muted">${startDate.toLocaleDateString()} - ${endDate.toLocaleDateString()}</small>
         </div>
-    </div>
-    <div class="button-icons" style="display: flex; align-items: center;">
-        <button type="button" class="btn btn-primary btn-sm" onclick="modifyProject('${projectId}')">
-            <i class="bi bi-pencil"></i>
-        </button>
-        <button type="button" class="btn btn-danger btn-sm" onclick="deleteProject('${projectId}')">
-            <i class="bi bi-trash"></i>
-        </button>
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="progress flex-grow-1 mr-3">
+                    <div id="progress-bar-${projectId}" class="progress-bar ${progressBarColor}" role="progressbar" 
+                        style="width: ${progressPercentage}%" aria-valuenow="${progressPercentage}" aria-valuemin="0" aria-valuemax="100">
+                        ${progressPercentage.toFixed(2)}%
+                    </div>
+                </div>
+                <button type="button" class="btn btn-primary btn-sm mr-2" onclick="modifyProject('${projectId}')" data-toggle="tooltip" data-placement="top" title="Edit Project">
+                <i class="fas fa-edit"></i>
+                </button>
+                <button type="button" class="btn btn-danger btn-sm" onclick="deleteProject('${projectId}')" data-toggle="tooltip" data-placement="top" title="Delete Project">
+                    <i class="fas fa-trash-alt"></i>
+                </button>            
+            </div>
+        </div>
     </div>
 `;
 }
