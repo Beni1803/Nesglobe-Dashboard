@@ -478,36 +478,36 @@ function updateOrInsertProgressBar(projectId, projectData) {
 
     // Set the innerHTML with project details, progress bar, description, and days information
     projectContainer.innerHTML = `
-        <div class="card">
-            <div class="card-header">
-                <h5 class="card-title">${projectData.projectname}</h5>
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <div>
+                <h5 class="card-title mb-0">${projectData.projectname}</h5>
                 <small class="text-muted">${startDate.toLocaleDateString()} - ${endDate.toLocaleDateString()}</small>
             </div>
-            <div class="card-body">
-                <p class="card-text">${projectData.description || 'No description provided.'}</p>
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="progress flex-grow-1 mr-3">
-                        <div id="progress-bar-${projectId}" class="progress-bar ${progressBarColor}" role="progressbar" 
-                            style="width: ${progressPercentage}%" aria-valuenow="${progressPercentage}" aria-valuemin="0" aria-valuemax="100">
-                            ${progressPercentage.toFixed(2)}%
-                        </div>
-                    </div>
-                    <div>
-                        <span class="badge badge-info mr-2">${daysPassed} days passed</span>
-                        <span class="badge badge-warning">${daysLeft} days left</span>
-                    </div>
-                </div>
-                <div class="card-actions mt-2">
-                    <button type="button" class="btn btn-primary btn-sm mr-2" onclick="modifyProject('${projectId}')" data-toggle="tooltip" data-placement="top" title="Edit Project">
-                        <i class="fas fa-edit"></i>
-                    </button>
-                    <button type="button" class="btn btn-danger btn-sm" onclick="deleteProject('${projectId}')" data-toggle="tooltip" data-placement="top" title="Delete Project">
-                        <i class="fas fa-trash-alt"></i>
-                    </button>
-                </div>
+            <div>
+                <span class="badge badge-info">${daysPassed} days passed</span>
+                <span class="badge badge-warning">${daysLeft} days left</span>
             </div>
         </div>
-    `;
+        <div class="card-body">
+            <p class="card-text">${projectData.description || 'No description provided.'}</p>
+            <div class="progress-wrapper d-flex align-items-center">
+                <div class="progress flex-grow-1">
+                    <div id="progress-bar-${projectId}" class="progress-bar ${progressBarColor}" role="progressbar" 
+                        style="width: ${progressPercentage}%" aria-valuenow="${progressPercentage}" aria-valuemin="0" aria-valuemax="100">
+                        ${progressPercentage.toFixed(2)}%
+                    </div>
+                </div>
+                <button type="button" class="btn btn-primary btn-sm ml-2" onclick="modifyProject('${projectId}')" data-toggle="tooltip" data-placement="top" title="Edit Project">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button type="button" class="btn btn-danger btn-sm ml-2" onclick="deleteProject('${projectId}')" data-toggle="tooltip" data-placement="top" title="Delete Project">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+`;
 }
 
 // Function to calculate progress percentage
