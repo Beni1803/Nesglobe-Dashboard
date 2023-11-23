@@ -36,9 +36,9 @@
             <!-- Enhanced Project progress bars will be dynamically inserted here -->
         </div>
         <div class="text-center">
-            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#projectModal">
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#projectModal" onclick="clearProjectForm()">
                 Add New Project
-            </button>
+            </button>            
         </div>
     </div>
 
@@ -64,16 +64,16 @@
                         </div>
                         <div class="form-group">
                             <label for="projectStartDate">Start Date</label>
-                            <input type="date" class="form-control" id="projectStartDate" required>
+                            <input type="date" class="form-control" id="projectStartDate">
                         </div>
                         <div class="form-group">
                             <label for="projectEndDate">End Date</label>
-                            <input type="date" class="form-control" id="projectEndDate" required>
+                            <input type="date" class="form-control" id="projectEndDate">
                         </div>
                         <!-- Description Field -->
                         <div class="form-group">
                             <label for="projectDescription">Description</label>
-                            <textarea class="form-control" id="projectDescription" rows="3" required></textarea>
+                            <textarea class="form-control" id="projectDescription" rows="3"></textarea>
                         </div>
                         <input type="hidden" id="projectId">
                     </form>

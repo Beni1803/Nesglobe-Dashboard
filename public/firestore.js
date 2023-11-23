@@ -432,16 +432,51 @@ document.addEventListener('DOMContentLoaded', () => {
 // Helper function to calculate days passed since the project started
 function calculateDaysPassed(startDate) {
     const now = new Date();
-    return Math.max(0, Math.floor((now - startDate) / (1000 * 60 * 60 * 24))); // Convert milliseconds to days
+    // If the start date is in the future, return 0
+    if (startDate > now) {
+        return 0;
+    }
+    startDate.setUTCHours(0, 0, 0, 0); // Set time to midnight in UTC
+    now.setUTCHours(0, 0, 0, 0); // Set time to midnight in UTC
+
+    return Math.floor((now - startDate) / (1000 * 60 * 60 * 24)); // Convert milliseconds to days
 }
 
 // Helper function to calculate days left until the project ends
 function calculateDaysLeft(endDate) {
     const now = new Date();
-    return Math.max(0, Math.floor((endDate - now) / (1000 * 60 * 60 * 24))); // Convert milliseconds to days
+    // If the end date is in the past, return 0
+    if (endDate < now) {
+        return 0;
+    }
+    endDate.setUTCHours(0, 0, 0, 0); // Set time to midnight in UTC
+    now.setUTCHours(0, 0, 0, 0); // Set time to midnight in UTC
+
+    return Math.floor((endDate - now) / (1000 * 60 * 60 * 24)); // Convert milliseconds to days
 }
 
 // Function to calculate progress percentage
+function calculateProgressPercentage(startDate, endDate) {
+    const now = new Date();
+    now.setUTCHours(0, 0, 0, 0); // Set time to midnight in UTC
+
+    const start = new Date(startDate); // Create a new Date object for start
+    start.setUTCHours(0, 0, 0, 0); // Set time to midnight in UTC
+
+    const end = new Date(endDate); // Create a new Date object for end
+    end.setUTCHours(0, 0, 0, 0); // Set time to midnight in UTC
+
+    if (now < start) {
+        return 0; // Project has not started yet
+    } else if (now > end) {
+        return 100; // Project has ended
+    } else {
+        const elapsed = now - start;
+        const total = end - start;
+        return (elapsed / total) * 100; // Current progress
+    }
+}
+// Function to update the progress bar
 function updateOrInsertProgressBar(projectId, projectData) {
     // Check if we have valid project data to work with
     if (!projectData || typeof projectData !== 'object' || !projectData.startdate || !projectData.enddate) {
@@ -452,8 +487,8 @@ function updateOrInsertProgressBar(projectId, projectData) {
     // Extract and convert Firestore Timestamps to JavaScript Date objects
     let startDate, endDate;
     try {
-        startDate = new Date(projectData.startdate.seconds * 1000);
-        endDate = new Date(projectData.enddate.seconds * 1000);
+        startDate = projectData.startdate.toDate(); // Convert Firestore Timestamp to Date
+        endDate = projectData.enddate.toDate(); // Convert Firestore Timestamp to Date
     } catch (error) {
         console.error(`Error reading dates for project '${projectId}':`, error);
         return; // Exit the function if there's an error
@@ -478,8 +513,8 @@ function updateOrInsertProgressBar(projectId, projectData) {
 
     // Set the innerHTML with project details, progress bar, description, and days information
     projectContainer.innerHTML = `
-    <div class="card">
-        <div class="card-header d-flex justify-content-between align-items-center">
+    <div class="card" style="padding: 0.5rem;">
+        <div class="card-header d-flex justify-content-between align-items-center" style="padding-bottom: 0;">
             <div>
                 <h5 class="card-title mb-0">${projectData.projectname}</h5>
                 <small class="text-muted">${startDate.toLocaleDateString()} - ${endDate.toLocaleDateString()}</small>
@@ -489,36 +524,25 @@ function updateOrInsertProgressBar(projectId, projectData) {
                 <span class="badge badge-warning">${daysLeft} days left</span>
             </div>
         </div>
-        <div class="card-body">
-            <p class="card-text">${projectData.description || 'No description provided.'}</p>
+        <div class="card-body" style="padding-top: 0.25rem; padding-bottom: 0.25rem;">
+            <p class="card-text" style="margin-bottom: 0.5rem;">${projectData.description || 'No description provided.'}</p>
             <div class="progress-wrapper d-flex align-items-center">
-                <div class="progress flex-grow-1">
+                <div class="progress flex-grow-1" style="margin-right: 0.5rem;">
                     <div id="progress-bar-${projectId}" class="progress-bar ${progressBarColor}" role="progressbar" 
                         style="width: ${progressPercentage}%" aria-valuenow="${progressPercentage}" aria-valuemin="0" aria-valuemax="100">
                         ${progressPercentage.toFixed(2)}%
                     </div>
                 </div>
-                <button type="button" class="btn btn-primary btn-sm ml-2" onclick="modifyProject('${projectId}')" data-toggle="tooltip" data-placement="top" title="Edit Project">
+                <button type="button" class="btn btn-primary btn-sm" onclick="modifyProject('${projectId}')" data-toggle="tooltip" data-placement="top" title="Edit Project" style="padding: 0.25rem 0.5rem;">
                     <i class="fas fa-edit"></i>
                 </button>
-                <button type="button" class="btn btn-danger btn-sm ml-2" onclick="deleteProject('${projectId}')" data-toggle="tooltip" data-placement="top" title="Delete Project">
+                <button type="button" class="btn btn-danger btn-sm" onclick="deleteProject('${projectId}')" data-toggle="tooltip" data-placement="top" title="Delete Project" style="padding: 0.25rem 0.5rem;">
                     <i class="fas fa-trash-alt"></i>
                 </button>
             </div>
         </div>
     </div>
 `;
-}
-
-// Function to calculate progress percentage
-function calculateProgressPercentage(startDate, endDate) {
-    const now = new Date();
-    if (now < startDate) {
-        return 0; // Project has not started yet
-    }
-    const elapsed = now - startDate;
-    const total = endDate - startDate;
-    return Math.min(100, (elapsed / total) * 100);
 }
 
 // Function to determine progress bar color based on percentage
@@ -543,10 +567,18 @@ function modifyProject(projectId) {
             const projectData = doc.data()[projectId];
             // Assuming you have form fields with these IDs
             document.getElementById('projectName').value = projectData.projectname;
-            document.getElementById('projectStartDate').value = projectData.startdate.toDate().toISOString().split('T')[0];
-            document.getElementById('projectEndDate').value = projectData.enddate.toDate().toISOString().split('T')[0];
+            document.getElementById('projectStartDate').value = formatDateInput(projectData.startdate.toDate());
+            document.getElementById('projectEndDate').value = formatDateInput(projectData.enddate.toDate());
             document.getElementById('projectId').value = projectId;
             document.getElementById('projectDescription').value = projectData.description || '';
+            
+            // Define a function to format dates as 'YYYY-MM-DD'
+            function formatDateInput(date) {
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                return `${year}-${month}-${day}`;
+            }
             // Show the modal for editing
             $('#projectModal').modal('show');
         } else {
@@ -606,9 +638,12 @@ function fetchAndDisplayAllProjects() {
         console.error("Error fetching project progress:", error);
     });
 }
-
+function clearProjectForm() {
+    document.getElementById('projectForm').reset(); // This resets the form to its initial state
+    document.getElementById('projectId').value = ''; // Ensure the hidden projectId is cleared
+    document.getElementById('projectDescription').value = ''; // Clear the description textarea
+}
 // Adjusted function to save a new project
-// Function to save or update a project
 function saveProject() {
     const db = firebase.firestore();
     const projectNameInput = document.getElementById('projectName');
@@ -621,11 +656,15 @@ function saveProject() {
     const isUpdatingProject = projectIdInput && projectIdInput.value.trim() !== '';
 
     const projectId = isUpdatingProject ? projectIdInput.value : generateProjectId(projectNameInput.value);
+    // Parse date inputs from the form and convert to Firestore Timestamps
+    const projectStartDate = new Date(document.getElementById('projectStartDate').value);
+    const projectEndDate = new Date(document.getElementById('projectEndDate').value);
+
     const projectData = {
         projectname: projectNameInput.value,
-        startdate: firebase.firestore.Timestamp.fromDate(new Date(projectStartDateInput.value)),
-        enddate: firebase.firestore.Timestamp.fromDate(new Date(projectEndDateInput.value)),
-        description: projectDescriptionInput.value, // Include the project description
+        startdate: firebase.firestore.Timestamp.fromDate(projectStartDate),
+        enddate: firebase.firestore.Timestamp.fromDate(projectEndDate),
+        description: projectDescriptionInput.value,
         status: 'In Progress' // Default status, update as needed
     };
 
