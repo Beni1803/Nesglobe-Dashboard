@@ -1,73 +1,85 @@
 <!-- home_tab_content.html -->
 
-<!-- Project Progress Section -->
-<div class="my-4">
-    <h3>Current Project Progress</h3>
-    <div id="project-list" class="mb-3">
-        <!-- Enhanced Project progress bars will be dynamically inserted here -->
-    </div>
-    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#projectModal">
-        Add New Project
-    </button>
-</div>
+<!-- Main Container -->
+<div class="container-fluid">
 
-<!-- Project Management Modal -->
-<div class="modal fade" id="projectModal" tabindex="-1" aria-labelledby="projectModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="projectModalLabel">Project Details</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <!-- Form for Project Details -->
-                <form id="projectForm">
-                    <div class="form-group">
-                        <label for="projectName">Project Name</label>
-                        <input type="text" class="form-control" id="projectName" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="projectStartDate">Start Date</label>
-                        <input type="date" class="form-control" id="projectStartDate" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="projectEndDate">End Date</label>
-                        <input type="date" class="form-control" id="projectEndDate" required>
-                    </div>
-                    <input type="hidden" id="projectId">
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="saveProject()">Save Project</button>
+    <!-- Header: Tools Dashboard -->
+    <div class="dashboard-header text-center my-4 py-3" style="background-color: #e9ecef; border-radius: 8px;">
+        <h2 style="font-size: 2.5rem; color: #0056b3;">Tools Dashboard</h2>
+        <p style="font-size: 1.2rem; color: #6c757d;">Our centralized hub for tools, files, and links.</p>
+    </div>
+
+    <!-- Features Section -->
+    <div class="dashboard-features row justify-content-center mb-4">
+        <div class="feature-item col-md-3 text-center mb-3">
+            <span class="feature-icon" style="font-size: 2rem;">&#128295;</span> <!-- Wrench emoji for tools -->
+            <p class="mt-2">Access tools with ease.</p>
+        </div>
+        <div class="feature-item col-md-3 text-center mb-3">
+            <span class="feature-icon" style="font-size: 2rem;">&#128196;</span> <!-- File emoji for files -->
+            <p class="mt-2">Locate files swiftly.</p>
+        </div>
+        <div class="feature-item col-md-3 text-center mb-3">
+            <span class="feature-icon" style="font-size: 2rem;">&#128279;</span> <!-- Link emoji for links -->
+            <p class="mt-2">Organized links to essential resources.</p>
+        </div>
+        <div class="feature-item col-md-3 text-center mb-3">
+            <span class="feature-icon" style="font-size: 2rem;">&#128274;</span> <!-- Lock emoji for security -->
+            <p class="mt-2">Top-tier security protocols in place.</p>
+        </div>
+    </div>
+
+    <!-- Project Progress Section -->
+    <div class="project-progress my-4">
+        <h3 class="text-center mb-3">Current Projects Progress</h3>
+        <div id="project-list" class="mb-3">
+            <!-- Enhanced Project progress bars will be dynamically inserted here -->
+        </div>
+        <div class="text-center">
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#projectModal">
+                Add New Project
+            </button>
+        </div>
+    </div>
+
+    <!-- Project Management Modal -->
+    <div class="modal fade" id="projectModal" tabindex="-1" aria-labelledby="projectModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h5 class="modal-title" id="projectModalLabel">Project Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <!-- Form for Project Details -->
+                    <form id="projectForm">
+                        <!-- Form Elements -->
+                        <div class="form-group">
+                            <label for="projectName">Project Name</label>
+                            <input type="text" class="form-control" id="projectName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="projectStartDate">Start Date</label>
+                            <input type="date" class="form-control" id="projectStartDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="projectEndDate">End Date</label>
+                            <input type="date" class="form-control" id="projectEndDate" required>
+                        </div>
+                        <input type="hidden" id="projectId">
+                    </form>
+                </div>
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="saveProject()">Save Project</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div class="dashboard-welcome">
-    <h2>Tools Dashboard</h2>
-    <p>Your centralized hub for tools, files, and links.</p>
-        <div class="features">
-        <div class="feature-item">
-            <span class="feature-icon">&#128295;</span> <!-- Wrench emoji for tools -->
-            <p>Access tools with ease.</p>
-        </div>
-        
-        <div class="feature-item">
-            <span class="feature-icon">&#128196;</span> <!-- File emoji for files -->
-            <p>Locate files swiftly.</p>
-        </div>
-        
-        <div class="feature-item">
-            <span class="feature-icon">&#128279;</span> <!-- Link emoji for links -->
-            <p>Organized links to essential resources.</p>
-        </div>
-        
-        <div class="feature-item">
-            <span class="feature-icon">&#128274;</span> <!-- Lock emoji for security -->
-            <p>Top-tier security protocols in place.</p>
-        </div>
-    </div>
+
 </div>
