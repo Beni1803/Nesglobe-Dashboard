@@ -424,3 +424,170 @@ document.addEventListener('DOMContentLoaded', () => {
     loadStrategyResources('strategy_auctions');
     loadStrategyResources('strategy_regulatory');
 });
+
+
+// --------------------------------------------------------------------
+//                        Projects progress
+// --------------------------------------------------------------------
+
+// Function to calculate progress percentage
+function updateOrInsertProgressBar(projectId, projectData) {
+    // Check if we have valid project data to work with
+    if (!projectData || typeof projectData !== 'object' || !projectData.startdate || !projectData.enddate) {
+        console.error(`Project data for '${projectId}' is missing or incorrectly formatted.`);
+        return; // Exit the function if the data is not valid
+    }
+
+    // Extract and convert Firestore Timestamps to JavaScript Date objects
+    let startDate, endDate;
+    try {
+        startDate = new Date(projectData.startdate.seconds * 1000);
+        endDate = new Date(projectData.enddate.seconds * 1000);
+    } catch (error) {
+        console.error(`Error reading dates for project '${projectId}':`, error);
+        return; // Exit the function if there's an error
+    }
+
+    // Calculate the progress percentage
+    const progressPercentage = calculateProgressPercentage(startDate, endDate);
+
+    // Get or create the container for the project's progress bar
+    const projectList = document.getElementById('project-list');
+    let projectContainer = document.getElementById(`project-container-${projectId}`);
+    if (!projectContainer) {
+        projectContainer = document.createElement('div');
+        projectContainer.id = `project-container-${projectId}`;
+        projectContainer.className = 'project-container';
+        projectList.appendChild(projectContainer);
+    }
+
+    // Set the innerHTML with project details and progress bar
+    projectContainer.innerHTML = `
+        <div class="project-header">
+            <span class="project-name">${projectData.projectname}</span>
+            <span class="project-dates">${startDate.toLocaleDateString()} - ${endDate.toLocaleDateString()}</span>
+        </div>
+        <div class="progress" style="height: 20px;">
+            <div id="progress-bar-${projectId}" class="progress-bar ${getProgressColor(progressPercentage)}" role="progressbar" 
+                style="width: ${progressPercentage}%" aria-valuenow="${progressPercentage}" aria-valuemin="0" aria-valuemax="100">
+                ${progressPercentage.toFixed(2)}%
+            </div>
+        </div>
+        <button onclick="modifyProject('${projectId}')" class="btn btn-primary btn-sm m-1">Modify</button>
+        <button onclick="deleteProject('${projectId}')" class="btn btn-danger btn-sm m-1">Delete</button>
+    `;
+}
+
+// Function to calculate progress percentage
+function calculateProgressPercentage(startDate, endDate) {
+    const now = new Date();
+    if (now < startDate) {
+        return 0; // Project has not started yet
+    }
+    const elapsed = now - startDate;
+    const total = endDate - startDate;
+    return Math.min(100, (elapsed / total) * 100);
+}
+
+// Function to get color based on progress
+function getProgressColor(progressPercentage) {
+    if (progressPercentage < 50) {
+        return 'bg-danger'; // Red for less than 50%
+    } else if (progressPercentage < 75) {
+        return 'bg-warning'; // Yellow for less than 75%
+    } else {
+        return 'bg-success'; // Green for 75% and above
+    }
+}
+
+// Function to determine progress bar color based on percentage
+function getProgressColor(progressPercentage) {
+    if (progressPercentage < 50) return 'bg-danger';
+    if (progressPercentage < 75) return 'bg-warning';
+    return 'bg-success';
+}
+
+// Function to modify a project (placeholder for your logic)
+function modifyProject(projectId) {
+    // Your logic to modify the project
+    console.log('Modify project:', projectId);
+}
+
+// Function to delete a project
+function deleteProject(projectId) {
+    // Your logic to delete the project
+    console.log('Delete project:', projectId);
+}
+
+// Function to fetch project progress from Firestore and update the UI
+function fetchAndDisplayAllProjects() {
+    const db = firebase.firestore();
+    const projectDocRef = db.collection("projects").doc("progress");
+    projectDocRef.get().then(doc => {
+        if (doc.exists) {
+            const data = doc.data();
+            for (const projectId in data) {
+                const projectData = data[projectId];
+                // Ensure the projectData contains the expected fields
+                if (projectData && projectData.startdate && projectData.enddate) {
+                    const startDate = projectData.startdate.toDate();
+                    const endDate = projectData.enddate.toDate();
+                    const status = projectData.status;
+                    const progressPercentage = calculateProgressPercentage(startDate, endDate);
+                    updateOrInsertProgressBar(projectId, projectData, progressPercentage, status);
+                } else {
+                    console.error(`Project data for '${projectId}' is missing 'startdate' or 'enddate' fields.`);
+                }
+            }
+        } else {
+            console.log("Document 'progress' not found!");
+        }
+    }).catch(error => {
+        console.error("Error fetching project progress:", error);
+    });
+}
+
+// Adjusted function to save a new project
+function saveProject() {
+    // Get project details from the form
+    const projectNameInput = document.getElementById('projectName');
+    const projectStartDateInput = document.getElementById('projectStartDate');
+    const projectEndDateInput = document.getElementById('projectEndDate');
+
+    // Generate a unique ID for the new project based on the project name and current timestamp
+    const timestamp = new Date().getTime(); // Get current timestamp
+    const newProjectId = `${projectNameInput.value.toLowerCase().replace(/\s+/g, '')}-${timestamp}`;
+
+    const newProjectData = {
+        enddate: firebase.firestore.Timestamp.fromDate(new Date(projectEndDateInput.value)),
+        projectname: projectNameInput.value,
+        startdate: firebase.firestore.Timestamp.fromDate(new Date(projectStartDateInput.value)),
+        status: 'In Progress' // Default status, update as needed
+    };
+
+    // Set the new project data in the 'progress' document
+    const db = firebase.firestore();
+    db.collection("projects").doc("progress").set({
+        [newProjectId]: newProjectData
+    }, { merge: true }) // Use the merge option to add a new field without overwriting existing data
+    .then(() => {
+        console.log("New project added successfully!");
+        fetchAndDisplayAllProjects(); // Refresh the project list
+    })
+    .catch(error => {
+        console.error("Error adding new project:", error);
+    });
+}
+
+
+// Call fetchAndDisplayAllProjects on page load to display all projects
+document.addEventListener('DOMContentLoaded', () => {
+    // Add event listener for the "Save Project" button
+    const saveButton = document.getElementById('saveProjectButton');
+    if (saveButton) {
+        saveButton.addEventListener('click', saveProject);
+    }
+
+    // Fetch and display all projects
+    fetchAndDisplayAllProjects();
+});
