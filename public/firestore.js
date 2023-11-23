@@ -429,7 +429,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // --------------------------------------------------------------------
 //                        Projects progress
 // --------------------------------------------------------------------
-
+// Function to calculate progress percentage
 // Function to calculate progress percentage
 function updateOrInsertProgressBar(projectId, projectData) {
     // Check if we have valid project data to work with
@@ -450,6 +450,7 @@ function updateOrInsertProgressBar(projectId, projectData) {
 
     // Calculate the progress percentage
     const progressPercentage = calculateProgressPercentage(startDate, endDate);
+    const progressBarColor = getProgressColor(startDate, endDate);
 
     // Get or create the container for the project's progress bar
     const projectList = document.getElementById('project-list');
@@ -460,22 +461,27 @@ function updateOrInsertProgressBar(projectId, projectData) {
         projectContainer.className = 'project-container';
         projectList.appendChild(projectContainer);
     }
-
-    // Set the innerHTML with project details and progress bar
-    projectContainer.innerHTML = `
-        <div class="project-header">
-            <span class="project-name">${projectData.projectname}</span>
-            <span class="project-dates">${startDate.toLocaleDateString()} - ${endDate.toLocaleDateString()}</span>
+// Set the innerHTML with project details and progress bar
+projectContainer.innerHTML = `
+    <div class="project-header">
+        <span class="project-name">${projectData.projectname}</span>
+        <span class="project-dates">${startDate.toLocaleDateString()} - ${endDate.toLocaleDateString()}</span>
+    </div>
+    <div class="progress" style="height: 20px;">
+        <div id="progress-bar-${projectId}" class="progress-bar ${progressBarColor}" role="progressbar" 
+            style="width: ${progressPercentage}%" aria-valuenow="${progressPercentage}" aria-valuemin="0" aria-valuemax="100">
+            ${progressPercentage.toFixed(2)}%
         </div>
-        <div class="progress" style="height: 20px;">
-            <div id="progress-bar-${projectId}" class="progress-bar ${getProgressColor(progressPercentage)}" role="progressbar" 
-                style="width: ${progressPercentage}%" aria-valuenow="${progressPercentage}" aria-valuemin="0" aria-valuemax="100">
-                ${progressPercentage.toFixed(2)}%
-            </div>
-        </div>
-        <button onclick="modifyProject('${projectId}')" class="btn btn-primary btn-sm m-1">Modify</button>
-        <button onclick="deleteProject('${projectId}')" class="btn btn-danger btn-sm m-1">Delete</button>
-    `;
+    </div>
+    <div class="button-icons" style="display: flex; align-items: center;">
+        <button type="button" class="btn btn-primary btn-sm" onclick="modifyProject('${projectId}')">
+            <i class="bi bi-pencil"></i>
+        </button>
+        <button type="button" class="btn btn-danger btn-sm" onclick="deleteProject('${projectId}')">
+            <i class="bi bi-trash"></i>
+        </button>
+    </div>
+`;
 }
 
 // Function to calculate progress percentage
@@ -489,34 +495,61 @@ function calculateProgressPercentage(startDate, endDate) {
     return Math.min(100, (elapsed / total) * 100);
 }
 
-// Function to get color based on progress
-function getProgressColor(progressPercentage) {
-    if (progressPercentage < 50) {
-        return 'bg-danger'; // Red for less than 50%
-    } else if (progressPercentage < 75) {
-        return 'bg-warning'; // Yellow for less than 75%
+// Function to determine progress bar color based on percentage
+function getProgressColor(startDate, endDate) {
+    const progressPercentage = calculateProgressPercentage(startDate, endDate);
+
+    if (progressPercentage < 33.33) {
+        return 'bg-success'; // Green for less than 33.33%
+    } else if (progressPercentage < 66.67) {
+        return 'bg-warning'; // Yellow for less than 66.67%
     } else {
-        return 'bg-success'; // Green for 75% and above
+        return 'bg-danger'; // Red for 66.67% and above
     }
 }
 
-// Function to determine progress bar color based on percentage
-function getProgressColor(progressPercentage) {
-    if (progressPercentage < 50) return 'bg-danger';
-    if (progressPercentage < 75) return 'bg-warning';
-    return 'bg-success';
-}
-
-// Function to modify a project (placeholder for your logic)
+// Function to modify a project
 function modifyProject(projectId) {
-    // Your logic to modify the project
-    console.log('Modify project:', projectId);
+    // Retrieve the project data from Firestore
+    const db = firebase.firestore();
+    db.collection("projects").doc("progress").get().then(doc => {
+        if (doc.exists && doc.data()[projectId]) {
+            const projectData = doc.data()[projectId];
+            // Assuming you have form fields with these IDs
+            document.getElementById('projectName').value = projectData.projectname;
+            document.getElementById('projectStartDate').value = projectData.startdate.toDate().toISOString().split('T')[0];
+            document.getElementById('projectEndDate').value = projectData.enddate.toDate().toISOString().split('T')[0];
+            document.getElementById('projectId').value = projectId;
+            // Show the modal for editing
+            $('#projectModal').modal('show');
+        } else {
+            console.error(`Project with ID ${projectId} does not exist.`);
+        }
+    }).catch(error => {
+        console.error("Error fetching project to modify:", error);
+    });
 }
 
 // Function to delete a project
 function deleteProject(projectId) {
-    // Your logic to delete the project
-    console.log('Delete project:', projectId);
+    // Ask for confirmation before deletion
+    if (confirm(`Are you sure you want to delete the project "${projectId}"?`)) {
+        const db = firebase.firestore();
+        // Create an update object to remove the project field
+        const projectUpdate = {};
+        projectUpdate[projectId] = firebase.firestore.FieldValue.delete();
+        // Update the document to remove the project
+        db.collection("projects").doc("progress").update(projectUpdate).then(() => {
+            console.log(`Project ${projectId} deleted successfully.`);
+            // Remove the project container from the UI
+            const projectContainer = document.getElementById(`project-container-${projectId}`);
+            if (projectContainer) {
+                projectContainer.remove();
+            }
+        }).catch(error => {
+            console.error("Error deleting project:", error);
+        });
+    }
 }
 
 // Function to fetch project progress from Firestore and update the UI
@@ -549,36 +582,43 @@ function fetchAndDisplayAllProjects() {
 
 // Adjusted function to save a new project
 function saveProject() {
-    // Get project details from the form
+    const db = firebase.firestore();
     const projectNameInput = document.getElementById('projectName');
     const projectStartDateInput = document.getElementById('projectStartDate');
     const projectEndDateInput = document.getElementById('projectEndDate');
+    const projectIdInput = document.getElementById('projectId'); // Hidden input field for project ID
 
-    // Generate a unique ID for the new project based on the project name and current timestamp
-    const timestamp = new Date().getTime(); // Get current timestamp
-    const newProjectId = `${projectNameInput.value.toLowerCase().replace(/\s+/g, '')}-${timestamp}`;
+    // Check if we're updating an existing project or creating a new one
+    const isUpdatingProject = projectIdInput && projectIdInput.value;
 
-    const newProjectData = {
-        enddate: firebase.firestore.Timestamp.fromDate(new Date(projectEndDateInput.value)),
+    const projectId = isUpdatingProject ? projectIdInput.value : generateProjectId(projectNameInput.value);
+    const projectData = {
         projectname: projectNameInput.value,
         startdate: firebase.firestore.Timestamp.fromDate(new Date(projectStartDateInput.value)),
+        enddate: firebase.firestore.Timestamp.fromDate(new Date(projectEndDateInput.value)),
         status: 'In Progress' // Default status, update as needed
     };
 
-    // Set the new project data in the 'progress' document
-    const db = firebase.firestore();
-    db.collection("projects").doc("progress").set({
-        [newProjectId]: newProjectData
-    }, { merge: true }) // Use the merge option to add a new field without overwriting existing data
-    .then(() => {
-        console.log("New project added successfully!");
-        fetchAndDisplayAllProjects(); // Refresh the project list
-    })
-    .catch(error => {
-        console.error("Error adding new project:", error);
-    });
+    // Create an update object for Firestore
+    const projectUpdate = {};
+    projectUpdate[projectId] = projectData;
+
+    // Set or merge the project data in the 'progress' document
+    db.collection("projects").doc("progress").set(projectUpdate, { merge: true })
+        .then(() => {
+            console.log(isUpdatingProject ? "Project updated successfully!" : "New project added successfully!");
+            fetchAndDisplayAllProjects(); // Refresh the project list
+            $('#projectModal').modal('hide'); // Hide the modal
+        })
+        .catch(error => {
+            console.error("Error saving project:", error);
+        });
 }
 
+// Generate a unique ID for a new project
+function generateProjectId(projectName) {
+    return projectName.toLowerCase().replace(/\s+/g, '-') + '-' + Date.now();
+}
 
 // Call fetchAndDisplayAllProjects on page load to display all projects
 document.addEventListener('DOMContentLoaded', () => {
