@@ -193,7 +193,7 @@ nav[aria-label="Dashboard Navigation"] {
     background: linear-gradient(90deg, #cfd8fd, #e0eafc);
     color: #000000;
     border: none;
-    padding: 10px 15px; /* Added for better spacing */
+    padding: 3px 5px; /* Added for better spacing */
     text-align: center; /* Ensures the text is centered */
     transition: background 0.3s, color 0.3s; /* Smooth transition for color as well */
     display: inline-block; /* Improves the layout */
@@ -219,8 +219,8 @@ nav[aria-label="Dashboard Navigation"] {
 
 /* General Styles for the Home Tab */
 .container {
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 /* Project Progress Section Styles */
