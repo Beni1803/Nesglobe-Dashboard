@@ -440,7 +440,7 @@ function calculateDaysPassed(startDate) {
 
     const timeDifference = now - new Date(startDateStr);
     const daysPassed = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-    return `${daysPassed} days`;
+    return `${daysPassed}`;
 }
 
 // Helper function to calculate days left until the project ends
@@ -455,7 +455,7 @@ function calculateDaysLeft(endDate) {
         }
 
         const daysLeft = Math.ceil((endDateObj - now) / (1000 * 60 * 60 * 24));
-        return `${daysLeft} days`;
+        return `${daysLeft}`;
     } catch (error) {
         console.error('Error calculating days left:', error);
         return 'Error';
@@ -501,8 +501,19 @@ function calculateProgressPercentage(startDate, endDate) {
 }
 
 function formatDate(dateString) {
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    return new Date(dateString).toLocaleDateString(undefined, options);
+    // Split the dateString assuming it's in 'YYYY-MM-DD' format
+    const [year, month, day] = dateString.split('-');
+    
+    // Create a mapping for the month to convert it from number to name
+    const monthNames = {
+        '01': 'January', '02': 'February', '03': 'March', '04': 'April',
+        '05': 'May', '06': 'June', '07': 'July', '08': 'August',
+        '09': 'September', '10': 'October', '11': 'November', '12': 'December'
+    };
+
+    // Use the mapping to get the month name and construct the formatted date string
+    const formattedDate = `${monthNames[month]} ${parseInt(day)}, ${year}`;
+    return formattedDate;
 }
 
 function updateOrInsertProgressBar(projectId, projectData) {
@@ -516,9 +527,12 @@ function updateOrInsertProgressBar(projectId, projectData) {
     const daysLeft = calculateDaysLeft(projectData.enddate);
     const progressPercentage = calculateProgressPercentage(projectData.startdate, projectData.enddate);
 
+    // Determine the color of the progress bar based on the percentage
     const progressBarColor = getProgressColor(progressPercentage);
     const projectList = document.getElementById('project-list');
     let projectContainer = document.getElementById(`project-container-${projectId}`);
+    
+    // Create a new project container if it doesn't exist
     if (!projectContainer) {
         projectContainer = document.createElement('div');
         projectContainer.id = `project-container-${projectId}`;
@@ -526,6 +540,18 @@ function updateOrInsertProgressBar(projectId, projectData) {
         projectList.appendChild(projectContainer);
     }
 
+    // Parse the days left to an integer and initialize an alert message if needed
+    const daysLeftInt = parseInt(daysLeft.split(' ')[0]);
+    let alertMessage = '';
+    if (!isNaN(daysLeftInt) && daysLeftInt <= 7) {
+        alertMessage = `
+            <div class="alert alert-warning mt-2" role="alert">
+                <span style="font-size: 1.5em;">⏰</span> Only ${daysLeft} days remaining to this project deadline.
+            </div>
+        `;
+    }
+
+    // Set the innerHTML of the project container with the project details and progress bar
     projectContainer.innerHTML = `
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
@@ -539,14 +565,16 @@ function updateOrInsertProgressBar(projectId, projectData) {
             </div>
         </div>
         <div class="card-body">
+            ${alertMessage} <!-- Display the alert message if applicable -->
             <p class="card-text">${projectData.description || 'No description provided.'}</p>
-            <div class="d-flex align-items-center">
-                <div class="progress flex-grow-1 mr-2">
-                    <div id="progress-bar-${projectId}" class="progress-bar ${progressBarColor}" role="progressbar"
-                        style="width: ${progressPercentage.toFixed(2)}%" aria-valuenow="${progressPercentage}" aria-valuemin="0" aria-valuemax="100">
-                        ${progressPercentage.toFixed(2)}%
-                    </div>
+            <div class="progress my-2">
+                <div id="progress-bar-${projectId}" class="progress-bar ${progressBarColor}" role="progressbar"
+                    style="width: ${progressPercentage.toFixed(2)}%" aria-valuenow="${progressPercentage}"
+                    aria-valuemin="0" aria-valuemax="100">
+                    ${progressPercentage.toFixed(2)}%
                 </div>
+            </div>
+            <div class="d-flex justify-content-end">
                 <button type="button" class="btn btn-outline-primary btn-sm" onclick="modifyProject('${projectId}')" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Project">
                     <i class="fas fa-edit"></i>
                 </button>
