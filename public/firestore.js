@@ -429,76 +429,72 @@ document.addEventListener('DOMContentLoaded', () => {
 // --------------------------------------------------------------------
 //                        Projects progress
 // --------------------------------------------------------------------
+
+function formatDate(dateString) {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+}
+
 // Helper function to calculate days passed since the project started
 function calculateDaysPassed(startDate) {
     const now = new Date();
-    // If the start date is in the future, return 0
-    if (startDate > now) {
-        return 0;
-    }
-    startDate.setUTCHours(0, 0, 0, 0); // Set time to midnight in UTC
-    now.setUTCHours(0, 0, 0, 0); // Set time to midnight in UTC
+    const startDateUTC = new Date(startDate + 'T00:00:00Z'); // Ensure UTC date
+    const nowUTC = new Date(now.toISOString().split('T')[0] + 'T00:00:00Z'); // Ensure UTC date for today
 
-    return Math.floor((now - startDate) / (1000 * 60 * 60 * 24)); // Convert milliseconds to days
+    if (startDateUTC > nowUTC) {
+        return '0 days';
+    }
+
+    const timeDifference = nowUTC - startDateUTC;
+    const daysPassed = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+    return `${daysPassed} days`;
 }
 
 // Helper function to calculate days left until the project ends
 function calculateDaysLeft(endDate) {
     const now = new Date();
-    // If the end date is in the past, return 0
-    if (endDate < now) {
-        return 0;
-    }
-    endDate.setUTCHours(0, 0, 0, 0); // Set time to midnight in UTC
-    now.setUTCHours(0, 0, 0, 0); // Set time to midnight in UTC
+    const endDateUTC = new Date(endDate + 'T23:59:59Z'); // Ensure UTC date
+    const nowUTC = new Date(now.toISOString().split('T')[0] + 'T00:00:00Z'); // Ensure UTC date for today
 
-    return Math.floor((endDate - now) / (1000 * 60 * 60 * 24)); // Convert milliseconds to days
+    if (endDateUTC < nowUTC) {
+        return '0 days';
+    }
+
+    const timeDifference = endDateUTC - nowUTC;
+    const daysLeft = Math.floor(timeDifference / (1000 * 60 * 60 * 24)) + 1; // Add 1 to include the end date
+    return `${daysLeft} days`;
 }
 
 // Function to calculate progress percentage
 function calculateProgressPercentage(startDate, endDate) {
     const now = new Date();
-    now.setUTCHours(0, 0, 0, 0); // Set time to midnight in UTC
+    const startDateObj = new Date(startDate);
+    const endDateObj = new Date(endDate);
 
-    const start = new Date(startDate); // Create a new Date object for start
-    start.setUTCHours(0, 0, 0, 0); // Set time to midnight in UTC
-
-    const end = new Date(endDate); // Create a new Date object for end
-    end.setUTCHours(0, 0, 0, 0); // Set time to midnight in UTC
-
-    if (now < start) {
-        return 0; // Project has not started yet
-    } else if (now > end) {
-        return 100; // Project has ended
+    if (now < startDateObj) {
+        return 0;
+    } else if (now > endDateObj) {
+        return 100;
     } else {
-        const elapsed = now - start;
-        const total = end - start;
-        return (elapsed / total) * 100; // Current progress
+        const timeElapsed = now - startDateObj;
+        const totalTime = endDateObj - startDateObj;
+        const progressPercentage = (timeElapsed / totalTime) * 100;
+        return progressPercentage;
     }
 }
-// Function to update the progress bar
+
 function updateOrInsertProgressBar(projectId, projectData) {
-    // Check if we have valid project data to work with
     if (!projectData || typeof projectData !== 'object' || !projectData.startdate || !projectData.enddate) {
         console.error(`Project data for '${projectId}' is missing or incorrectly formatted.`);
-        return; // Exit the function if the data is not valid
+        return;
     }
 
-    // Extract and convert Firestore Timestamps to JavaScript Date objects
-    let startDate, endDate;
-    try {
-        startDate = projectData.startdate.toDate(); // Convert Firestore Timestamp to Date
-        endDate = projectData.enddate.toDate(); // Convert Firestore Timestamp to Date
-    } catch (error) {
-        console.error(`Error reading dates for project '${projectId}':`, error);
-        return; // Exit the function if there's an error
-    }
+    // Calculate days passed, days left, and progress percentage
+    const daysPassed = calculateDaysPassed(projectData.startdate);
+    const daysLeft = calculateDaysLeft(projectData.enddate);
+    const progressPercentage = calculateProgressPercentage(projectData.startdate, projectData.enddate);
 
-    // Calculate the progress percentage
-    const progressPercentage = calculateProgressPercentage(startDate, endDate);
-    const progressBarColor = getProgressColor(startDate, endDate);
-
-    // Get or create the container for the project's progress bar
+    const progressBarColor = getProgressColor(progressPercentage);
     const projectList = document.getElementById('project-list');
     let projectContainer = document.getElementById(`project-container-${projectId}`);
     if (!projectContainer) {
@@ -507,17 +503,13 @@ function updateOrInsertProgressBar(projectId, projectData) {
         projectContainer.className = 'project-container';
         projectList.appendChild(projectContainer);
     }
-    // Calculate days passed and days left
-    const daysPassed = calculateDaysPassed(startDate);
-    const daysLeft = calculateDaysLeft(endDate);
 
-    // Set the innerHTML with project details, progress bar, description, and days information
     projectContainer.innerHTML = `
     <div class="card" style="padding: 0.5rem;">
         <div class="card-header d-flex justify-content-between align-items-center" style="padding-bottom: 0;">
             <div>
                 <h5 class="card-title mb-0">${projectData.projectname}</h5>
-                <small class="text-muted">${startDate.toLocaleDateString()} - ${endDate.toLocaleDateString()}</small>
+                <small class="text-muted">${projectData.startdate} - ${projectData.enddate}</small>
             </div>
             <div>
                 <span class="badge badge-info">${daysPassed} days passed</span>
@@ -528,8 +520,8 @@ function updateOrInsertProgressBar(projectId, projectData) {
             <p class="card-text" style="margin-bottom: 0.5rem;">${projectData.description || 'No description provided.'}</p>
             <div class="progress-wrapper d-flex align-items-center">
                 <div class="progress flex-grow-1" style="margin-right: 0.5rem;">
-                    <div id="progress-bar-${projectId}" class="progress-bar ${progressBarColor}" role="progressbar" 
-                        style="width: ${progressPercentage}%" aria-valuenow="${progressPercentage}" aria-valuemin="0" aria-valuemax="100">
+                    <div id="progress-bar-${projectId}" class="progress-bar ${progressBarColor}" role="progressbar"
+                        style="width: ${progressPercentage.toFixed(2)}%" aria-valuenow="${progressPercentage}" aria-valuemin="0" aria-valuemax="100">
                         ${progressPercentage.toFixed(2)}%
                     </div>
                 </div>
@@ -542,13 +534,11 @@ function updateOrInsertProgressBar(projectId, projectData) {
             </div>
         </div>
     </div>
-`;
+    `;
 }
 
 // Function to determine progress bar color based on percentage
-function getProgressColor(startDate, endDate) {
-    const progressPercentage = calculateProgressPercentage(startDate, endDate);
-
+function getProgressColor(progressPercentage) {
     if (progressPercentage < 33.33) {
         return 'bg-success'; // Green for less than 33.33%
     } else if (progressPercentage < 66.67) {
@@ -565,10 +555,15 @@ function modifyProject(projectId) {
     db.collection("projects").doc("progress").get().then(doc => {
         if (doc.exists && doc.data()[projectId]) {
             const projectData = doc.data()[projectId];
+            
+            // Ensure that projectData.startdate and projectData.enddate are Date objects
+            const startDate = projectData.startdate instanceof Date ? projectData.startdate : new Date(projectData.startdate);
+            const endDate = projectData.enddate instanceof Date ? projectData.enddate : new Date(projectData.enddate);
+            
             // Assuming you have form fields with these IDs
             document.getElementById('projectName').value = projectData.projectname;
-            document.getElementById('projectStartDate').value = formatDateInput(projectData.startdate.toDate());
-            document.getElementById('projectEndDate').value = formatDateInput(projectData.enddate.toDate());
+            document.getElementById('projectStartDate').value = formatDateInput(startDate);
+            document.getElementById('projectEndDate').value = formatDateInput(endDate);
             document.getElementById('projectId').value = projectId;
             document.getElementById('projectDescription').value = projectData.description || '';
             
@@ -579,6 +574,7 @@ function modifyProject(projectId) {
                 const day = String(date.getDate()).padStart(2, '0');
                 return `${year}-${month}-${day}`;
             }
+            
             // Show the modal for editing
             $('#projectModal').modal('show');
         } else {
@@ -622,11 +618,7 @@ function fetchAndDisplayAllProjects() {
                 const projectData = data[projectId];
                 // Ensure the projectData contains the expected fields
                 if (projectData && projectData.startdate && projectData.enddate) {
-                    const startDate = projectData.startdate.toDate();
-                    const endDate = projectData.enddate.toDate();
-                    const status = projectData.status;
-                    const progressPercentage = calculateProgressPercentage(startDate, endDate);
-                    updateOrInsertProgressBar(projectId, projectData, progressPercentage, status);
+                    updateOrInsertProgressBar(projectId, projectData);
                 } else {
                     console.error(`Project data for '${projectId}' is missing 'startdate' or 'enddate' fields.`);
                 }
@@ -638,6 +630,7 @@ function fetchAndDisplayAllProjects() {
         console.error("Error fetching project progress:", error);
     });
 }
+
 function clearProjectForm() {
     document.getElementById('projectForm').reset(); // This resets the form to its initial state
     document.getElementById('projectId').value = ''; // Ensure the hidden projectId is cleared
@@ -646,34 +639,29 @@ function clearProjectForm() {
 // Adjusted function to save a new project
 function saveProject() {
     const db = firebase.firestore();
-    const projectNameInput = document.getElementById('projectName');
-    const projectStartDateInput = document.getElementById('projectStartDate');
-    const projectEndDateInput = document.getElementById('projectEndDate');
-    const projectDescriptionInput = document.getElementById('projectDescription'); // Input for project description
-    const projectIdInput = document.getElementById('projectId'); // Hidden input field for project ID
+    const projectNameInput = document.getElementById('projectName').value; // Get the value directly
+    const projectStartDateInput = document.getElementById('projectStartDate').value;
+    const projectEndDateInput = document.getElementById('projectEndDate').value;
+    const projectDescriptionInput = document.getElementById('projectDescription').value;
+    const projectIdInput = document.getElementById('projectId').value; // Get the value directly
 
     // Check if we're updating an existing project or creating a new one
-    const isUpdatingProject = projectIdInput && projectIdInput.value.trim() !== '';
+    const isUpdatingProject = projectIdInput.trim() !== ''; // No need to check for existence
+    const projectId = isUpdatingProject ? projectIdInput : generateProjectId(projectNameInput);
 
-    const projectId = isUpdatingProject ? projectIdInput.value : generateProjectId(projectNameInput.value);
-    // Parse date inputs from the form and convert to Firestore Timestamps
-    const projectStartDate = new Date(document.getElementById('projectStartDate').value);
-    const projectEndDate = new Date(document.getElementById('projectEndDate').value);
-
+    // Create an object with the project data
     const projectData = {
-        projectname: projectNameInput.value,
-        startdate: firebase.firestore.Timestamp.fromDate(projectStartDate),
-        enddate: firebase.firestore.Timestamp.fromDate(projectEndDate),
-        description: projectDescriptionInput.value,
-        status: 'In Progress' // Default status, update as needed
+        projectname: projectNameInput,
+        startdate: projectStartDateInput,
+        enddate: projectEndDateInput,
+        description: projectDescriptionInput,
+        status: 'In Progress'
     };
 
-    // Create an update object for Firestore
-    const projectUpdate = {};
-    projectUpdate[projectId] = projectData;
-
     // Set or merge the project data in the 'progress' document
-    db.collection("projects").doc("progress").set(projectUpdate, { merge: true })
+    db.collection("projects").doc("progress").set({
+        [projectId]: projectData // Use object shorthand property names
+    }, { merge: true })
         .then(() => {
             console.log(isUpdatingProject ? "Project updated successfully!" : "New project added successfully!");
             fetchAndDisplayAllProjects(); // Refresh the project list
