@@ -429,18 +429,16 @@ document.addEventListener('DOMContentLoaded', () => {
 // --------------------------------------------------------------------
 //                        Projects progress
 // --------------------------------------------------------------------
-
 // Helper function to calculate days passed since the project started
 function calculateDaysPassed(startDate) {
     const now = new Date();
-    const startDateUTC = new Date(startDate + 'T00:00:00Z'); // Ensure UTC date
-    const nowUTC = new Date(now.toISOString().split('T')[0] + 'T00:00:00Z'); // Ensure UTC date for today
+    const startDateStr = startDate + 'T00:00:00Z'; // Convert to UTC date string
 
-    if (startDateUTC > nowUTC) {
+    if (now < new Date(startDateStr)) {
         return '0 days';
     }
 
-    const timeDifference = nowUTC - startDateUTC;
+    const timeDifference = now - new Date(startDateStr);
     const daysPassed = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
     return `${daysPassed} days`;
 }
@@ -448,34 +446,53 @@ function calculateDaysPassed(startDate) {
 // Helper function to calculate days left until the project ends
 function calculateDaysLeft(endDate) {
     const now = new Date();
-    const endDateUTC = new Date(endDate + 'T23:59:59Z'); // Ensure UTC date
-    const nowUTC = new Date(now.toISOString().split('T')[0] + 'T00:00:00Z'); // Ensure UTC date for today
+    const endDateStr = endDate + 'T23:59:59Z'; // Convert to UTC date string
 
-    if (endDateUTC < nowUTC) {
+    if (now > new Date(endDateStr)) {
         return '0 days';
     }
 
-    const timeDifference = endDateUTC - nowUTC;
+    const timeDifference = new Date(endDateStr) - now;
     const daysLeft = Math.floor(timeDifference / (1000 * 60 * 60 * 24)) + 1; // Add 1 to include the end date
     return `${daysLeft} days`;
 }
 
-// Function to calculate progress percentage
+// Function to calculate progress percentage based on date strings
 function calculateProgressPercentage(startDate, endDate) {
     const now = new Date();
-    const startDateObj = new Date(startDate);
-    const endDateObj = new Date(endDate);
+    const startDateObj = new Date(startDate + 'T00:00:00');
+    const endDateObj = new Date(endDate + 'T23:59:59');
 
+    console.log('Now:', now);
+    console.log('Start Date:', startDateObj);
+    console.log('End Date:', endDateObj);
+
+    // Check if the current date is before the start date
     if (now < startDateObj) {
+        console.log('Progress: 0% (before start date)');
         return 0;
-    } else if (now > endDateObj) {
-        return 100;
-    } else {
-        const timeElapsed = now - startDateObj;
-        const totalTime = endDateObj - startDateObj;
-        const progressPercentage = (timeElapsed / totalTime) * 100;
-        return progressPercentage;
     }
+
+    // Check if the current date is after the end date
+    if (now > endDateObj) {
+        console.log('Progress: 100% (after end date)');
+        return 100;
+    }
+
+    // Calculate the total project duration and the elapsed time
+    const totalDuration = endDateObj - startDateObj;
+    const elapsed = now - startDateObj;
+    
+    console.log('Total Duration (ms):', totalDuration);
+    console.log('Elapsed (ms):', elapsed);
+
+    // Calculate the progress percentage
+    const progress = (elapsed / totalDuration) * 100;
+
+    console.log('Progress:', progress);
+
+    // Clamp the progress between 0 and 100 before returning
+    return Math.min(Math.max(progress, 0), 100);
 }
 
 function updateOrInsertProgressBar(projectId, projectData) {
@@ -550,25 +567,21 @@ function modifyProject(projectId) {
     db.collection("projects").doc("progress").get().then(doc => {
         if (doc.exists && doc.data()[projectId]) {
             const projectData = doc.data()[projectId];
-            
-            // Ensure that projectData.startdate and projectData.enddate are Date objects
-            const startDate = projectData.startdate instanceof Date ? projectData.startdate : new Date(projectData.startdate);
-            const endDate = projectData.enddate instanceof Date ? projectData.enddate : new Date(projectData.enddate);
-            
-            // Assuming you have form fields with these IDs
+
+            // Convert the startdate and enddate from the project data to Date objects
+            const startDate = new Date(projectData.startdate);
+            const endDate = new Date(projectData.enddate);
+
+            // Format dates as 'YYYY-MM-DD' for the input fields
+            const formattedStartDate = startDate.toISOString().split('T')[0];
+            const formattedEndDate = endDate.toISOString().split('T')[0];
+
+            // Set the value of form fields
             document.getElementById('projectName').value = projectData.projectname;
-            document.getElementById('projectStartDate').value = formatDateInput(startDate);
-            document.getElementById('projectEndDate').value = formatDateInput(endDate);
+            document.getElementById('projectStartDate').value = formattedStartDate;
+            document.getElementById('projectEndDate').value = formattedEndDate;
             document.getElementById('projectId').value = projectId;
             document.getElementById('projectDescription').value = projectData.description || '';
-            
-            // Define a function to format dates as 'YYYY-MM-DD'
-            function formatDateInput(date) {
-                const year = date.getFullYear();
-                const month = String(date.getMonth() + 1).padStart(2, '0');
-                const day = String(date.getDate()).padStart(2, '0');
-                return `${year}-${month}-${day}`;
-            }
             
             // Show the modal for editing
             $('#projectModal').modal('show');
@@ -634,17 +647,21 @@ function clearProjectForm() {
 // Adjusted function to save a new project
 function saveProject() {
     const db = firebase.firestore();
-    const projectNameInput = document.getElementById('projectName').value; // Get the value directly
+    const projectNameInput = document.getElementById('projectName').value.trim();
     const projectStartDateInput = document.getElementById('projectStartDate').value;
     const projectEndDateInput = document.getElementById('projectEndDate').value;
     const projectDescriptionInput = document.getElementById('projectDescription').value;
-    const projectIdInput = document.getElementById('projectId').value; // Get the value directly
+    const projectIdInput = document.getElementById('projectId').value.trim();
 
-    // Check if we're updating an existing project or creating a new one
-    const isUpdatingProject = projectIdInput.trim() !== ''; // No need to check for existence
+    // Validate inputs
+    if (!projectNameInput || !projectStartDateInput || !projectEndDateInput) {
+        alert("Please fill in all required fields.");
+        return;
+    }
+
+    const isUpdatingProject = projectIdInput !== '';
     const projectId = isUpdatingProject ? projectIdInput : generateProjectId(projectNameInput);
 
-    // Create an object with the project data
     const projectData = {
         projectname: projectNameInput,
         startdate: projectStartDateInput,
@@ -653,17 +670,17 @@ function saveProject() {
         status: 'In Progress'
     };
 
-    // Set or merge the project data in the 'progress' document
     db.collection("projects").doc("progress").set({
-        [projectId]: projectData // Use object shorthand property names
+        [projectId]: projectData
     }, { merge: true })
         .then(() => {
-            console.log(isUpdatingProject ? "Project updated successfully!" : "New project added successfully!");
-            fetchAndDisplayAllProjects(); // Refresh the project list
-            $('#projectModal').modal('hide'); // Hide the modal
+            alert(isUpdatingProject ? "Project updated successfully!" : "New project added successfully!");
+            fetchAndDisplayAllProjects();
+            $('#projectModal').modal('hide');
         })
         .catch(error => {
             console.error("Error saving project:", error);
+            alert("Failed to save project. Please try again.");
         });
 }
 
