@@ -564,9 +564,9 @@ function updateOrInsertProgressBar(projectId, projectData) {
 
 // Function to determine progress bar color based on percentage
 function getProgressColor(progressPercentage) {
-    if (progressPercentage < 33.33) {
+    if (progressPercentage < 50.00) {
         return 'bg-success'; // Green for less than 33.33%
-    } else if (progressPercentage < 66.67) {
+    } else if (progressPercentage < 80.00) {
         return 'bg-warning'; // Yellow for less than 66.67%
     } else {
         return 'bg-danger'; // Red for 66.67% and above
