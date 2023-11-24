@@ -445,16 +445,21 @@ function calculateDaysPassed(startDate) {
 
 // Helper function to calculate days left until the project ends
 function calculateDaysLeft(endDate) {
-    const now = new Date();
-    const endDateStr = endDate + 'T23:59:59Z'; // Convert to UTC date string
+    try {
+        const now = new Date();
+        const endDateObj = new Date(`${endDate}T23:59:59Z`);
+        if (isNaN(endDateObj)) throw new Error("Invalid end date format");
 
-    if (now > new Date(endDateStr)) {
-        return '0 days';
+        if (now > endDateObj) {
+            return '0 days';
+        }
+
+        const daysLeft = Math.ceil((endDateObj - now) / (1000 * 60 * 60 * 24));
+        return `${daysLeft} days`;
+    } catch (error) {
+        console.error('Error calculating days left:', error);
+        return 'Error';
     }
-
-    const timeDifference = new Date(endDateStr) - now;
-    const daysLeft = Math.floor(timeDifference / (1000 * 60 * 60 * 24)) + 1; // Add 1 to include the end date
-    return `${daysLeft} days`;
 }
 
 // Function to calculate progress percentage based on date strings
@@ -512,41 +517,44 @@ function updateOrInsertProgressBar(projectId, projectData) {
     if (!projectContainer) {
         projectContainer = document.createElement('div');
         projectContainer.id = `project-container-${projectId}`;
-        projectContainer.className = 'project-container';
+        projectContainer.className = 'project-container mb-3'; // Added margin-bottom for spacing
         projectList.appendChild(projectContainer);
     }
 
     projectContainer.innerHTML = `
-    <div class="card" style="padding: 0.5rem;">
-        <div class="card-header d-flex justify-content-between align-items-center" style="padding-bottom: 0;">
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
             <div>
-                <h5 class="card-title mb-0">${projectData.projectname}</h5>
+                <h5 class="card-title">${projectData.projectname}</h5>
                 <small class="text-muted">${projectData.startdate} - ${projectData.enddate}</small>
             </div>
             <div>
-                <span class="badge badge-info">${daysPassed} days passed</span>
-                <span class="badge badge-warning">${daysLeft} days left</span>
+                <span class="badge bg-info">${daysPassed} days passed</span>
+                <span class="badge bg-warning">${daysLeft} days left</span>
             </div>
         </div>
-        <div class="card-body" style="padding-top: 0.25rem; padding-bottom: 0.25rem;">
-            <p class="card-text" style="margin-bottom: 0.5rem;">${projectData.description || 'No description provided.'}</p>
-            <div class="progress-wrapper d-flex align-items-center">
-                <div class="progress flex-grow-1" style="margin-right: 0.5rem;">
+        <div class="card-body">
+            <p class="card-text">${projectData.description || 'No description provided.'}</p>
+            <div class="d-flex align-items-center">
+                <div class="progress flex-grow-1 mr-2">
                     <div id="progress-bar-${projectId}" class="progress-bar ${progressBarColor}" role="progressbar"
                         style="width: ${progressPercentage.toFixed(2)}%" aria-valuenow="${progressPercentage}" aria-valuemin="0" aria-valuemax="100">
                         ${progressPercentage.toFixed(2)}%
                     </div>
                 </div>
-                <button type="button" class="btn btn-primary btn-sm" onclick="modifyProject('${projectId}')" data-toggle="tooltip" data-placement="top" title="Edit Project" style="padding: 0.25rem 0.5rem;">
+                <button type="button" class="btn btn-outline-primary btn-sm" onclick="modifyProject('${projectId}')" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Project">
                     <i class="fas fa-edit"></i>
                 </button>
-                <button type="button" class="btn btn-danger btn-sm" onclick="deleteProject('${projectId}')" data-toggle="tooltip" data-placement="top" title="Delete Project" style="padding: 0.25rem 0.5rem;">
+                <button type="button" class="btn btn-outline-danger btn-sm" onclick="deleteProject('${projectId}')" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Project">
                     <i class="fas fa-trash-alt"></i>
                 </button>
             </div>
         </div>
     </div>
     `;
+
+    // Activate Bootstrap tooltips (Requires Bootstrap JS)
+    $('[data-bs-toggle="tooltip"]').tooltip();
 }
 
 // Function to determine progress bar color based on percentage
