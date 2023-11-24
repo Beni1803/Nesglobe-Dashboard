@@ -307,7 +307,6 @@ nav[aria-label="Dashboard Navigation"] {
 
 .card:hover {
     box-shadow: 0 5px 18px rgba(0, 0, 0, 0.12);
-    transform: translateY(-5px);
 }
 
 .card-header {

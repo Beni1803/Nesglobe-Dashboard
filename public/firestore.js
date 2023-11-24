@@ -500,6 +500,11 @@ function calculateProgressPercentage(startDate, endDate) {
     return Math.min(Math.max(progress, 0), 100);
 }
 
+function formatDate(dateString) {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+}
+
 function updateOrInsertProgressBar(projectId, projectData) {
     if (!projectData || typeof projectData !== 'object' || !projectData.startdate || !projectData.enddate) {
         console.error(`Project data for '${projectId}' is missing or incorrectly formatted.`);
@@ -526,7 +531,7 @@ function updateOrInsertProgressBar(projectId, projectData) {
         <div class="card-header d-flex justify-content-between align-items-center">
             <div>
                 <h5 class="card-title">${projectData.projectname}</h5>
-                <small class="text-muted">${projectData.startdate} - ${projectData.enddate}</small>
+                <small class="text-muted">${formatDate(projectData.startdate)} - ${formatDate(projectData.enddate)}</small>
             </div>
             <div>
                 <span class="badge bg-info">${daysPassed} days passed</span>
@@ -630,15 +635,23 @@ function fetchAndDisplayAllProjects() {
     projectDocRef.get().then(doc => {
         if (doc.exists) {
             const data = doc.data();
-            for (const projectId in data) {
-                const projectData = data[projectId];
-                // Ensure the projectData contains the expected fields
-                if (projectData && projectData.startdate && projectData.enddate) {
-                    updateOrInsertProgressBar(projectId, projectData);
+            // Convert the project data into an array with additional endDate for sorting
+            const projectsArray = Object.keys(data).map(projectId => ({
+                id: projectId,
+                ...data[projectId],
+                endDateTimestamp: new Date(data[projectId].enddate).getTime()
+            }));
+            // Sort projects by endDate
+            projectsArray.sort((a, b) => a.endDateTimestamp - b.endDateTimestamp);
+
+            // Now update the UI for each sorted project
+            projectsArray.forEach(project => {
+                if (project.startdate && project.enddate) {
+                    updateOrInsertProgressBar(project.id, project);
                 } else {
-                    console.error(`Project data for '${projectId}' is missing 'startdate' or 'enddate' fields.`);
+                    console.error(`Project data for '${project.id}' is missing 'startdate' or 'enddate' fields.`);
                 }
-            }
+            });
         } else {
             console.log("Document 'progress' not found!");
         }
@@ -682,7 +695,6 @@ function saveProject() {
         [projectId]: projectData
     }, { merge: true })
         .then(() => {
-            alert(isUpdatingProject ? "Project updated successfully!" : "New project added successfully!");
             fetchAndDisplayAllProjects();
             $('#projectModal').modal('hide');
         })
