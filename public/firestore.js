@@ -430,11 +430,6 @@ document.addEventListener('DOMContentLoaded', () => {
 //                        Projects progress
 // --------------------------------------------------------------------
 
-function formatDate(dateString) {
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    return new Date(dateString).toLocaleDateString(undefined, options);
-}
-
 // Helper function to calculate days passed since the project started
 function calculateDaysPassed(startDate) {
     const now = new Date();
