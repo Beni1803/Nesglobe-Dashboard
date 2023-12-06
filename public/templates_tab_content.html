@@ -1,10 +1,79 @@
-<!-- templates_tab_content.html -->
+<!-- templates_tab_content.html --> 
+             
+<div class="container mt-5">
+    <div class="row">
+        <!-- Main Content with Accordion -->
+        <div class="col-md-12">        
+            <div id="templatesTabAccordion">
+                <!-- Modal Structure -->
+                <div class="modal fade" id="templatesModal" tabindex="-1" role="dialog" aria-labelledby="templatesModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="templatesModalLabel">Reference Details</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="templatesForm">
+                                    <div class="form-group">
+                                        <label for="templatesLabel">Label</label>
+                                        <input type="text" class="form-control" id="templatesLabel" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="templatesLink">Link</label>
+                                        <input type="url" class="form-control" id="templatesLink" required>
+                                    </div>
+                                    <input type="hidden" id="templatesId">
+                                    <input type="hidden" id="templatesDocType">
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" onclick="saveTemplates()">Save changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-<ul class="list-unstyled">
-    <li><a href="https://nesglobe.sharepoint.com/:x:/s/NES/ETqBOeuSGwZBqPouwCZoyWEB2ZjQZISd-oza0X5-JVeCcw?e=zm7Yxn" target="_blank" class="webapp-link">Project Planning Excel</a></li>
-    <li><a href="https://nesglobe.sharepoint.com/:f:/s/NES/Eiy3-Vnc3S1CngigFpE1nD4BTuV1b0uzzDLPEWRspP93bw?e=ottrpg" target="_blank" class="webapp-link">Resumes</a></li>
-    <li><a href="https://nesglobe.sharepoint.com/:x:/s/NES/EQ9d9J0WwAxOlKNAkLhBFCMB8-CFbH_wiOegmawGwAXKlg?e=1rZer5" target="_blank" class="webapp-link">List of Past Projects</a></li>
-    <li><a href="https://nesglobe.sharepoint.com/:w:/s/NES/Eaue8DnLUlpFoC4-X1mujLgB5E_z44OOY8YaJ4ZtU_xqfg?e=aozT9g" target="_blank" class="webapp-link">Past Project Details</a></li>
-    <li><a href="https://nesglobe.sharepoint.com/:f:/s/NES/EvAQrFfGe3xNhEug_yvnfmwBBB7AJyNHKbNF0QtNUNaWpg?e=1lenvu" target="_blank" class="webapp-link">Reports Submitted</a></li>
-    <li><a href="https://nesglobe.sharepoint.com/:f:/s/NES/ElGpNGnfFh5LhFJlL3m811IBMtThW4Kod2AUTCC9WgXg_A?e=tnI9qJ" target="_blank" class="webapp-link">Proposals Submitted</a></li>
-</ul>
+                <!-- Projects Accordion Item -->
+                <div class="card filterable-content" data-category="Templates1">
+                    <div class="card-header">
+                        <a class="card-link collapsed" data-toggle="collapse" href="#templatesCollapse1">
+                            Past Projects
+                            <i class="fas fa-angle-right"></i>
+                        </a>
+                    </div>
+                    <div id="templatesCollapse1" class="collapse" data-parent="#templatesTabAccordion">
+                        <div class="card-body" id="templatesContainer">
+                            <!-- Dynamic content will be loaded here by JavaScript -->
+                        </div>
+                        <div class="card-footer">
+                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#templatesModal" onclick="openTemplatesModal('add', null, 'templates')">Add Reference</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- International Data Sources Accordion Item -->
+                <div class="card filterable-content" data-category="Templates2">
+                    <div class="card-header">
+                        <a class="card-link collapsed" data-toggle="collapse" href="#templatesCollapse2">
+                            Resumes
+                            <i class="fas fa-angle-right"></i>
+                        </a>
+                    </div>
+                    <div id="templatesCollapse2" class="collapse" data-parent="#templatesTabAccordion">
+                        <div class="card-body" id="templatesContainer">
+                            <!-- Dynamic content will be loaded here by JavaScript -->
+                        </div>
+                        <div class="card-footer">
+                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#templatesModal" onclick="openTemplatesModal('add', null, 'templates')">Add Reference</button>
+                        </div>
+                    </div>
+                </div>                
+            </div>           
+        </div>
+    </div>
+</div>
+    
+
