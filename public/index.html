@@ -9,13 +9,13 @@
     <meta name="description" content="NE&S Dashboard for managing the tools.">
     <meta name="keywords" content="nesglobe tools, nesglobe, tools, NE&S, Dashboard, Excel, ArcGIS, webapp">
     
-    <title>NE&S Tools</title>
+    <title>NE&S DASHBOARD</title>
 
     <!-- Favicon -->
     <link rel="icon" href="./assets/logo.png" type="image/x-icon">
 
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./styles.css">
@@ -32,6 +32,11 @@
     <script src="firestore.js" defer></script>
     <script defer src="./scripts.js"></script>
     <script defer src="./auth.js"></script>
+    
+    <!-- Bootstrap JS (for the modal) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 
 <body>
@@ -40,7 +45,7 @@
         <div class="container d-flex justify-content-between align-items-center">
             <img src="./assets/logo.png" alt="Logo" class="logo-img" aria-hidden="true">
             <!-- Title in the Center -->
-            <h1 class="custom-header-title">NE&S Tools</h1>
+            <h1 class="custom-header-title">NE&S DASHBOARD</h1>
             <div class="d-flex align-items-center">
                 <span id="userInfoModal" class="mr-3"></span>
                 <button id="signOutButtonModal" class="btn btn-danger">Sign Out</button>
@@ -69,7 +74,7 @@
                     <a class="nav-link" id="economicsdata-tab" data-toggle="tab" href="#economicsdata" role="tab" aria-controls="economicsdata" aria-selected="true">Economic Resources</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="strategy-tab" data-toggle="tab" href="#strategy" role="tab" aria-controls="strategy" aria-selected="false">Strategy Resources</a>
+                    <a class="nav-link" id="strategy-tab" data-toggle="tab" href="#strategy" role="tab" aria-controls="strategy" aria-selected="false">Auctions and Regulatory Resources</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="arcgis-tab" data-toggle="tab" href="#arcgis" role="tab" aria-controls="arcgis" aria-selected="false">GIS</a>
@@ -148,10 +153,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Bootstrap JS (for the modal) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>

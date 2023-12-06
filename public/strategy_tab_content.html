@@ -1,6 +1,81 @@
 <!-- strategy_tab_content.html -->
+<div class="container mt-5">
+    <div class="row">
+        <!-- Main Content with Accordion -->
+        <div class="col-md-12">        
+            <div id="strategyTabAccordion">
+                
+                <!-- Strategy Content Accordion Item for Auctions Resources -->
+                <div class="card filterable-content" data-category="Strategy1">
+                    <div class="card-header">
+                        <a class="card-link collapsed" data-toggle="collapse" href="#strategyCollapse1">
+                            Auctions Resources
+                            <i class="fas fa-angle-right"></i>
+                        </a>
+                    </div>
+                    <div id="strategyCollapse1" class="collapse" data-parent="#strategyTabAccordion">
+                        <div class="card-body" id="strategy_auctionsContainer">
+                            <!-- Dynamic content will be loaded here by JavaScript -->
+                        </div>
+                        <div class="card-footer">
+                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#strategyModal" onclick="openStrategyModal('add', null, 'strategy_auctions')">
+                                Add Source
+                            </button>
+                        </div>
+                    </div>
+                </div>
 
-<ul class="list-unstyled">
-    <li><a href="https://s15.nesglobe.io/web" target="_blank" class="webapp-link">3800 MHz Clock Auction Simulation Tool</a></li>
-    <li><a href="https://nesglobe.io/canada-3800MHz-auction-tracking-tool/" target="_blank" class="webapp-link">Tracking Tool</a></li>
-</ul>
+                <!-- Strategy Content Accordion Item for Regulatory Resources -->
+                <div class="card filterable-content" data-category="Strategy2">
+                    <div class="card-header">
+                        <a class="card-link collapsed" data-toggle="collapse" href="#strategyCollapse2">
+                            Regulatory Resources
+                            <i class="fas fa-angle-right"></i>
+                        </a>
+                    </div>
+                    <div id="strategyCollapse2" class="collapse" data-parent="#strategyTabAccordion">
+                        <div class="card-body" id="strategy_regulatoryContainer">
+                            <!-- Dynamic content will be loaded here by JavaScript -->
+                        </div>
+                        <div class="card-footer">
+                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#strategyModal" onclick="openStrategyModal('add', null, 'strategy_regulatory')">
+                                Add Source
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>           
+        </div>
+    </div>
+</div>
+<!-- Strategy Resource Modal -->
+<div class="modal fade" id="strategyModal" tabindex="-1" role="dialog" aria-labelledby="strategyModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="strategyModalLabel">Strategy Resource</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="strategyForm">
+                    <div class="form-group">
+                        <label for="strategyLabel">Label</label>
+                        <input type="text" class="form-control" id="strategyLabel" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="strategyLink">Link</label>
+                        <input type="url" class="form-control" id="strategyLink" required>
+                    </div>
+                    <input type="hidden" id="strategyId">
+                    <input type="hidden" id="strategyDocType">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="saveStrategy()">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
