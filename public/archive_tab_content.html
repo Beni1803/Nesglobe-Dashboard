@@ -1,0 +1,97 @@
+<!-- Archive_tab_content.html --> 
+             
+<div class="container mt-5">
+    <div class="row">
+        <!-- Main Content with Accordion -->
+        <div class="col-md-12">        
+            <div id="archiveTabAccordion">
+                <!-- Modal Structure -->
+                <div class="modal fade" id="archiveModal" tabindex="-1" role="dialog" aria-labelledby="archiveModal" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="archiveModalLabel">Reference Details</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="archiveForm">
+                                    <div class="form-group">
+                                        <label for="archiveLabel">Label</label>
+                                        <input type="text" class="form-control" id="archiveLabel" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="archiveLink">Link</label>
+                                        <input type="url" class="form-control" id="archiveLink" required>
+                                    </div>
+                                    <input type="hidden" id="archiveId">
+                                    <input type="hidden" id="archiveDocType">
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" onclick="saveArchive()">Save changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Projects Accordion Item -->
+                <div class="card filterable-content" data-category="archive1">
+                    <div class="card-header">
+                        <a class="card-link collapsed" data-toggle="collapse" href="#archiveCollapse1">
+                            Projects
+                            <i class="fas fa-angle-right"></i>
+                        </a>
+                    </div>
+                    <div id="archiveCollapse1" class="collapse" data-parent="#archiveTabAccordion">
+                        <div class="card-body" id="projectsContainer">
+                            <!-- Dynamic content will be loaded here by JavaScript -->
+                        </div>
+                        <div class="card-footer">
+                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#archiveModal" onclick="openArchiveModal('add', null, 'projects')">Add Reference</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Personnel Accordion Item -->
+                <div class="card filterable-content" data-category="archive2">
+                    <div class="card-header">
+                        <a class="card-link collapsed" data-toggle="collapse" href="#archiveCollapse2">
+                            Personnel
+                            <i class="fas fa-angle-right"></i>
+                        </a>
+                    </div>
+                    <div id="archiveCollapse2" class="collapse" data-parent="#archiveTabAccordion">
+                        <div class="card-body" id="personnelContainer">
+                            <!-- Dynamic content will be loaded here by JavaScript -->
+                        </div>
+                        <div class="card-footer">
+                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#archiveModal" onclick="openArchiveModal('add', null, 'personnel')">Add Reference</button>
+                        </div>
+                    </div>
+                </div>    
+
+                <!-- Project Management Accordion Item -->
+                <div class="card filterable-content" data-category="archive3">
+                    <div class="card-header">
+                        <a class="card-link collapsed" data-toggle="collapse" href="#archiveCollapse3">
+                            Project Management
+                            <i class="fas fa-angle-right"></i>
+                        </a>
+                    </div>
+                    <div id="archiveCollapse3" class="collapse" data-parent="#archiveTabAccordion">
+                        <div class="card-body" id="projects_managementContainer">
+                            <!-- Dynamic content will be loaded here by JavaScript -->
+                        </div>
+                        <div class="card-footer">
+                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#archiveModal" onclick="openArchiveModal('add', null, 'projects_management')">Add Reference</button>
+                        </div>
+                    </div>
+                </div>
+            </div>           
+        </div>
+    </div>
+</div>
+    
+
