@@ -534,7 +534,7 @@ nav[aria-label="Dashboard Navigation"] {
 .tab-btn.addButton {
     background-color: transparent;
     border: none;
-    color: #ffffff; /* Bootstrap primary color */
+    color: #28A745; /* Bootstrap primary color */
     padding: 8px 12px;
     font-size: 16px;
     transition: color 0.3s;
@@ -544,7 +544,7 @@ nav[aria-label="Dashboard Navigation"] {
 }
 
 .tab-btn.addButton:hover {
-    color: #7effbe; /* A darker shade for hover effect */
+    color: #28A745; /* A darker shade for hover effect */
     text-decoration: none;
 }
 
